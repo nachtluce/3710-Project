@@ -27,5 +27,14 @@ module ALUmod(
     output [4:0] CLFZN
     );
 
+//start always block and add all the different executions
+
+always@(A,B,opcode)
+	begin
+	
+	
+	
+	end
+
 
 endmodule
