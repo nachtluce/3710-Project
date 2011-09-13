@@ -29,7 +29,6 @@ module alu_TestBench;
 	reg [15:0] B;
 	reg [3:0] opcode;
 	reg [3:0] opext;
-//	reg Carry; // will be used as input to the ALU
 
 	// Outputs
 	wire [15:0] S;
@@ -113,7 +112,7 @@ module alu_TestBench;
 									#50;
 									if(S != 0)
 									begin
-										$monitor("ERROR0: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+										$monitor("ERROR0_INST:NOP A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 									
 									end// end S != 0
 								
@@ -134,15 +133,15 @@ module alu_TestBench;
 								//test Max&Max
 								if(S != 16'b1111111111111111)
 								begin
-									$monitor("ERROR1: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
-									//$display("SET");
+									$monitor("ERROR1_INST:AND A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									
 								end//End test Max&Max
 								//test Max& 0 expected result 0
 								B = 0;
 								#50;
 								if(S != 0)
 								begin
-									$monitor("ERROR2: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR2_INST: AND A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test Max&0 
 								//Test 3 swap order 0&max expect 0
 								A = 0;
@@ -150,7 +149,7 @@ module alu_TestBench;
 								#50;
 								if(S != 0)
 								begin
-									$monitor("ERROR3: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR3_INST: AND A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test swap max and 0 0&max 
 								// testing every other bit and expect 0
 								A = 16'b1010101010101010;
@@ -159,7 +158,7 @@ module alu_TestBench;
 								#50
 								if(S != 0)
 								begin
-									$monitor("ERROR4: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR4_INST: AND A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test 0&0 expect 0
 								A = 0;
@@ -168,7 +167,7 @@ module alu_TestBench;
 								#50
 								if(S != 0)
 								begin
-									$monitor("ERROR5: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR5_INST: AND A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test 0&0
 								//This is the end of all the and tests
 							end//end AND j == 1
@@ -184,7 +183,7 @@ module alu_TestBench;
 								//test Max|Max
 								if(S != 16'b1111111111111111)
 								begin
-									$monitor("ERROR6: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR6_INST: OR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 									
 								end//End test Max|Max
 								//test Max| 0 expected result MAX
@@ -192,7 +191,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111)
 								begin
-									$monitor("ERROR7: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR7_INST: OR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test Max|0 
 								//Test 3 swap order 0|max expect max
 								A = 0;
@@ -200,7 +199,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111)
 								begin
-									$monitor("ERROR8: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR8_INST: OR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test swap max and 0 0|max 
 								// testing every other bit and expect max
 								A = 16'b1010101010101010;
@@ -209,7 +208,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b1111111111111111)
 								begin
-									$monitor("ERROR9: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR9_INST: OR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test 0|0 expect 0
 								A = 0;
@@ -218,7 +217,7 @@ module alu_TestBench;
 								#50
 								if(S != 0)
 								begin
-									$monitor("ERROR10: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR10_INST: OR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test 0|0
 							
 							
@@ -236,7 +235,7 @@ module alu_TestBench;
 								//test Max^Max
 								if(S != 0)
 								begin
-									$monitor("ERROR11: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR11_INST: XOR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 									
 								end//End test Max^Max
 								//test Max^ 0 expected result MAX
@@ -244,7 +243,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111)
 								begin
-									$monitor("ERROR12: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR12_INST: XOR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test Max^0 
 								//Test 3 swap order 0^max expect max
 								A = 0;
@@ -252,7 +251,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111)
 								begin
-									$monitor("ERROR13: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR13_INST: XOR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test swap max and 0 0^max 
 								// testing every other bit and expect max
 								A = 16'b1010101010101010;
@@ -261,7 +260,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b1111111111111111)
 								begin
-									$monitor("ERROR14: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR14_INST: XOR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test 0^0 expect 0
 								A = 0;
@@ -270,7 +269,7 @@ module alu_TestBench;
 								#50
 								if(S != 0)
 								begin
-									$monitor("ERROR15: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR15_INST: XOR A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test 0^0
 							
 							
@@ -286,14 +285,14 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR16: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR16_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								//test Min+0 expected result -1 CLFZN = 0
 								B = 0;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR17: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR17_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test Max+0 
 								//Test 3 swap order 0+-1 expect -1
 								A = 0;
@@ -301,7 +300,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR18: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR18_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test max+Min expect 0111111111111110 CLFZN= 10100
 								A = 16'b1111111111111111;//-1
 								B = 16'b0111111111111111;//MAX
@@ -309,7 +308,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0111111111111110|| CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR19: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR19_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test 0+0 expect 0
 								A = 0;
@@ -317,7 +316,7 @@ module alu_TestBench;
 								#50
 								if(S != 0|| CLFZN != 0)
 								begin
-									$monitor("ERROR20: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR20_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test 0+0
 								//test Max + 1 expect Min and CLFZN = 00100
 								A = 16'b0000000000000001;//1
@@ -326,7 +325,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b1000000000000000|| CLFZN != 5'b00100)
 								begin
-									$monitor("ERROR21: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR21_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test -1+1 expect 1 with carry flag
 								A = 16'b0000000000000001;//1
@@ -335,7 +334,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0000000000000000|| CLFZN != 5'b10000)
 								begin
-									$monitor("ERROR22: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR22_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test A+B=Max expect 0 with carry flag
 								A = 16'b0000000011111111;//random
@@ -343,7 +342,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0111111111111111|| CLFZN !=0)
 								begin
-									$monitor("ERROR23: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR23_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								
 								//test random cases now
@@ -354,7 +353,7 @@ module alu_TestBench;
 									#50;
 									if(S != (A+B))
 									begin
-										$monitor("ERRORInLoop2: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+										$monitor("ERRORInLoop2_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 									end//end test every other
 								end//end k loop for random cases								
 							
@@ -369,14 +368,14 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR24: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR24_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test max+max
 								//test Min+0 expected result -1 CLFZN = 0
 								B = 0;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR25: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR25_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test Max+0 
 								//Test 3 swap order 0+Max expect Max
 								A = 0;
@@ -384,7 +383,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR26: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR26_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test max+Min expect 0111111111111110 CLFZN= 10100
 								
 								//test 0+0 expect 0
@@ -393,7 +392,7 @@ module alu_TestBench;
 								#50
 								if(S != 0|| CLFZN != 0)
 								begin
-									$monitor("ERROR27: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR27_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test 0+0
 								//test 1 + big number and CLFZN = 00000 result = 1000000000000000
 								A = 16'b0000000000000001;//1
@@ -402,7 +401,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b1000000000000000|| CLFZN != 5'b00000)
 								begin
-									$monitor("ERROR28: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR28_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end sum to large number
 								//test 1+max expect 0 with carry flag and overflow
 								A = 16'b0000000000000001;//1
@@ -411,7 +410,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0000000000000000|| CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR29: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR29_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test A+B=Max expect 0 with carry flag
 								A = 16'b0000000011111111;//random
@@ -419,7 +418,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b1111111111111111|| CLFZN !=0)
 								begin
-									$monitor("ERROR30: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR30_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								
 								//test random cases now
@@ -430,7 +429,7 @@ module alu_TestBench;
 									#50;
 									if(S != (A+B))
 									begin
-										$monitor("ERRORInLoop3: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+										$monitor("ERRORInLoop3_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 									end//end test every other
 								end//end k loop for random cases								
 							
@@ -448,14 +447,14 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR31_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								//test Min+0 expected result -1 CLFZN = 0
 								B = 0;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR32: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR32_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test Max+0 
 								//Test 3 swap order 0+-1 expect -1
 								A = 0;
@@ -463,7 +462,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR33: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR33_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test max+Min expect 0111111111111110 CLFZN= 10100
 								A = 16'b1111111111111111;//-1
 								B = 16'b0111111111111111;//MAX
@@ -471,7 +470,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0111111111111110|| CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR34: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR34_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test 0+0 expect 0
 								A = 0;
@@ -479,7 +478,7 @@ module alu_TestBench;
 								#50
 								if(S != 0|| CLFZN != 0)
 								begin
-									$monitor("ERROR35: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR35_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test 0+0
 								//test Max + 1 expect Min and CLFZN = 00100
 								A = 16'b0000000000000001;//1
@@ -488,7 +487,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b1000000000000000|| CLFZN != 5'b00100)
 								begin
-									$monitor("ERROR36: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR36_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test -1+1 expect 1 with carry flag
 								A = 16'b0000000000000001;//1
@@ -497,7 +496,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0000000000000000|| CLFZN != 5'b10000)
 								begin
-									$monitor("ERROR37: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR37_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test A+B=Max expect 0 with carry flag
 								A = 16'b0000000011111111;//random
@@ -505,25 +504,27 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0111111111111111|| CLFZN !=0)
 								begin
-									$monitor("ERROR38: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR38_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test A+1+Cin=expect 0 with carry flag
 								A = 16'b1111111111111111;//random
 								B = 16'b0000000000000000;//random
-					//c flag change			
+						//change flag
+						
 								#50
 								if(S != 0|| CLFZN !=5'b10000)
 								begin
-									$monitor("ERROR39: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR39_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//Test if 0+0+cflag = 1 and cflag =0
 								A = 16'b0000000000000000;//random
 								B = 16'b0000000000000000;//random
-					//c flag change	
+						//change flag
+									
 								#50
 								if(S != 16'b0000000000000001|| CLFZN !=0)
 								begin                       //
-									$monitor("ERROR40: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR40_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								
 								
@@ -535,7 +536,7 @@ module alu_TestBench;
 									#50;
 									if(S != (A+B))
 									begin
-										$monitor("ERRORInLoop4: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+										$monitor("ERRORInLoop4_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 									end//end test every other
 								end//end k loop for random cases								
 							
@@ -565,7 +566,7 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b0111111111111111)
 								begin
-									$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR41_INST: MOV A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								A = 16'b1010101010101010;
 										
@@ -573,7 +574,7 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b1010101010101010)
 								begin
-									$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR42_INST: MOV A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								
 							
@@ -596,14 +597,14 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR16: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR43_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
-								//test Min+0 expected result -1 
+								//test Min+0 expected result -1 CLFZN = 0
 								B = 0;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR17: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR44_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test Max+0 
 								//Test 3 swap order 0+-1 expect -1
 								A = 0;
@@ -611,7 +612,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR18: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR45_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test max+Min expect 0111111111111110 CLFZN= 10100
 								A = 16'b1111111111111111;//-1
 								B = 16'b0111111111111111;//MAX
@@ -619,7 +620,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0111111111111110|| CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR19: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR46_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test 0+0 expect 0
 								A = 0;
@@ -627,7 +628,7 @@ module alu_TestBench;
 								#50
 								if(S != 0|| CLFZN != 0)
 								begin
-									$monitor("ERROR20: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR47_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test 0+0
 								//test Max + 1 expect Min and CLFZN = 00100
 								A = 16'b0000000000000001;//1
@@ -636,7 +637,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b1000000000000000|| CLFZN != 5'b00100)
 								begin
-									$monitor("ERROR21: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR48_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test -1+1 expect 1 with carry flag
 								A = 16'b0000000000000001;//1
@@ -645,7 +646,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0000000000000000|| CLFZN != 5'b10000)
 								begin
-									$monitor("ERROR22: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR49_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test A+B=Max expect 0 with carry flag
 								A = 16'b0000000011111111;//random
@@ -653,7 +654,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0111111111111111|| CLFZN !=0)
 								begin
-									$monitor("ERROR23: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR50_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								
 								//test random cases now
@@ -664,7 +665,7 @@ module alu_TestBench;
 									#50;
 									if(S != (A+B))
 									begin
-										$monitor("ERRORInLoop2: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+										$monitor("ERRORInLoop5_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 									end//end test every other
 								end//end k loop for random cases								
 							
@@ -679,14 +680,14 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR24: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR51_INST: ADDUI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test max+max
 								//test Min+0 expected result -1 CLFZN = 0
 								B = 0;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR25: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR52_INST: ADDUI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test Max+0 
 								//Test 3 swap order 0+Max expect Max
 								A = 0;
@@ -694,7 +695,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR26: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR53_INST: ADDUI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test max+Min expect 0111111111111110 CLFZN= 10100
 								
 								//test 0+0 expect 0
@@ -703,16 +704,16 @@ module alu_TestBench;
 								#50
 								if(S != 0|| CLFZN != 0)
 								begin
-									$monitor("ERROR27: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR54_INST: ADDUI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test 0+0
 								//test 1 + big number and CLFZN = 00000 result = 1000000000000000
 								A = 16'b0000000000000001;//1
 								B = 16'b01111111111111111;//MAX
 										  
 								#50
-								if(S != 16'b1000_0000_0000_0000|| CLFZN != 5'b00000)
+								if(S != 16'b1000000000000000|| CLFZN != 5'b00000)
 								begin
-									$monitor("ERROR28: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR55_INST: ADDUI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end sum to large number
 								//test 1+max expect 0 with carry flag and overflow
 								A = 16'b0000000000000001;//1
@@ -721,7 +722,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0000000000000000|| CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR29: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR56_INST: ADDUI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test A+B=Max expect 0 with carry flag
 								A = 16'b0000000011111111;//random
@@ -729,7 +730,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b1111111111111111|| CLFZN !=0)
 								begin
-									$monitor("ERROR30: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR57_INST: ADDUI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								
 								//test random cases now
@@ -740,7 +741,7 @@ module alu_TestBench;
 									#50;
 									if(S != (A+B))
 									begin
-										$monitor("ERRORInLoop3: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+										$monitor("ERRORInLoop6_INST: ADDUI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 									end//end test every other
 								end//end k loop for random cases								
 							
@@ -756,14 +757,14 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR58_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								//test Min+0 expected result -1 CLFZN = 0
 								B = 0;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR32: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR59_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test Max+0 
 								//Test 3 swap order 0+-1 expect -1
 								A = 0;
@@ -771,7 +772,7 @@ module alu_TestBench;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
 								begin
-									$monitor("ERROR33: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR60_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test max+Min expect 0111111111111110 CLFZN= 10100
 								A = 16'b1111111111111111;//-1
 								B = 16'b01111111111111111;//MAX
@@ -779,7 +780,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0111111111111110|| CLFZN != 5'b10100)
 								begin
-									$monitor("ERROR34: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR61_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test 0+0 expect 0
 								A = 0;
@@ -787,16 +788,16 @@ module alu_TestBench;
 								#50
 								if(S != 0|| CLFZN != 0)
 								begin
-									$monitor("ERROR35: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR62_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test 0+0
 								//test Max + 1 expect Min and CLFZN = 00100
 								A = 16'b0000000000000001;//1
 								B = 16'b01111111111111111;//MAX
 										  
 								#50
-								if(S != 16'b1000_0000_0000_0000|| CLFZN != 5'b00100)
+								if(S != 16'b1000000000000000|| CLFZN != 5'b00100)
 								begin
-									$monitor("ERROR36: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR63_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test -1+1 expect 1 with carry flag
 								A = 16'b0000000000000001;//1
@@ -805,7 +806,7 @@ module alu_TestBench;
 								#50
 								if(S != 16'b0000000000000000|| CLFZN != 5'b10000)
 								begin
-									$monitor("ERROR37: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR64_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test A+B=Max expect 0 with carry flag
 								A = 16'b0000000011111111;//random
@@ -813,27 +814,26 @@ module alu_TestBench;
 								#50
 								if(S != 16'b01111111111111111|| CLFZN !=0)
 								begin
-									$monitor("ERROR38: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR65_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test A+1+Cin=expect 0 with carry flag
 								A = 16'b1111111111111111;//random
 								B = 16'b0000000000000000;//random
-
-					//c flag change									
+						//change flage
+							
 								#50
 								if(S != 0|| CLFZN !=5'b10000)
 								begin
-									$monitor("ERROR39: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR66_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//Test if 0+0+cflag = 1 and cflag =0
 								A = 16'b0000000000000000;//random
 								B = 16'b0000000000000000;//random
-					//c flag change	
-
+						//Change flag
 								#50
 								if(S != 16'b0000000000000001|| CLFZN !=0)
 								begin                       //
-									$monitor("ERROR40: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR67_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								
 								
@@ -845,7 +845,7 @@ module alu_TestBench;
 									#50;
 									if(S != (A+B))
 									begin
-										$monitor("ERRORInLoop4: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+										$monitor("ERRORInLoop7_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 									end//end test every other
 								end//end k loop for random cases								
 							
@@ -858,7 +858,7 @@ module alu_TestBench;
 					//test Max+Max
 					if(S != 16'b1111111111111110)
 					begin
-						$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+						$monitor("ERROR68_INST: LSHI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 					end//End test -1+-1
 					A = 16'b1010101010101010;
 							
@@ -866,14 +866,14 @@ module alu_TestBench;
 					//test Max+Max
 					if(S != 16'b0101010101010100)
 					begin
-						$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+						$monitor("ERROR69_INST: LSHI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 					end//End test -1+-1
 					A = 1;								
 					#50;
 					//test Max+Max
 					if(S != 16'b0000000000000010)
 					begin
-						$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+						$monitor("ERROR70_INST: LSHI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 					end//End test -1+-1
 						
 				end// end LSHI i == 8
@@ -896,7 +896,7 @@ module alu_TestBench;
 							//test Max+Max
 							if(S != 16'b1111111111111110)
 							begin
-								$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+								$monitor("ERROR71_INST: ALSH A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 							end//End test -1+-1
 							A = 16'b1010101010101010;
 									
@@ -904,14 +904,14 @@ module alu_TestBench;
 							//test Max+Max
 							if(S != 16'b0101010101010100)
 							begin
-								$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+								$monitor("ERROR72_INST: ALSH A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 							end//End test -1+-1
 							A = 1;								
 							#50;
 							//test Max+Max
 							if(S != 16'b0000000000000010)
 							begin
-								$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+								$monitor("ERROR73_INST: ALSH A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 							end//End test -1+-1
 						
 						end//end ALSH j == 1
@@ -931,7 +931,7 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b1111111111111111)
 								begin
-									$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR74_INST: ARSH A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								A = 16'b1010101010101010;
 										
@@ -939,14 +939,14 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b1101010101010101)
 								begin
-									$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR75_INST: ARSH A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								A = 1;								
 								#50;
 								//test Max+Max
 								if(S != 0)
 								begin
-									$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$monitor("ERROR76_INST: ARSH A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								
 							
@@ -981,7 +981,7 @@ module alu_TestBench;
 					//test Max+Max
 					if(S != 16'b0111111111111111)
 					begin
-						$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+						$monitor("ERROR77_INST: RSHI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 					end//End test -1+-1
 					A = 16'b1010101010101010;
 					
@@ -989,7 +989,7 @@ module alu_TestBench;
 					//test Max+Max
 					if(S != 16'b0101010101010101)
 					begin
-						$monitor("ERROR31: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+						$monitor("ERROR78_INST: RSHI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 					end//End test -1+-1
 					
 					
