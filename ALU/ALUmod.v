@@ -136,6 +136,12 @@ always@(A,B,opcode,opext)
 			S = A << 1;
 		end
 		
+		8'b0000_1110: // RSH (Right logical shift)
+		begin
+			CLFZN = 0;
+			S = A >> 1;
+		end
+		
 		default:
 		begin
 			CLFZN = 0;
