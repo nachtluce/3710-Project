@@ -118,6 +118,12 @@ always@(A,B,opcode,opext)
 			S = A ^ B;
 		end
 		
+		8'b1010_0011: // NOT (reverse teh bits in A)
+		begin
+			CLFZN = 0;
+			S = ~A;
+		end
+		
 		default:
 		begin
 			CLFZN = 0;
