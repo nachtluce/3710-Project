@@ -154,6 +154,12 @@ always@(A,B,opcode,opext)
 			S = A <<< 1;
 		end
 		
+		8'b1010_0100: // ARSH (Arithmedic right shift)
+		begin
+			CLFZN = 0;
+			S = A >>> 1;
+		end
+		
 		default:
 		begin
 			CLFZN = 0;
