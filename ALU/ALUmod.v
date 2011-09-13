@@ -106,6 +106,12 @@ always@(A,B,opcode,opext)
 			S = A & B;
 		end
 		
+		8'b0000_0010: // OR
+		begin
+			CLFZN = 0; 
+			S = A | B;
+		end
+		
 		default:
 		begin
 			CLFZN = 0;
