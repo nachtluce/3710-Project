@@ -24,13 +24,12 @@ module ALUmod(
     input wire [3:0] opcode,
     output reg [15:0] S,
     input wire [3:0] opext,
-    output reg [4:0] CLFZN,
-	 input wire carry	// used as a carry in bit, when needed.  To come from processor status
+    output reg [4:0] CLFZN
     );
 
 
 //start always block and add all the different executions
-always@(A,B,opcode,opext,carry)
+always@(A,B,opcode,opext)
 	begin
 	  casex({opcode, opext})
 	    8'b0000_0101: // ADD
@@ -70,7 +69,7 @@ always@(A,B,opcode,opext,carry)
 		 8'b0000_0111: // ADDC (Add with carry)
 		 begin
 		   CLFZN = 0;
-			{CLFZN[4], S} = A + B + carry;  // set the carry bit and sum
+			{CLFZN[4], S} = A + B + CLFZN[4];  // set the carry bit and sum
 			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
 			else         CLFZN[1] = 1'b0;
 			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]); // set overflow (signed)
@@ -79,7 +78,7 @@ always@(A,B,opcode,opext,carry)
 		 8'b0111_xxxx: // ADDCi (Add with carry immediate)
 		 begin
 		   CLFZN = 0;
-			{CLFZN[4], S} = A + B + carry;  // set the carry bit and sum
+			{CLFZN[4], S} = A + B + CLFZN[4];  // set the carry bit and sum
 			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
 			else         CLFZN[1] = 1'b0;
 			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]); // set overflow (signed)
@@ -88,7 +87,7 @@ always@(A,B,opcode,opext,carry)
 		8'b1010_0101: // ADDCU (Add with carry unsigned?)
 		begin
 		   CLFZN = 0;
-			{CLFZN[4], S} = A + B + carry;
+			{CLFZN[4], S} = A + B + CLFZN[4];
 			if( S == 0 ) CLFZN[1] = 1'b1;
 			else         CLFZN[1] = 1'b0;
 		end
@@ -96,7 +95,7 @@ always@(A,B,opcode,opext,carry)
 		8'b1010_0110: // ADDCUI (Add with carry unsigned immediate)
 		begin
 		   CLFZN = 0;
-			{CLFZN[4], S} = A + B + carry;
+			{CLFZN[4], S} = A + B + CLFZN[4];
 			if( S == 0 ) CLFZN[1] = 1'b1;
 			else         CLFZN[1] = 1'b0;
 		end

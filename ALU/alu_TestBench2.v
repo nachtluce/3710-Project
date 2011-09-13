@@ -29,7 +29,7 @@ module alu_TestBench;
 	reg [15:0] B;
 	reg [3:0] opcode;
 	reg [3:0] opext;
-	reg Carry; // will be used as input to the ALU
+//	reg Carry; // will be used as input to the ALU
 
 	// Outputs
 	wire [15:0] S;
@@ -54,7 +54,6 @@ module alu_TestBench;
 		B = 0;
 		opcode = 0;
 		opext = 0;
-		Carry = 0;
 		i = 0;
 		j = 0;
 		k = 0;
@@ -512,8 +511,7 @@ module alu_TestBench;
 								//test A+1+Cin=expect 0 with carry flag
 								A = 16'b1111111111111111;//random
 								B = 16'b0000000000000000;//random
-								//CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
-								Carry = 1'b1; // HAD TO CHANGE BECAUSE CLFZN WAS NOT WRITABLE
+								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
 								
 								#50
 								if(S != 0|| CLFZN !=5'b10000)
@@ -523,8 +521,7 @@ module alu_TestBench;
 								//Test if 0+0+cflag = 1 and cflag =0
 								A = 16'b0000000000000000;//random
 								B = 16'b0000000000000000;//random
-								//CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
-								Carry = 1'b1; // HAD TO CHANGE BECAUSE CLFZN WAS NOT WRITABLE
+								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
 								
 								#50
 								if(S != 16'b0000000000000001|| CLFZN !=0)
@@ -824,8 +821,8 @@ module alu_TestBench;
 								//test A+1+Cin=expect 0 with carry flag
 								A = 16'b1111111111111111;//random
 								B = 16'b0000000000000000;//random
-								//CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
-								Carry = 1'b1; // HAD TO CHANGE BECAUSE CLFZN WAS NOT WRITABLE
+								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
+								
 								#50
 								if(S != 0|| CLFZN !=5'b10000)
 								begin
@@ -834,8 +831,8 @@ module alu_TestBench;
 								//Test if 0+0+cflag = 1 and cflag =0
 								A = 16'b0000000000000000;//random
 								B = 16'b0000000000000000;//random
-								//CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
-								Carry = 1'b1; // HAD TO CHANGE BECAUSE CLFZN WAS NOT WRITABLE
+								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
+
 								#50
 								if(S != 16'b0000000000000001|| CLFZN !=0)
 								begin                       //
