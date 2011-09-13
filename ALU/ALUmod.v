@@ -118,10 +118,16 @@ always@(A,B,opcode,opext)
 			S = A ^ B;
 		end
 		
-		8'b1010_0011: // NOT (reverse teh bits in A)
+		8'b1010_0011: // NOT (reverse the bits in A)
 		begin
 			CLFZN = 0;
 			S = ~A;
+		end
+		
+		8'b1000_0100: // LSH (left logicical shift)
+		begin
+			CLFZN = 0;
+			S = A << 1;
 		end
 		
 		default:
