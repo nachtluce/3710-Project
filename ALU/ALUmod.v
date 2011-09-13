@@ -160,6 +160,21 @@ always@(A,B,opcode,opext)
 			S = A >>> 1;
 		end
 		
+		// the value of the A register passes though
+		8'b0000_1101: // MOV
+		begin
+			CLFZN = 0;
+			S = A;
+		end
+		
+		// the value of the A register passes though
+		8'b1101_xxxx: // MOVi
+		begin
+			CLFZN = 0;
+			S = A;
+		end
+		
+		// NOP falls to the default case
 		default:
 		begin
 			CLFZN = 0;
