@@ -142,6 +142,12 @@ always@(A,B,opcode,opext)
 			S = A >> 1;
 		end
 		
+		8'b1110_xxxx: // RSHI (Right logical shift immediate)
+		begin
+			CLFZN = 0;
+			S = A >> 1;
+		end
+		
 		default:
 		begin
 			CLFZN = 0;
