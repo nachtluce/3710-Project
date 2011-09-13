@@ -137,7 +137,7 @@ module alu_TestBench;
 								if(S != 16'b1111111111111111)
 								begin
 									$monitor("ERROR1: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
-									
+									//$display("SET");
 								end//End test Max&Max
 								//test Max& 0 expected result 0
 								B = 0;

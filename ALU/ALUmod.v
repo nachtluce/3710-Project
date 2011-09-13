@@ -101,6 +101,12 @@ always@(A,B,opcode,opext,carry)
 			else         CLFZN[1] = 1'b0;
 		end
 		
+		8'b0000_0001: // AND
+		begin
+		   CLFZN = 0; // flags are all set to zero, see CR16 programmers manual
+			S = A & B;
+		end
+		
 		default:
 		begin
 			CLFZN = 0;
