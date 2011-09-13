@@ -30,10 +30,10 @@ module ALUmod(
 
 
 //start always block and add all the different executions
-always@(A,B,opcode,opext)
+always@(A,B,opcode,opext,carry)
 	begin
 	  casex({opcode, opext})
-	    8'b00000101: // ADD
+	    8'b0000_0101: // ADD
 		 begin
 		   S = A + B;
 			CLFZN = 0;
@@ -42,7 +42,7 @@ always@(A,B,opcode,opext)
 			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]);
 		 end
 		 
-		 8'b0101xxxx: // ADDI
+		 8'b0101_xxxx: // ADDI
 		 begin
 		   S = A + B;
 			CLFZN = 0;
@@ -50,23 +50,41 @@ always@(A,B,opcode,opext)
 			else         CLFZN[1] = 1'b0;
 			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]);
 		 end
-/*		 
-		 8'b00000110: // ADDU
+		 
+		 8'b0000_0110: // ADDU
 		 begin
 			CLFZN = 0;		 
-		   {CLFZN[4],S} = A + B;
-			if( S == 0 ) CLFZN[1] = 1'b1;
+		   {CLFZN[4],S} = A + B;			// set carry bit and sum
+			if( S == 0 ) CLFZN[1] = 1'b1; // set zero bit
 			else         CLFZN[1] = 1'b0;
 		 end
 		 
-		 8'b0110xxxx: //ADDUI
+		 8'b0110_xxxx: // ADDUI
 		 begin
 			CLFZN = 0;		 
-		   {CLFZN[4],S} = A + B;
-			if( S == 0 ) CLFZN[1] = 1'b1;
+		   {CLFZN[4],S} = A + B;			// set carry bit and sum
+			if( S == 0 ) CLFZN[1] = 1'b1; // set zero bit
 			else         CLFZN[1] = 1'b0;		 
 		 end
-*/	
+		 
+		 8'b0000_0111: // ADDC
+		 begin
+		   CLFZN = 0;
+			{CLFZN[4], S} = A + B + carry;  // set the carry bit and sum
+			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
+			else         CLFZN[1] = 1'b0;
+			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]); // set overflow (signed)
+		 end
+		 
+		 8'b1110_xxxx: // ADDCi
+		 begin
+		   CLFZN = 0;
+			{CLFZN[4], S} = A + B + carry;  // set the carry bit and sum
+			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
+			else         CLFZN[1] = 1'b0;
+			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]); // set overflow (signed)
+       end			
+		
 		default:
 		begin
 			CLFZN = 0;
