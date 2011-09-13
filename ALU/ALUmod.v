@@ -124,7 +124,13 @@ always@(A,B,opcode,opext)
 			S = ~A;
 		end
 		
-		8'b1000_0100: // LSH (left logicical shift)
+		8'b1000_0100: // LSH (left logical shift)
+		begin
+			CLFZN = 0;
+			S = A << 1;
+		end
+		
+		8'b1000_xxxx: // LSHI (left logical shift immediate)
 		begin
 			CLFZN = 0;
 			S = A << 1;
