@@ -31,7 +31,7 @@ module ALUmod(
 //start always block and add all the different executions
 always@(A,B,opcode,opext)
 	begin
-	  case({opcode, opext})
+	  casex({opcode, opext})
 	    8'b00000101: // ADD
 		 begin
 		   S = A + B;

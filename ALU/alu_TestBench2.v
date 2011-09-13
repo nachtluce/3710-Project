@@ -32,7 +32,7 @@ module alu_TestBench;
 
 	// Outputs
 	wire [15:0] S;
-	wire [4:0] CLFZN;
+	reg [4:0] CLFZN;
 
 	// Instantiate the Unit Under Test (UUT)
 	ALUmod uut (
@@ -711,7 +711,7 @@ module alu_TestBench;
 								B = 16'b01111111111111111;//MAX
 										  
 								#50
-								if(S != 16'b10000000000000000|| CLFZN != 5'b00000)
+								if(S != 16'b1000_0000_0000_0000|| CLFZN != 5'b00000)
 								begin
 									$monitor("ERROR28: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end sum to large number
@@ -795,7 +795,7 @@ module alu_TestBench;
 								B = 16'b01111111111111111;//MAX
 										  
 								#50
-								if(S != 16'b10000000000000000|| CLFZN != 5'b00100)
+								if(S != 16'b1000_0000_0000_0000|| CLFZN != 5'b00100)
 								begin
 									$monitor("ERROR36: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
