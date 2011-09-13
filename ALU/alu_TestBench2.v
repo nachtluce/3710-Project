@@ -42,8 +42,7 @@ module alu_TestBench;
 		.opcode(opcode), 
 		.S(S), 
 		.opext(opext), 
-		.CLFZN(CLFZN),
-		.carry(Carry)
+		.CLFZN(CLFZN)
 	);
 	//Declare any integers and variables here
 	integer i,j,k;
@@ -511,8 +510,7 @@ module alu_TestBench;
 								//test A+1+Cin=expect 0 with carry flag
 								A = 16'b1111111111111111;//random
 								B = 16'b0000000000000000;//random
-								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
-								
+					//c flag change			
 								#50
 								if(S != 0|| CLFZN !=5'b10000)
 								begin
@@ -521,8 +519,7 @@ module alu_TestBench;
 								//Test if 0+0+cflag = 1 and cflag =0
 								A = 16'b0000000000000000;//random
 								B = 16'b0000000000000000;//random
-								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
-								
+					//c flag change	
 								#50
 								if(S != 16'b0000000000000001|| CLFZN !=0)
 								begin                       //
@@ -601,7 +598,7 @@ module alu_TestBench;
 								begin
 									$monitor("ERROR16: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
-								//test Min+0 expected result -1 CLFZN = 0
+								//test Min+0 expected result -1 
 								B = 0;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
@@ -821,8 +818,8 @@ module alu_TestBench;
 								//test A+1+Cin=expect 0 with carry flag
 								A = 16'b1111111111111111;//random
 								B = 16'b0000000000000000;//random
-								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
-								
+
+					//c flag change									
 								#50
 								if(S != 0|| CLFZN !=5'b10000)
 								begin
@@ -831,7 +828,7 @@ module alu_TestBench;
 								//Test if 0+0+cflag = 1 and cflag =0
 								A = 16'b0000000000000000;//random
 								B = 16'b0000000000000000;//random
-								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
+					//c flag change	
 
 								#50
 								if(S != 16'b0000000000000001|| CLFZN !=0)
