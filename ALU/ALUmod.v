@@ -24,7 +24,8 @@ module ALUmod(
     input wire [3:0] opcode,
     output reg [15:0] S,
     input wire [3:0] opext,
-    output reg [4:0] CLFZN
+    output reg [4:0] CLFZN,
+	 input wire carry	// used as a carry in bit, when needed.  To come from processor status
     );
 
 

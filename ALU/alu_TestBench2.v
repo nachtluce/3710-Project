@@ -29,10 +29,11 @@ module alu_TestBench;
 	reg [15:0] B;
 	reg [3:0] opcode;
 	reg [3:0] opext;
+	reg Carry; // will be used as input to the ALU
 
 	// Outputs
 	wire [15:0] S;
-	reg [4:0] CLFZN;
+	wire [4:0] CLFZN;
 
 	// Instantiate the Unit Under Test (UUT)
 	ALUmod uut (
@@ -41,7 +42,8 @@ module alu_TestBench;
 		.opcode(opcode), 
 		.S(S), 
 		.opext(opext), 
-		.CLFZN(CLFZN)
+		.CLFZN(CLFZN),
+		.carry(Carry)
 	);
 	//Declare any integers and variables here
 	integer i,j,k;
@@ -52,6 +54,7 @@ module alu_TestBench;
 		B = 0;
 		opcode = 0;
 		opext = 0;
+		Carry = 0;
 		i = 0;
 		j = 0;
 		k = 0;
@@ -509,7 +512,8 @@ module alu_TestBench;
 								//test A+1+Cin=expect 0 with carry flag
 								A = 16'b1111111111111111;//random
 								B = 16'b0000000000000000;//random
-								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
+								//CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
+								Carry = 1'b1; // HAD TO CHANGE BECAUSE CLFZN WAS NOT WRITABLE
 								
 								#50
 								if(S != 0|| CLFZN !=5'b10000)
@@ -519,7 +523,8 @@ module alu_TestBench;
 								//Test if 0+0+cflag = 1 and cflag =0
 								A = 16'b0000000000000000;//random
 								B = 16'b0000000000000000;//random
-								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
+								//CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
+								Carry = 1'b1; // HAD TO CHANGE BECAUSE CLFZN WAS NOT WRITABLE
 								
 								#50
 								if(S != 16'b0000000000000001|| CLFZN !=0)
@@ -711,7 +716,7 @@ module alu_TestBench;
 								B = 16'b01111111111111111;//MAX
 										  
 								#50
-								if(S != 16'b1000_0000_0000_0000|| CLFZN != 5'b00000)
+								if(S != 16'b10000000000000000|| CLFZN != 5'b00000)
 								begin
 									$monitor("ERROR28: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end sum to large number
@@ -795,7 +800,7 @@ module alu_TestBench;
 								B = 16'b01111111111111111;//MAX
 										  
 								#50
-								if(S != 16'b1000_0000_0000_0000|| CLFZN != 5'b00100)
+								if(S != 16'b10000000000000000|| CLFZN != 5'b00100)
 								begin
 									$monitor("ERROR36: A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
@@ -819,8 +824,8 @@ module alu_TestBench;
 								//test A+1+Cin=expect 0 with carry flag
 								A = 16'b1111111111111111;//random
 								B = 16'b0000000000000000;//random
-								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
-								
+								//CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
+								Carry = 1'b1; // HAD TO CHANGE BECAUSE CLFZN WAS NOT WRITABLE
 								#50
 								if(S != 0|| CLFZN !=5'b10000)
 								begin
@@ -829,8 +834,8 @@ module alu_TestBench;
 								//Test if 0+0+cflag = 1 and cflag =0
 								A = 16'b0000000000000000;//random
 								B = 16'b0000000000000000;//random
-								CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
-								
+								//CLFZN = 5'b10000;//set the carry flag to 1 this should be used on this
+								Carry = 1'b1; // HAD TO CHANGE BECAUSE CLFZN WAS NOT WRITABLE
 								#50
 								if(S != 16'b0000000000000001|| CLFZN !=0)
 								begin                       //
