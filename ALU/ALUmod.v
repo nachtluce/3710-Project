@@ -100,6 +100,38 @@ always@(A,B,opcode,opext)
 			else         CLFZN[1] = 1'b0;
 		end
 		
+		8'b0000_1001: // SUB
+		begin
+			CLFZN = 0;
+			// Overflow if neg - pos = pos or pos - neg = neg
+			if( A[15] != B[15] && B[15] == S[15]) CLFZN[2] = 1'b1;  
+			S = A - B;
+		end
+		
+		8'b1001_xxxx: // SUBI
+		begin
+			// Overflow if neg - pos = pos or pos - neg = neg
+			if( A[15] != B[15] && B[15] == S[15]) CLFZN[2] = 1'b1;  
+			S = A - B;
+		end 
+		
+		8'b0000_1011: // CMP
+		begin
+			CLFZN = 0;
+			if (A - B < 0) CLFZN[3] = 1'b1;
+			if (A - B == 0) CLFZN[1] = 1'b1;
+		end 
+		
+		8'b1011_xxxx: // CMPI
+		begin
+			CLFZN = 0;
+		end 		
+		
+		8'b1010_0010: // CMPU/I
+		begin
+			CLFZN = 0;
+		end 		
+		
 		8'b0000_0001: // AND
 		begin
 		   CLFZN = 0; // flags are all set to zero, see CR16 programmers manual
