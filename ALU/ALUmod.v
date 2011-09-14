@@ -138,6 +138,75 @@ always@(A,B,opcode,opext)
 			S = A & B;
 		end
 		
+		8'b0000_0010: // OR
+		begin
+			CLFZN = 0; 
+			S = A | B;
+		end
+		
+		8'b0000_0011: // XOR
+		begin
+			CLFZN = 0;
+			S = A ^ B;
+		end
+		
+		8'b1010_0011: // NOT (reverse the bits in A)
+		begin
+			CLFZN = 0;
+			S = ~A;
+		end
+		
+		8'b1000_0100: // LSH (left logical shift)
+		begin
+			CLFZN = 0;
+			S = A << 1;
+		end
+		
+		8'b1000_xxxx: // LSHI (left logical shift immediate)
+		begin
+			CLFZN = 0;
+			S = A << 1;
+		end
+		
+		8'b0000_1110: // RSH (Right logical shift)
+		begin
+			CLFZN = 0;
+			S = A >> 1;
+		end
+		
+		8'b1110_xxxx: // RSHI (Right logical shift immediate)
+		begin
+			CLFZN = 0;
+			S = A >> 1;
+		end
+		
+		8'b1010_0001: // ALSH (Arithmedic left shift)
+		begin
+			CLFZN = 0;
+			S = A <<< 1;
+		end
+		
+		8'b1010_0100: // ARSH (Arithmedic right shift)
+		begin
+			CLFZN = 0;
+			S = A >>> 1;
+		end
+		
+		// the value of the A register passes though
+		8'b0000_1101: // MOV
+		begin
+			CLFZN = 0;
+			S = A;
+		end
+		
+		// the value of the A register passes though
+		8'b1101_xxxx: // MOVi
+		begin
+			CLFZN = 0;
+			S = A;
+		end
+		
+		// NOP falls to the default case
 		default:
 		begin
 			CLFZN = 0;
