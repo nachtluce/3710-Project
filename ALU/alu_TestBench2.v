@@ -280,10 +280,10 @@ module alu_TestBench;
 								//Testing add values
 								A = 16'b1111111111111111;// -1
 								B = 16'b1111111111111111;// -1
-							   //result should be 1111111111111110 with CLFZN = 10100
+							   //result should be 1111111111111110 with CLFZN = 10000
 								#50;
 								//test Max+Max
-								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
+								if(S != 16'b1111111111111110 || CLFZN != 5'b10000)
 								begin
 									$display("ERROR16_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
@@ -306,7 +306,7 @@ module alu_TestBench;
 								B = 16'b0111111111111111;//MAX
 							
 								#50
-								if(S != 16'b0111111111111110|| CLFZN != 5'b10100)
+								if(S != 16'b0111111111111110|| CLFZN != 5'b10000)
 								begin
 									$display("ERROR19_INST: ADD A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
@@ -366,7 +366,7 @@ module alu_TestBench;
 							   //result should be 1111111111111110 with CLFZN = 10100
 								#50;
 								//test Max+Max
-								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
+								if(S != 16'b1111111111111110 || CLFZN != 5'b10000)
 								begin
 									$display("ERROR24_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test max+max
@@ -408,7 +408,7 @@ module alu_TestBench;
 								B = 16'b1111111111111111;//-1
 										  
 								#50
-								if(S != 16'b0000000000000000|| CLFZN != 5'b10100)
+								if(S != 16'b0000000000000000|| CLFZN != 5'b10000)
 								begin
 									$display("ERROR29_INST: ADDU A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
@@ -618,7 +618,7 @@ module alu_TestBench;
 								B = 16'b0111111111111111;//MAX
 							
 								#50
-								if(S != 16'b0111111111111110|| CLFZN != 5'b10100)
+								if(S != 16'b0111111111111110|| CLFZN != 5'b10000)
 								begin
 									$display("ERROR46_INST: ADDI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
