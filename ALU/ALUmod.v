@@ -100,6 +100,42 @@ always@(A,B,opcode,opext)
 			else         CLFZN[1] = 1'b0;
 		end
 		
+		8'b0000_1001: // SUB
+		begin
+			CLFZN = 0;
+			// Overflow if neg - pos = pos or pos - neg = neg
+			S = A - B;			
+			if( A[15] != B[15] && B[15] == S[15]) CLFZN[2] = 1'b1;  
+		end
+		
+		8'b1001_xxxx: // SUBI
+		begin
+			CLFZN = 0;
+			// Overflow if neg - pos = pos or pos - neg = neg
+			S = A - B;			
+			if( A[15] != B[15] && B[15] == S[15]) CLFZN[2] = 1'b1;  
+		end 
+		
+		8'b0000_1011: // CMP
+		begin
+			CLFZN = 0;
+			S     = 0;
+			if (A - B < 0) CLFZN[3] = 1'b1;
+			if (A - B == 0) CLFZN[1] = 1'b1;
+		end 
+		
+		8'b1011_xxxx: // CMPI
+		begin
+			CLFZN = 0;
+			S     = 0;
+		end 		
+		
+		8'b1010_0010: // CMPU/I
+		begin
+			CLFZN = 0;
+			S     = 0;
+		end 		
+		
 		8'b0000_0001: // AND
 		begin
 		   CLFZN = 0; // flags are all set to zero, see CR16 programmers manual
@@ -118,12 +154,63 @@ always@(A,B,opcode,opext)
 			S = A ^ B;
 		end
 		
-		8'b1010_0011: // NOT (reverse teh bits in A)
+		8'b1010_0011: // NOT (reverse the bits in A)
 		begin
 			CLFZN = 0;
 			S = ~A;
 		end
 		
+		8'b1000_0100: // LSH (left logical shift)
+		begin
+			CLFZN = 0;
+			S = A << 1;
+		end
+		
+		8'b1000_xxxx: // LSHI (left logical shift immediate)
+		begin
+			CLFZN = 0;
+			S = A << 1;
+		end
+		
+		8'b0000_1110: // RSH (Right logical shift)
+		begin
+			CLFZN = 0;
+			S = A >> 1;
+		end
+		
+		8'b1110_xxxx: // RSHI (Right logical shift immediate)
+		begin
+			CLFZN = 0;
+			S = A >> 1;
+		end
+		
+		8'b1010_0001: // ALSH (Arithmedic left shift)
+		begin
+			CLFZN = 0;
+			S = A <<< 1;
+		end
+		
+		8'b1010_0100: // ARSH (Arithmedic right shift)
+		begin
+			CLFZN = 0;
+			S = A >>> 1;
+		end
+		
+		// the value of the A register passes though
+		8'b0000_1101: // MOV
+		begin
+			CLFZN = 0;
+			S = A;
+		end
+		
+		// the value of the A register passes though
+		8'b1101_xxxx: // MOVi
+		begin
+			CLFZN = 0;
+			S = A;
+		end
+		
+		// NOP falls to the default case
 		default:
 		begin
 			CLFZN = 0;
