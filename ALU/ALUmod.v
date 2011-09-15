@@ -104,20 +104,22 @@ always@(A,B,opcode,opext)
 		begin
 			CLFZN = 0;
 			// Overflow if neg - pos = pos or pos - neg = neg
+			S = A - B;			
 			if( A[15] != B[15] && B[15] == S[15]) CLFZN[2] = 1'b1;  
-			S = A - B;
 		end
 		
 		8'b1001_xxxx: // SUBI
 		begin
+			CLFZN = 0;
 			// Overflow if neg - pos = pos or pos - neg = neg
+			S = A - B;			
 			if( A[15] != B[15] && B[15] == S[15]) CLFZN[2] = 1'b1;  
-			S = A - B;
 		end 
 		
 		8'b0000_1011: // CMP
 		begin
 			CLFZN = 0;
+			S     = 0;
 			if (A - B < 0) CLFZN[3] = 1'b1;
 			if (A - B == 0) CLFZN[1] = 1'b1;
 		end 
@@ -125,11 +127,13 @@ always@(A,B,opcode,opext)
 		8'b1011_xxxx: // CMPI
 		begin
 			CLFZN = 0;
+			S     = 0;
 		end 		
 		
 		8'b1010_0010: // CMPU/I
 		begin
 			CLFZN = 0;
+			S     = 0;
 		end 		
 		
 		8'b0000_0001: // AND
