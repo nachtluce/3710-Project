@@ -878,8 +878,29 @@ module alu_TestBench;
 						
 				end// end LSHI i == 8
 				if(i == 9)
-				begin//****************************************SUBI***********************************************
-				
+				begin//****************************************SUBI***********************************************add test
+					A =  16'b0000000000000001;//1-1 = 0
+					B =  16'b0000000000000001;//should return 0
+					#50;
+					if(S != 0)
+					begin
+						$monitor("ERROR80_INST: SUBI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+					end
+					
+					A =  16'b1111111111111111;//1-1 = 0
+					B =  16'b0000000000000000;//should return 0
+					#50;
+					if(S != 16'b1111111111111111)
+					begin
+						$monitor("ERROR81_INST: SUBI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+					end
+					B =  16'b1111111111111111;//-1--1 = 0
+					#50;
+					if(S != 0)
+					begin
+						$monitor("ERROR82_INST: SUBI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+					end
+					
 				end// end SUBI i == 9
 				if(i == 10)
 				begin
@@ -916,12 +937,24 @@ module alu_TestBench;
 						
 						end//end ALSH j == 1
 						if(j == 2)
-						begin//********************************CMPU/I*******************************************
+						begin//********************************CMPU/I*******************************************add test
 						
 						end//end CMPU/I j == 2
 						if(j == 3)
 						begin//**********************************NOT**********************************************
-						
+							A =  16'b1111111111111111;//should return 0
+							#50;
+							if(S != 0)
+							begin
+								$monitor("ERROR79_INST: NOT A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+							end
+							A = 0;
+							#50;
+							if(S != 1)
+							begin
+								$monitor("ERROR80_INST: NOT A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+							end
+							
 						end//end NOT j == 3
 						if(j == 4)
 						begin//***********************************ARSH*********************************************
@@ -952,11 +985,11 @@ module alu_TestBench;
 							
 						end// end ARSH j == 4
 						if(j == 5)
-						begin//***********************************ADDCU****************************************
+						begin//***********************************ADDCU****************************************Add test
 						
 						end// end ADDCU j == 5
 						if(j == 5)
-						begin//************************************ADDCUI****************************************
+						begin//************************************ADDCUI****************************************add test
 						
 						end// end ADDCUI j == 6
 						//The rest are unused so we don't need to test them as well.
@@ -966,11 +999,17 @@ module alu_TestBench;
 				end// end 1010 i == 10
 				if(i == 11)
 				begin//********************************************CMPI*********************************************
-				
+					//different cases
+						 // A-B = 1; Flags 
+						 // A-B = 0; FLAGS set Z flag
+						 // A-B = -1; FLAGS set L Flag, 
+						 // 
+					
 				end// end CMPI 1011 i == 11
 				//ignore 12 it is open and unused 1100
 				if(i == 13)
 				begin//**********************************************MOVI*******************************************
+				//This doesn't use anything in the ALU it just passes the  value through
 				
 				end// end MOVI 1101
 				if(i == 14)
