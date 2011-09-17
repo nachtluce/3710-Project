@@ -36,8 +36,6 @@ always@(A,B,opcode,opext)
 		 begin
 		   CLFZN = 0;
 		   {CLFZN[4], S} = A + B;
-//			if( S == 0 ) CLFZN[1] = 1'b1;
-//			else         CLFZN[1] = 1'b0;
 			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&~S[15]);
 		 end
 		 
@@ -45,8 +43,6 @@ always@(A,B,opcode,opext)
 		 begin
 			CLFZN = 0;		 
 		   {CLFZN[4], S} = A + B;
-//			if( S == 0 ) CLFZN[1] = 1'b1;
-//			else         CLFZN[1] = 1'b0;
 			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]);
 		 end
 		 
@@ -55,25 +51,19 @@ always@(A,B,opcode,opext)
 			CLFZN = 0;		 
 		   {CLFZN[4], S} = A + B;			// set carry bit and sum
 			CLFZN[2] = CLFZN[4];
-//			if( S == 0 ) CLFZN[1] = 1'b1; // set zero bit
-//			else         CLFZN[1] = 1'b0;
 		 end
 		 
 		 8'b0110_xxxx: // ADDUI
 		 begin
 			CLFZN = 0;
 		   {CLFZN[4],S} = A + B;			// set carry bit and sum
-			CLFZN[2] = CLFZN[4];
-//			if( S == 0 ) CLFZN[1] = 1'b1; // set zero bit
-//			else         CLFZN[1] = 1'b0;		 
+			CLFZN[2] = CLFZN[4];	 
 		 end
 		 
 		 8'b0000_0111: // ADDC (Add with carry)
 		 begin
 			{CLFZN[4], S} = A + B + CLFZN[4];  // set the carry bit and sum
 			CLFZN[3:0] = 0;
-//			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
-//			else         CLFZN[1] = 1'b0;
 			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&~S[15]); // set overflow (signed)
 		 end
 		 
@@ -81,8 +71,6 @@ always@(A,B,opcode,opext)
 		 begin
 			{CLFZN[4], S} = A + B + CLFZN[4];  // set the carry bit and sum
 			CLFZN[3:0] = 0;
-//			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
-//			else         CLFZN[1] = 1'b0;
 			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&~S[15]); // set overflow (signed)
        end			
 		
@@ -91,8 +79,6 @@ always@(A,B,opcode,opext)
 
 			{CLFZN[4], S} = A + B + CLFZN[4];
 			CLFZN[3:0] = 0;
-//			if( S == 0 ) CLFZN[1] = 1'b1;
-//			else         CLFZN[1] = 1'b0;
 		end
 		
 		8'b1010_0110: // ADDCUI (Add with carry unsigned immediate)
@@ -101,8 +87,6 @@ always@(A,B,opcode,opext)
 			CLFZN[2] = CLFZN[4];
 			CLFZN[3]   = 0;
 			CLFZN[1:0] = 0;
-//			if( S == 0 ) CLFZN[1] = 1'b1;
-//			else         CLFZN[1] = 1'b0;
 		end
 		
 		8'b0000_1001: // SUB
@@ -123,42 +107,33 @@ always@(A,B,opcode,opext)
 		
 		8'b0000_1011: // CMP
 		begin
-			CLFZN = {0,
+			CLFZN = {1'b0,
 				A > B,
-				0,
+				1'b0,
 				A == B,
 				$signed(A) > $signed(B)};
 			S = 0;
-	/*		CLFZN = 0;
-			S     = 0;
-			if (A - B < 0) CLFZN[3] = 1'b1;
-			if (A - B == 0) CLFZN[1] = 1'b1;*/
 		end 
 		
 		8'b1011_xxxx: // CMPI
 		begin
-			CLFZN = {0,
+			CLFZN = {1'b0,
 						A > B,
-						0,
+						1'b0,
 						A == B,
 						$signed(A) > $signed(B)};
 		   S = 0;
-/*			CLFZN = 0;
-			S     = 0;
-			if (A - B < 0) CLFZN[3] = 1'b1;
-			if (A - B == 0) CLFZN[1] = 1'b1;*/
 		end 		
 		
 		8'b1010_0010: // CMPU/I
 		begin
-					CLFZN = {0,
-						A > B,
-						0,
-						A == B,
-						$signed(A) > $signed(B)};
+			CLFZN = 
+				{1'b0,
+				A > B,
+				1'b0,
+				A == B,
+				$signed(A) > $signed(B)};
 		   S = 0;
-/*			CLFZN = 0;
-			S     = 0;*/
 		end 		
 		
 		8'b0000_0001: // AND
