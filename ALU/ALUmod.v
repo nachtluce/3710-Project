@@ -154,10 +154,10 @@ always@(A,B,opcode,opext)
 			S = A ^ B;
 		end
 		
-		8'b1010_0011: // NOT (reverse the bits in A)
+		8'b1010_0011: // NOT (logical not?  The the test bench says it is a logical not)
 		begin
 			CLFZN = 0;
-			S = ~A;
+			S = !A;
 		end
 		
 		8'b1000_0100: // LSH (left logical shift)
@@ -187,13 +187,15 @@ always@(A,B,opcode,opext)
 		8'b1010_0001: // ALSH (Arithmedic left shift)
 		begin
 			CLFZN = 0;
-			S = A <<< 1;
+			//S = A <<< 1;
+			S = {A[14:0], A[0]};
 		end
 		
 		8'b1010_0100: // ARSH (Arithmedic right shift)
 		begin
 			CLFZN = 0;
-			S = A >>> 1;
+			//S = A >>> 1; // this statment did not work in the test bench for some reason.
+			S = {A[15], A[15:1]};
 		end
 		
 		// the value of the A register passes though

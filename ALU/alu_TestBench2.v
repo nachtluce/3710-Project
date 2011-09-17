@@ -566,15 +566,16 @@ module alu_TestBench;
 								//test Max+Max
 								if(S != 16'b0111111111111111)
 								begin
-									$display("ERROR41_INST: MOV A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$display("ERROR41_INST: RSH A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								A = 16'b1010101010101010;
 										
 								#50;
 								//test Max+Max
-								if(S != 16'b1010101010101010)
+								//if(S != 16'b1010101010101010)
+								if(S != 16'b0101010101010101)
 								begin
-									$display("ERROR42_INST: MOV A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
+									$display("ERROR42_INST: RSH A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
 								
 							
