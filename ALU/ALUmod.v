@@ -70,35 +70,37 @@ always@(A,B,opcode,opext)
 		 
 		 8'b0000_0111: // ADDC (Add with carry)
 		 begin
-		   CLFZN = 0;
 			{CLFZN[4], S} = A + B + CLFZN[4];  // set the carry bit and sum
+			CLFZN[3:0] = 0;
 //			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
 //			else         CLFZN[1] = 1'b0;
-			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]); // set overflow (signed)
+			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&~S[15]); // set overflow (signed)
 		 end
 		 
 		 8'b0111_xxxx: // ADDCi (Add with carry immediate)
 		 begin
-		   CLFZN = 0;
 			{CLFZN[4], S} = A + B + CLFZN[4];  // set the carry bit and sum
+			CLFZN[3:0] = 0;
 //			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
 //			else         CLFZN[1] = 1'b0;
-			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]); // set overflow (signed)
+			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&~S[15]); // set overflow (signed)
        end			
 		
 		8'b1010_0101: // ADDCU (Add with carry unsigned?)
 		begin
-		   CLFZN = 0;
+
 			{CLFZN[4], S} = A + B + CLFZN[4];
+			CLFZN[3:0] = 0;
 //			if( S == 0 ) CLFZN[1] = 1'b1;
 //			else         CLFZN[1] = 1'b0;
 		end
 		
 		8'b1010_0110: // ADDCUI (Add with carry unsigned immediate)
 		begin
-		   CLFZN = 0;
 			{CLFZN[4], S} = A + B + CLFZN[4];
 			CLFZN[2] = CLFZN[4];
+			CLFZN[3]   = 0;
+			CLFZN[1:0] = 0;
 //			if( S == 0 ) CLFZN[1] = 1'b1;
 //			else         CLFZN[1] = 1'b0;
 		end

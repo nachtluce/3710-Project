@@ -445,10 +445,15 @@ module alu_TestBench;
 							   //result should be 1111111111111110 with CLFZN = 10100
 								#50;
 								//test Max+Max
-								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
+								if(S != 16'b1111111111111110 || CLFZN != 5'b10000) // changed to not check that F==1
 								begin
 									$display("ERROR31_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
+								A = 0;
+								B = 0;
+								#50; // clear the carry flag
+								A = 16'b1111111111111111;// -1
+
 								//test Min+0 expected result -1 CLFZN = 0
 								B = 0;
 								#50;
@@ -468,11 +473,15 @@ module alu_TestBench;
 								B = 16'b0111111111111111;//MAX
 							
 								#50
-								if(S != 16'b0111111111111110|| CLFZN != 5'b10100)
+								if(S != 16'b0111111111111110|| CLFZN != 5'b10000) //changed so it was not signaling overflow occured
 								begin
 									$display("ERROR34_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
 								//test 0+0 expect 0
+								A = 16'b0000_0000_0000_0001;
+								B = 16'b0000_0000_0000_0001;
+								#50; // clear the carry flag
+								
 								A = 0;
 								B = 0;
 								#50
@@ -498,6 +507,9 @@ module alu_TestBench;
 								begin
 									$display("ERROR37_INST: ADDC A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
+								A = 16'b0000_0000_0000_0001;
+								B = 16'b0000_0000_0000_0001;
+								#50; // clear the carry flag
 								//test A+B=Max expect 0 with carry flag
 								A = 16'b0000000011111111;//random
 								B = 16'b0111111100000000;//random
@@ -508,7 +520,9 @@ module alu_TestBench;
 								end//end test every other
 								//test A+1+Cin=expect 0 with carry flag
 								A = 16'b1111111111111111;//random
-								B = 16'b0000000000000000;//random
+								B = 16'b0000000000000001;//random
+								#50 // set carry flag
+								B = 16'b0000000000000000;
 						//change flag
 						
 								#50
@@ -531,6 +545,10 @@ module alu_TestBench;
 								//test random cases now
 								for(k = 0; k < 11; k = k+1)
 								begin
+								A = 16'b0000_0000_0000_0001;
+								B = 16'b0000_0000_0000_0001;
+								#50; // clear the carry flag
+								
 									A = $random % 2^14;
 									B = $random % 2^14;
 									#50;
@@ -756,11 +774,15 @@ module alu_TestBench;
 							   //result should be 1111111111111110 with CLFZN = 10100
 								#50;
 								//test Max+Max
-								if(S != 16'b1111111111111110 || CLFZN != 5'b10100)
+								if(S != 16'b1111111111111110 || CLFZN != 5'b10000) // changed so it was not checking for F==1
 								begin
 									$display("ERROR58_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//End test -1+-1
+								A = 16'b0000_0000_0000_0001;
+								B = 16'b0000_0000_0000_0001;
+								#50; // clear the carry flag
 								//test Min+0 expected result -1 CLFZN = 0
+								A = 16'b1111111111111111;// -1								
 								B = 0;
 								#50;
 								if(S != 16'b1111111111111111 || CLFZN != 0)
@@ -776,14 +798,18 @@ module alu_TestBench;
 									$display("ERROR60_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test max+Min expect 0111111111111110 CLFZN= 10100
 								A = 16'b1111111111111111;//-1
-								B = 16'b01111111111111111;//MAX
+								B = 16'b0111_1111_1111_1111;//MAX
 							
 								#50
-								if(S != 16'b0111111111111110|| CLFZN != 5'b10100)
+								if(S != 16'b0111111111111110|| CLFZN != 5'b10000) // changed to not test for F=1
 								begin
 									$display("ERROR61_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
-								//test 0+0 expect 0
+
+								A = 16'b0000_0000_0000_0001;
+								B = 16'b0000_0000_0000_0001;
+								#50; // clear the carry flag
+								//test 0+0 expect 0								
 								A = 0;
 								B = 0;
 								#50
@@ -793,7 +819,7 @@ module alu_TestBench;
 								end//end test 0+0
 								//test Max + 1 expect Min and CLFZN = 00100
 								A = 16'b0000000000000001;//1
-								B = 16'b01111111111111111;//MAX
+								B = 16'b0111_1111_1111_1111;//MAX
 										  
 								#50
 								if(S != 16'b1000000000000000|| CLFZN != 5'b00100)
@@ -809,17 +835,23 @@ module alu_TestBench;
 								begin
 									$display("ERROR64_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
+								A = 16'b0000_0000_0000_0000;
+								B = 16'b0000_0000_0000_0000;
+								#50; // clear the carry flag
 								//test A+B=Max expect 0 with carry flag
-								A = 16'b0000000011111111;//random
-								B = 16'b01111111000000000;//random
+								A = 16'b0000_0000_1111_1111;//random
+								B = 16'b0111_1111_0000_0000;//random
 								#50
-								if(S != 16'b01111111111111111|| CLFZN !=0)
+								if(S != 16'b0111_1111_1111_1111|| CLFZN !=0)
 								begin
 									$display("ERROR65_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
-								//test A+1+Cin=expect 0 with carry flag
-								A = 16'b1111111111111111;//random
-								B = 16'b0000000000000000;//random
+								A = 16'b1000_0000_0000_0000;
+								B = 16'b1000_0000_0000_0000;
+								#50; // clear the carry flag
+								//test A+1+Cin=expect 1 with carry flag
+								A = 16'b1111_1111_1111_1111;//random
+								B = 16'b0000_0000_0000_0000;//random
 						//change flage
 							
 								#50
@@ -827,6 +859,9 @@ module alu_TestBench;
 								begin
 									$display("ERROR66_INST: ADDCI A=%b,B=%B,CLFZN = %b,S = %b,Time",A,B,CLFZN,S,$time);
 								end//end test every other
+								A = 16'b1000_0000_0000_0000;
+								B = 16'b1000_0000_0000_0000;
+								#50; // set the carry flag
 								//Test if 0+0+cflag = 1 and cflag =0
 								A = 16'b0000000000000000;//random
 								B = 16'b0000000000000000;//random
@@ -841,6 +876,9 @@ module alu_TestBench;
 								//test random cases now
 								for(k = 0; k < 11; k = k+1)
 								begin
+								   A = 16'b0000_0000_0000_0001;
+							 	   B = 16'b0000_0000_0000_0001;
+								   #50; // clear the carry flag
 									A = $random % 2^14;
 									B = $random % 2^14;
 									#50;
