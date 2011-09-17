@@ -54,14 +54,16 @@ always@(A,B,opcode,opext)
 		 begin
 			CLFZN = 0;		 
 		   {CLFZN[4], S} = A + B;			// set carry bit and sum
+			CLFZN[2] = CLFZN[4];
 //			if( S == 0 ) CLFZN[1] = 1'b1; // set zero bit
 //			else         CLFZN[1] = 1'b0;
 		 end
 		 
 		 8'b0110_xxxx: // ADDUI
 		 begin
-			CLFZN = 0;		 
+			CLFZN = 0;
 		   {CLFZN[4],S} = A + B;			// set carry bit and sum
+			CLFZN[2] = CLFZN[4];
 //			if( S == 0 ) CLFZN[1] = 1'b1; // set zero bit
 //			else         CLFZN[1] = 1'b0;		 
 		 end
@@ -96,6 +98,7 @@ always@(A,B,opcode,opext)
 		begin
 		   CLFZN = 0;
 			{CLFZN[4], S} = A + B + CLFZN[4];
+			CLFZN[2] = CLFZN[4];
 //			if( S == 0 ) CLFZN[1] = 1'b1;
 //			else         CLFZN[1] = 1'b0;
 		end
