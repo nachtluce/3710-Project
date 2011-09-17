@@ -123,22 +123,42 @@ always@(A,B,opcode,opext)
 		
 		8'b0000_1011: // CMP
 		begin
-			CLFZN = 0;
+			CLFZN = {0,
+				A > B,
+				0,
+				A == B,
+				$signed(A) > $signed(B)};
+			S = 0;
+	/*		CLFZN = 0;
 			S     = 0;
 			if (A - B < 0) CLFZN[3] = 1'b1;
-			if (A - B == 0) CLFZN[1] = 1'b1;
+			if (A - B == 0) CLFZN[1] = 1'b1;*/
 		end 
 		
 		8'b1011_xxxx: // CMPI
 		begin
-			CLFZN = 0;
+			CLFZN = {0,
+						A > B,
+						0,
+						A == B,
+						$signed(A) > $signed(B)};
+		   S = 0;
+/*			CLFZN = 0;
 			S     = 0;
+			if (A - B < 0) CLFZN[3] = 1'b1;
+			if (A - B == 0) CLFZN[1] = 1'b1;*/
 		end 		
 		
 		8'b1010_0010: // CMPU/I
 		begin
-			CLFZN = 0;
-			S     = 0;
+					CLFZN = {0,
+						A > B,
+						0,
+						A == B,
+						$signed(A) > $signed(B)};
+		   S = 0;
+/*			CLFZN = 0;
+			S     = 0;*/
 		end 		
 		
 		8'b0000_0001: // AND
