@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer:	Levi Balling, Robert Christensen, James Lewis
 // 
 // Create Date:    15:07:38 09/19/2011 
 // Design Name: 
@@ -20,8 +20,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 module Processor_Status_Register(
 	 input clock,
-    input [5:0] CZLFM_in,
-    output reg[5:0] CZLFN_out 
+    input [4:0] CZLFM_in,
+    output reg[4:0] CZLFN_out 
     );
 
 always@(posedge clock)
