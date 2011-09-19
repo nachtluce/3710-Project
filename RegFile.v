@@ -26,8 +26,8 @@ module RegFile(
     input [3:0] SelectA,
     input [3:0] SelectB,
     input [15:0] In,
-    output reg [15:0] A,
-    output reg [15:0] B
+    output [15:0] A,
+    output [15:0] B
     );
 	 
 	 reg [15:0] r0; 
@@ -65,8 +65,8 @@ module RegFile(
 		rD = 16'h0000;
 		rE = 16'h0000;
 		rF = 16'h0000;
-		A = 16'h0000;
-		B = 16'h0000;
+		//A = 16'h0000;
+		//B = 16'h0000;
 	 end 
 	 
 	 // Main always block:
@@ -91,8 +91,8 @@ module RegFile(
 			rD <= 16'h0000;
 			rE <= 16'h0000;
 			rF <= 16'h0000;
-			A <= 16'h0000;
-			B <= 16'h0000;
+			//A <= 16'h0000;
+			//B <= 16'h0000;
 		end
 		
 		// Otherwise set outputs and reg
@@ -143,7 +143,7 @@ module RegFile(
 		endcase
 			
 		// Set the B output:
-		case (SelectA) 
+		case (SelectB) 
 			4'h0: B = r0;
 			4'h1: B = r1;
 			4'h2: B = r2;
