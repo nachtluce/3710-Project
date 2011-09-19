@@ -34,70 +34,59 @@ always@(A,B,opcode,opext)
 	  casex({opcode, opext})
 	    8'b0000_0101: // ADD
 		 begin
-		   S = A + B;
-			CLFZN = 0;
-			if( S == 0 ) CLFZN[1] = 1'b1;
-			else         CLFZN[1] = 1'b0;
-			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]);
+		   CLFZN = 0;
+		   {CLFZN[4], S} = A + B;
+			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&~S[15]);
 		 end
 		 
 		 8'b0101_xxxx: // ADDI
 		 begin
-		   S = A + B;
-			CLFZN = 0;
-			if( S == 0 ) CLFZN[1] = 1'b1;
-			else         CLFZN[1] = 1'b0;
+			CLFZN = 0;		 
+		   {CLFZN[4], S} = A + B;
 			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]);
 		 end
 		 
 		 8'b0000_0110: // ADDU
 		 begin
 			CLFZN = 0;		 
-		   {CLFZN[4],S} = A + B;			// set carry bit and sum
-			if( S == 0 ) CLFZN[1] = 1'b1; // set zero bit
-			else         CLFZN[1] = 1'b0;
+		   {CLFZN[4], S} = A + B;			// set carry bit and sum
+			CLFZN[2] = CLFZN[4];
 		 end
 		 
 		 8'b0110_xxxx: // ADDUI
 		 begin
-			CLFZN = 0;		 
+			CLFZN = 0;
 		   {CLFZN[4],S} = A + B;			// set carry bit and sum
-			if( S == 0 ) CLFZN[1] = 1'b1; // set zero bit
-			else         CLFZN[1] = 1'b0;		 
+			CLFZN[2] = CLFZN[4];	 
 		 end
 		 
 		 8'b0000_0111: // ADDC (Add with carry)
 		 begin
-		   CLFZN = 0;
 			{CLFZN[4], S} = A + B + CLFZN[4];  // set the carry bit and sum
-			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
-			else         CLFZN[1] = 1'b0;
-			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]); // set overflow (signed)
+			CLFZN[3:0] = 0;
+			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&~S[15]); // set overflow (signed)
 		 end
 		 
 		 8'b0111_xxxx: // ADDCi (Add with carry immediate)
 		 begin
-		   CLFZN = 0;
 			{CLFZN[4], S} = A + B + CLFZN[4];  // set the carry bit and sum
-			if( S == 0 ) CLFZN[1] = 1'b1; // set Z bit
-			else         CLFZN[1] = 1'b0;
-			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&S[15]); // set overflow (signed)
+			CLFZN[3:0] = 0;
+			CLFZN[2] = (~A[15]&~B[15]&S[15]) | (A[15]&B[15]&~S[15]); // set overflow (signed)
        end			
 		
 		8'b1010_0101: // ADDCU (Add with carry unsigned?)
 		begin
-		   CLFZN = 0;
+
 			{CLFZN[4], S} = A + B + CLFZN[4];
-			if( S == 0 ) CLFZN[1] = 1'b1;
-			else         CLFZN[1] = 1'b0;
+			CLFZN[3:0] = 0;
 		end
 		
 		8'b1010_0110: // ADDCUI (Add with carry unsigned immediate)
 		begin
-		   CLFZN = 0;
 			{CLFZN[4], S} = A + B + CLFZN[4];
-			if( S == 0 ) CLFZN[1] = 1'b1;
-			else         CLFZN[1] = 1'b0;
+			CLFZN[2] = CLFZN[4];
+			CLFZN[3]   = 0;
+			CLFZN[1:0] = 0;
 		end
 		
 		8'b0000_1001: // SUB
@@ -118,22 +107,33 @@ always@(A,B,opcode,opext)
 		
 		8'b0000_1011: // CMP
 		begin
-			CLFZN = 0;
-			S     = 0;
-			if (A - B < 0) CLFZN[3] = 1'b1;
-			if (A - B == 0) CLFZN[1] = 1'b1;
+			CLFZN = {1'b0,
+				A > B,
+				1'b0,
+				A == B,
+				$signed(A) > $signed(B)};
+			S = 0;
 		end 
 		
 		8'b1011_xxxx: // CMPI
 		begin
-			CLFZN = 0;
-			S     = 0;
+			CLFZN = {1'b0,
+						A > B,
+						1'b0,
+						A == B,
+						$signed(A) > $signed(B)};
+		   S = 0;
 		end 		
 		
 		8'b1010_0010: // CMPU/I
 		begin
-			CLFZN = 0;
-			S     = 0;
+			CLFZN = 
+				{1'b0,
+				A > B,
+				1'b0,
+				A == B,
+				$signed(A) > $signed(B)};
+		   S = 0;
 		end 		
 		
 		8'b0000_0001: // AND
@@ -154,10 +154,10 @@ always@(A,B,opcode,opext)
 			S = A ^ B;
 		end
 		
-		8'b1010_0011: // NOT (reverse the bits in A)
+		8'b1010_0011: // NOT (logical not?  The the test bench says it is a logical not)
 		begin
 			CLFZN = 0;
-			S = ~A;
+			S = !A;
 		end
 		
 		8'b1000_0100: // LSH (left logical shift)
@@ -187,13 +187,15 @@ always@(A,B,opcode,opext)
 		8'b1010_0001: // ALSH (Arithmedic left shift)
 		begin
 			CLFZN = 0;
-			S = A <<< 1;
+			//S = A <<< 1;
+			S = {A[14:0], A[0]};
 		end
 		
 		8'b1010_0100: // ARSH (Arithmedic right shift)
 		begin
 			CLFZN = 0;
-			S = A >>> 1;
+			//S = A >>> 1; // this statment did not work in the test bench for some reason.
+			S = {A[15], A[15:1]};
 		end
 		
 		// the value of the A register passes though
