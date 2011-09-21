@@ -65,9 +65,50 @@ module RegisterFileTest2;
 		i = 0;
 
 		// Wait 100 ns for global reset to finish
-		#100;
+		#100; 	
+		WriteEnable = 1;
+		SelectInput = 0;
+		#5; 
+		SelectA = 1;
+		SelectB = 1;
+		Clock = 1;
+		#5;
+		SelectInput = 1;
+		In = 1; 
+		SelectA = 0;
+		SelectB = 0;
+		#5;
+		Clock = 0;
+		#5;
+		Clock = 1;
+		#5;
+		Clock = 0;
+		#5;
+		Clock = 1;
+		#5;
+		WriteEnable = 1;
+		Clock = 0;
+		#5;
+		Clock = 1;
+		#5;
+		
+		
+		for(i=0; i<14; i=i+1)
+		begin
+		Clock = 0; 
+		WriteEnable = 1;
+		SelectInput = i +2;
+		SelectA = i;
+		SelectB = i+1;
+		#4;
+		In = A + B;
+		#1;
+		Clock = 1;
+		#5;
+		end
+		
         
-		// Add stimulus here
+		/* Add stimulus here
 		for(i=0; i<1000; i=i+1)
 		begin
 			Clock = ~Clock;
@@ -92,7 +133,7 @@ module RegisterFileTest2;
 				SelectA = 12;
 
 			#5;
-		end
+		end*/
 
 	end
       
