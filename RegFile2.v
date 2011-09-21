@@ -31,6 +31,8 @@ module RegFile2(
     ); 
 	 
 	 reg [15:0] registers [15:0];
+	 reg [3:0] lastInSelect;
+	 reg resultWrite;
 	 
 	 	 // Initialize registers to zero:
 	 initial begin 
@@ -50,6 +52,8 @@ module RegFile2(
 		registers[13] <= 16'h0000;
 		registers[14] <= 16'h0000;
 		registers[15] <= 16'h0000;
+		lastInSelect <= 4'h0;
+		resultWrite <= 1'h0;
 	 end 
 	 
 	 	 // Main always block:
@@ -73,7 +77,9 @@ module RegFile2(
 		registers[12] <= 16'h0000;
 		registers[13] <= 16'h0000;
 		registers[14] <= 16'h0000;
-		registers[15] <= 16'h0000;
+		registers[15] <= 16'h0000; 
+		lastInSelect <= 4'h0;
+		resultWrite <= 1'h0;
 		end
 		
 		// Otherwise set outputs and reg
@@ -82,8 +88,14 @@ module RegFile2(
 			// If write is enabled store input value in file:
 			if (WriteEnable)
 				registers[SelectInput] <= In;
-			A <= registers[SelectA];
-			B <= registers[SelectB];
+			lastInSelect <= SelectInput;
+			resultWrite <= WriteEnable;
 		end
+	end
+	
+	always@(SelectA, SelectB, registers[0], registers[1], registers[2], registers[3], registers[4], registers[5], registers[6], registers[7], registers[8], registers[9],registers[10], registers[11],registers[12],registers[13], registers[14],registers[15])
+	begin
+		A <= registers[SelectA];
+		B <= registers[SelectB];
 	end
 endmodule
