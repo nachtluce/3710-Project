@@ -16,11 +16,28 @@ module S3Etest(CLK_50MHZ, ROT_CENTER, SF_CE0, SF_D, LCD_E, LCD_RS, LCD_RW);
 	always@(posedge clk)
 		count<=count+1;
 	
-	lcd_ctrl lcd0(clk, reset, count[31:16], SF_D, LCD_E, LCD_RS, LCD_RW);
+	lcd_ctrl lcd0(clk, reset, count[31:16],SF_D, LCD_E, LCD_RS, LCD_RW);
 
 endmodule
 
 //Simple LCD controller - display a 16-bit hex value
+//requirements to display the hex values
+// the following is the ucf requirements for the lcd cntrl
+//
+//# PlanAhead Generated physical constraints 
+//
+//NET "clk" LOC = C9;
+//NET "LCD_E" LOC = M18;
+//NET "LCD_RS" LOC = L18;
+//NET "LCD_RW" LOC = L17;
+//NET "reset" LOC = N17;	//This is  sw3, and can be changed to anything
+//NET "SF_CE0" LOC = D16;   //This is to disable the flash
+//NET "SF_D[8]" LOC = R15;
+//NET "SF_D[9]" LOC = R16;
+//NET "SF_D[10]" LOC = P17;
+//NET "SF_D[11]" LOC = M15;
+
+
 module lcd_ctrl(clk, reset, hex16, SF_D, LCD_E, LCD_RS, LCD_RW);
 	input clk, reset;
 	input [15:0] hex16;	//16-bit hex value to display
@@ -29,12 +46,14 @@ module lcd_ctrl(clk, reset, hex16, SF_D, LCD_E, LCD_RS, LCD_RW);
 	output LCD_RS;
 	output LCD_RW;
 	assign LCD_RW=0;	//always writing to LCD
-
+	
+	
+	
 	wire busy, done;
 	wire write;
 	wire mode4;
 	wire rs;
-	reg [7:0] lcd_dat;
+	reg [7:0] lcd_dat;//this is the information that is being send to the lcd screen
 
 	reg [3:0] state;
 	wire [3:0] nextstate;
@@ -44,14 +63,19 @@ module lcd_ctrl(clk, reset, hex16, SF_D, LCD_E, LCD_RS, LCD_RW);
 	wire [7:0] add;
 	assign add=(tmp16[15:12]<10) ? 8'h30 : 8'h37;
 	assign ascii={4'h0, tmp16[15:12]} + add;
+	
 
+	
+	
 	lcd_write wr(clk, reset, write, mode4, rs, lcd_dat, SF_D, LCD_E, LCD_RS, busy, done);
 
 	always@(posedge clk, posedge reset) begin
 		if(reset) begin
 			state<=0;
-		end else begin
-			if(done) begin
+		end 
+		else begin
+			if(done) 
+			begin
 				state<=nextstate;
 				if(state==8)	tmp16<=hex16;			//reload input
 				else		tmp16<={tmp16[12:0],4'h0};	//shift digits out
@@ -73,11 +97,15 @@ module lcd_ctrl(clk, reset, hex16, SF_D, LCD_E, LCD_RS, LCD_RW);
 			5: lcd_dat=8'h06;
 			6: lcd_dat=8'h0C;
 			7: lcd_dat=8'h01;
+			
 			8: lcd_dat=8'h80;	//set DD RAM address=0
 			9: lcd_dat=ascii;
 			10: lcd_dat=ascii;
 			11: lcd_dat=ascii;
 			12: lcd_dat=ascii;	//loops back to 8:
+
+			
+			
 			default: lcd_dat=8'hXX;
 		endcase
 	end
