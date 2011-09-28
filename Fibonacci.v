@@ -37,8 +37,24 @@ module Fibonacci(
 	 reg SlowClock; 
 	 wire [15:0] Result;
 	 reg [31:0] countUp;
-	 reg [31:0] maxCount; 
-	 reg restart;
+	 reg [31:0] maxCount;  
+	 reg [3:0]currentState;
+	 
+	 initial begin
+		SelectA <= 0;
+		SelectB <= 0;
+		SelectIn <= 0;
+		Immediate <= 0;
+		OpCode <= 0;
+		MuxSelect <= 0;
+		WriteEnable <= 0;
+		SlowClock <= 0;
+		countUp <= 0;
+		maxCount <= 30000000;
+		slowClockTick <= 20000;
+		restart <= 0;
+		currentState <= 1;
+	 end
 	 
 	 RegFile2(SlowClock, Reset, WriteEnable, SelectIn, SelectA, SelectB, Result, A, B); 
 	 BusMux(MuxSelect, Immediate, A, B, MuxOut);
@@ -61,24 +77,24 @@ module Fibonacci(
 		
 		else if (~SetA)
 		begin
-			countUp <= maxCount;			//Set the count so a slow clock will be triggered at next posedge
+			countUp <= 0;   //Set the count so a slow clock will be triggered at next posedge
 			SelectIn <= 0;					//Set the input to go to register 0
 			Immediate <= Switches;		//Store the value from dip switches
 			MuxSelect <= 0;				//Select the immediate value
 			OpCode <= 8'b0000_1101; 	//Move instruction to ALU
-			WriteEnable <= 0;				//Set write enable to true
-			restart = 1;					//Tells the state machine to start over when ready
+			WriteEnable <= 1;				//Set write enable to true
+			currentState <= 0;				//Tells the state machine to start over when ready
 		end
 		
 		else if (~SetB)
 		begin
-			countUp <= maxCount;			//Set the count so a slow clock will be triggered at next posedge
+			countUp <= 0;	//Set the count so a slow clock will be triggered at next posedge
 			SelectIn <= 1;					//Set the input to go to register 1
 			Immediate <= Switches;		//Store the value from dip switches
 			MuxSelect <= 0;				//Select the immediate value
 			OpCode <= 8'b0000_1101; 	//Move instruction to ALU
-			WriteEnable <= 0;				//Set write enable to true
-			restart = 1;					//Tells the state machine to start over when ready
+			WriteEnable <= 1;				//Set write enable to true
+			currentState <= 0;			//Tells the state machine to start over when ready
 		end
 		
 		else
@@ -86,7 +102,151 @@ module Fibonacci(
 			countUp <= countUp + 1;
 			if (countUp > maxCount)
 			begin
+				slowClock <= 0; 
+				countUp <= 0;
+			end
+			if (countUp == 5)
+				slowClock <= 1;
 				
+			if (countUp == 0)
+			begin
+				countUp <= 0;
+				case (currentState) 
+					0: 
+					begin
+						currentState <= currentState + 1;
+					end
+					
+					1:
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 0;
+						SelectB <= 1;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 2;
+						WriteEnable <= 1;
+					end
+					2:
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 1;
+						SelectB <= 2;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 3;
+						WriteEnable <= 1;
+					end
+					3:
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 2;
+						SelectB <= 3;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 4;
+						WriteEnable <= 1;
+					end
+					4:
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 3;
+						SelectB <= 4;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 5;
+						WriteEnable <= 1;
+					end					
+					5:
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 4;
+						SelectB <= 5;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 6;
+						WriteEnable <= 1;
+					end					
+					6: 
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 5;
+						SelectB <= 6;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 7;
+						WriteEnable <= 1;
+					end
+					7: 
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 6;
+						SelectB <= 7;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 8;
+						WriteEnable <= 1;
+					end
+					8: 
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 7;
+						SelectB <= 8;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 9;
+						WriteEnable <= 1;
+					end
+					9: 
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 8;
+						SelectB <= 9;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 10;
+						WriteEnable <= 1;
+					end
+					10:
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 9;
+						SelectB <= 10;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 11;
+						WriteEnable <= 1;
+					end
+					11: 
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 10;
+						SelectB <= 11;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 12;
+						WriteEnable <= 1;
+					end
+					12: 
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 11;
+						SelectB <= 12;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 13;
+						WriteEnable <= 1;
+					end
+					13: 
+					begin
+						currentState <= currentState + 1;
+						SelectA <= 12;
+						SelectB <= 13;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 14;
+						WriteEnable <= 1;
+					end
+					14: 
+						begin
+						currentState <= currentState + 1;
+						SelectA <= 13;
+						SelectB <= 14;
+						OpCode <= 8'b0000_0110;
+						SelectInput <= 15;
+						WriteEnable <= 1;
+					end
+					15:
+						begin
+						end
+				endcase
 			end
 		end
 	 end

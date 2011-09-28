@@ -88,8 +88,6 @@ module RegFile2(
 			// If write is enabled store input value in file:
 			if (WriteEnable)
 				registers[SelectInput] <= In;
-			lastInSelect <= SelectInput;
-			resultWrite <= WriteEnable;
 		end
 	end
 	
