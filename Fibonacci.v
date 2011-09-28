@@ -30,7 +30,7 @@ module Fibonacci(
 	 reg [3:0] SelectA;
 	 reg [3:0] SelectB;
 	 reg [3:0] SelectIn;
-	 reg [16:0] Immediate;
+	 reg [15:0] Immediate;
 	 reg [7:0] OpCode;
 	 reg [1:0] MuxSelect;
 	 reg WriteEnable;
@@ -39,6 +39,10 @@ module Fibonacci(
 	 reg [31:0] countUp;
 	 reg [31:0] maxCount;  
 	 reg [3:0]currentState;
+	 wire [15:0] A;
+	 wire [15:0] B; 
+	 wire [15:0] MuxOut;
+	 wire [4:0] PSR;
 	 
 	 initial begin
 		SelectA <= 0;
@@ -50,15 +54,15 @@ module Fibonacci(
 		WriteEnable <= 0;
 		SlowClock <= 0;
 		countUp <= 0;
-		maxCount <= 30000000;
-		slowClockTick <= 20000;
-		restart <= 0;
+		maxCount <= 5;
 		currentState <= 1;
 	 end
 	 
-	 RegFile2(SlowClock, Reset, WriteEnable, SelectIn, SelectA, SelectB, Result, A, B); 
-	 BusMux(MuxSelect, Immediate, A, B, MuxOut);
-	 ALUmod(MuxOut, B, OpCode[7:4], Result, OpCode[3:0], PSR);
+	 RegFile2 rf2(SlowClock, Reset, WriteEnable, SelectIn, SelectA, SelectB, Result, A, B); 
+	 BusMux bm(MuxSelect, Immediate, A, B, MuxOut);
+	 ALUmod alu(MuxOut, B, OpCode[7:4], Result, OpCode[3:0], PSR, Reset);
+	 
+	 assign Output = Result;
 	 
 	 always @(posedge Clock, negedge Reset, negedge SetA, negedge SetB)
 	 begin 
@@ -102,15 +106,15 @@ module Fibonacci(
 			countUp <= countUp + 1;
 			if (countUp > maxCount)
 			begin
-				slowClock <= 0; 
+				SlowClock <= 0; 
 				countUp <= 0;
 			end
-			if (countUp == 5)
-				slowClock <= 1;
+			
+			if (countUp == 3)
+				SlowClock <= 1;
 				
 			if (countUp == 0)
 			begin
-				countUp <= 0;
 				case (currentState) 
 					0: 
 					begin
@@ -123,8 +127,9 @@ module Fibonacci(
 						SelectA <= 0;
 						SelectB <= 1;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 2;
+						SelectIn <= 2;
 						WriteEnable <= 1;
+						MuxSelect <= 1;
 					end
 					2:
 					begin
@@ -132,7 +137,7 @@ module Fibonacci(
 						SelectA <= 1;
 						SelectB <= 2;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 3;
+						SelectIn = 3;
 						WriteEnable <= 1;
 					end
 					3:
@@ -141,7 +146,7 @@ module Fibonacci(
 						SelectA <= 2;
 						SelectB <= 3;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 4;
+						SelectIn <= 4;
 						WriteEnable <= 1;
 					end
 					4:
@@ -150,7 +155,7 @@ module Fibonacci(
 						SelectA <= 3;
 						SelectB <= 4;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 5;
+						SelectIn <= 5;
 						WriteEnable <= 1;
 					end					
 					5:
@@ -159,7 +164,7 @@ module Fibonacci(
 						SelectA <= 4;
 						SelectB <= 5;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 6;
+						SelectIn <= 6;
 						WriteEnable <= 1;
 					end					
 					6: 
@@ -168,7 +173,7 @@ module Fibonacci(
 						SelectA <= 5;
 						SelectB <= 6;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 7;
+						SelectIn <= 7;
 						WriteEnable <= 1;
 					end
 					7: 
@@ -177,7 +182,7 @@ module Fibonacci(
 						SelectA <= 6;
 						SelectB <= 7;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 8;
+						SelectIn <= 8;
 						WriteEnable <= 1;
 					end
 					8: 
@@ -186,7 +191,7 @@ module Fibonacci(
 						SelectA <= 7;
 						SelectB <= 8;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 9;
+						SelectIn <= 9;
 						WriteEnable <= 1;
 					end
 					9: 
@@ -195,7 +200,7 @@ module Fibonacci(
 						SelectA <= 8;
 						SelectB <= 9;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 10;
+						SelectIn <= 10;
 						WriteEnable <= 1;
 					end
 					10:
@@ -204,7 +209,7 @@ module Fibonacci(
 						SelectA <= 9;
 						SelectB <= 10;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 11;
+						SelectIn <= 11;
 						WriteEnable <= 1;
 					end
 					11: 
@@ -213,7 +218,7 @@ module Fibonacci(
 						SelectA <= 10;
 						SelectB <= 11;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 12;
+						SelectIn <= 12;
 						WriteEnable <= 1;
 					end
 					12: 
@@ -222,7 +227,7 @@ module Fibonacci(
 						SelectA <= 11;
 						SelectB <= 12;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 13;
+						SelectIn <= 13;
 						WriteEnable <= 1;
 					end
 					13: 
@@ -231,7 +236,7 @@ module Fibonacci(
 						SelectA <= 12;
 						SelectB <= 13;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 14;
+						SelectIn <= 14;
 						WriteEnable <= 1;
 					end
 					14: 
@@ -240,11 +245,13 @@ module Fibonacci(
 						SelectA <= 13;
 						SelectB <= 14;
 						OpCode <= 8'b0000_0110;
-						SelectInput <= 15;
+						SelectIn <= 15;
 						WriteEnable <= 1;
 					end
 					15:
 						begin
+						SelectA <= 15;
+						OpCode <= 8'b0000_1101; 	//Move instruction to ALU	
 						end
 				endcase
 			end
