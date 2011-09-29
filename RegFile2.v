@@ -31,8 +31,6 @@ module RegFile2(
     ); 
 	 
 	 reg [15:0] registers [15:0];
-	 reg [3:0] lastInSelect;
-	 reg resultWrite;
 	 
 	 	 // Initialize registers to zero:
 	 initial begin 
@@ -52,8 +50,7 @@ module RegFile2(
 		registers[13] <= 16'h0000;
 		registers[14] <= 16'h0000;
 		registers[15] <= 16'h0000;
-		lastInSelect <= 4'h0;
-		resultWrite <= 1'h0;
+
 	 end 
 	 
 	 	 // Main always block:
@@ -78,8 +75,6 @@ module RegFile2(
 		registers[13] <= 16'h0000;
 		registers[14] <= 16'h0000;
 		registers[15] <= 16'h0000; 
-		lastInSelect <= 4'h0;
-		resultWrite <= 1'h0;
 		end
 		
 		// Otherwise set outputs and reg
