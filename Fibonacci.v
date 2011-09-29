@@ -54,7 +54,7 @@ module Fibonacci(
 		WriteEnable <= 0;
 		SlowClock <= 0;
 		countUp <= 0;
-		maxCount <= 5;
+		maxCount <= 30000000;
 		currentState <= 1;
 	 end
 	 
@@ -111,7 +111,7 @@ module Fibonacci(
 			end
 			
 			if (countUp == 3)
-				SlowClock <= 500000000;//This is where Levi Changed the file, I think we need to extend it here.
+				SlowClock <= 1;
 				
 			if (countUp == 0)
 			begin
