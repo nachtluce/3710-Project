@@ -26,8 +26,8 @@ module RegFile2(
     input [3:0] SelectA,
     input [3:0] SelectB,
     input [15:0] In,
-    output reg [15:0] A,
-    output reg [15:0] B
+    output [15:0] A,
+    output [15:0] B
     ); 
 	 
 	 reg [15:0] registers [15:0];
@@ -84,11 +84,9 @@ module RegFile2(
 			if (WriteEnable)
 				registers[SelectInput] <= In;
 		end
-	end
+	end 
 	
-	always@(SelectA, SelectB, registers[0], registers[1], registers[2], registers[3], registers[4], registers[5], registers[6], registers[7], registers[8], registers[9],registers[10], registers[11],registers[12],registers[13], registers[14],registers[15])
-	begin
-		A <= registers[SelectA];
-		B <= registers[SelectB];
-	end
+	assign A = registers[SelectA];
+	assign B = registers[SelectB];
+	
 endmodule
