@@ -14,10 +14,10 @@ NET "SF_D[11]" LOC = M15;
 # PlanAhead Generated physical constraints 
 
 NET "SF_CEO" LOC = D16;
-NET "SetA" LOC = D18;
-NET "SetB" LOC = K17;
+NET "SetA" LOC = "D18" | IOSTANDARD = LVTTL | PULLDOWN;
+NET "SetB" LOC = "K17" | IOSTANDARD = LVTTL | PULLDOWN;
 NET "clk" LOC = C9;
-NET "reset" LOC = H13;
+NET "reset" LOC = "H13" | IOSTANDARD = LVTTL | PULLDOWN;
 NET "switches[0]" LOC = N17;
 NET "switches[1]" LOC = H18;
 NET "switches[2]" LOC = L14;
