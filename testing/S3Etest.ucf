@@ -1,5 +1,4 @@
 
-# PlanAhead Generated physical constraints 
 
 NET "CLK_50MHZ" LOC = C9;
 NET "LCD_E" LOC = M18;
@@ -11,3 +10,19 @@ NET "SF_D[8]" LOC = R15;
 NET "SF_D[9]" LOC = R16;
 NET "SF_D[10]" LOC = P17;
 NET "SF_D[11]" LOC = M15;
+
+# PlanAhead Generated physical constraints 
+
+NET "SF_CEO" LOC = D16;
+NET "SetA" LOC = D18;
+NET "SetB" LOC = K17;
+NET "clk" LOC = C9;
+NET "reset" LOC = H13;
+NET "switches[0]" LOC = N17;
+NET "switches[1]" LOC = H18;
+NET "switches[2]" LOC = L14;
+NET "switches[3]" LOC = L13;
+
+# PlanAhead Generated IO constraints 
+
+NET "reset" IOSTANDARD = LVCMOS25;

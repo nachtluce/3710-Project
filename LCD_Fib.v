@@ -21,7 +21,7 @@
 module LCD_Fib(
     input clk,
     input reset,
-    output SF_CEO,
+    input SF_CEO,
     output [11:8] SF_D,
     output LCD_E,
     output LCD_RS,

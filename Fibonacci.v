@@ -111,7 +111,7 @@ module Fibonacci(
 			end
 			
 			if (countUp == 3)
-				SlowClock <= 1;
+				SlowClock <= 500000000;//This is where Levi Changed the file, I think we need to extend it here.
 				
 			if (countUp == 0)
 			begin
