@@ -64,7 +64,7 @@ module Fibonacci(
 	 
 	 assign Output = Result;
 	 
-	 always @(posedge Clock, negedge Reset, negedge SetA, negedge SetB)
+	 always @(posedge Clock, negedge Reset)
 	 begin 
 		if (~Reset)
 		begin 
@@ -137,7 +137,7 @@ module Fibonacci(
 						SelectA <= 1;
 						SelectB <= 2;
 						OpCode <= 8'b0000_0110;
-						SelectIn = 3;
+						SelectIn <= 3;
 						WriteEnable <= 1;
 					end
 					3:

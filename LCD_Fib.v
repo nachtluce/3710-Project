@@ -36,8 +36,7 @@ module LCD_Fib(
 	wire [15:0] tempOut;
 	
 
-	Fibonacci fib( clk, reset, SetA, SetB, switches, tempOut);
+	Fibonacci f( clk, reset, SetA, SetB, switches, tempOut);
 	
-	lcd_ctrl lcd(clk, reset, tempOut, SF_D, LCD_E, LCD_RS, LCD_RW);
-	
+	lcd_ctrl l(clk, reset, tempOut, SF_D, LCD_E, LCD_RS, LCD_RW);
 endmodule
