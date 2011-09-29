@@ -37,7 +37,7 @@ module Fibonacci(
 	 reg SlowClock; 
 	 wire [15:0] Result;
 	 reg [31:0] countUp;
-	 reg [31:0] maxCount;  
+	 parameter maxCount = 30000000;
 	 reg [3:0]currentState;
 	 wire [15:0] A;
 	 wire [15:0] B; 
@@ -54,7 +54,6 @@ module Fibonacci(
 		WriteEnable <= 0;
 		SlowClock <= 0;
 		countUp <= 0;
-		maxCount <= 30000000;
 		currentState <= 1;
 	 end
 	 
