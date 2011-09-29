@@ -34,9 +34,10 @@ module LCD_Fib(
 	assign SF_CE0=1;	//disable flash (shares some pins with LCD)
 
 	wire [15:0] tempOut;
-	
+	wire gnd;
+	assign gnd = 0;
 
-	Fibonacci f( clk, ~reset, ~SetA, ~SetB, switches, tempOut);
+	Fibonacci f( clk, ~reset, gnd, gnd, switches, tempOut);
 	
-	lcd_ctrl l(clk, ~reset, tempOut, SF_D, LCD_E, LCD_RS, LCD_RW);
+	lcd_ctrl l(clk, gnd, tempOut, SF_D, LCD_E, LCD_RS, LCD_RW);
 endmodule

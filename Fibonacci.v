@@ -47,14 +47,14 @@ module Fibonacci(
 	 initial begin
 		SelectA <= 0;
 		SelectB <= 0;
-		SelectIn <= 0;
-		Immediate <= 0;
+		SelectIn <= 1;
+		Immediate <= 1;
 		OpCode <= 0;
 		MuxSelect <= 0;
-		WriteEnable <= 0;
+		WriteEnable <= 1;
 		SlowClock <= 0;
 		countUp <= 0;
-		currentState <= 1;
+		currentState <= 0;
 	 end
 	 
 	 RegFile2 rf2(SlowClock, Reset, WriteEnable, SelectIn, SelectA, SelectB, Result, A, B); 
