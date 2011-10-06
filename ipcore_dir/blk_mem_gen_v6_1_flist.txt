@@ -1,0 +1,14 @@
+# Output products list for <blk_mem_gen_v6_1>
+_dbg\xil_405.in
+_dbg\xil_405.out
+_xmsgs\pn_parser.xmsgs
+blk_mem_gen_v6_1.asy
+blk_mem_gen_v6_1.gise
+blk_mem_gen_v6_1.ngc
+blk_mem_gen_v6_1.v
+blk_mem_gen_v6_1.veo
+blk_mem_gen_v6_1.xco
+blk_mem_gen_v6_1.xise
+blk_mem_gen_v6_1_flist.txt
+blk_mem_gen_v6_1_readme.txt
+blk_mem_gen_v6_1_xmdf.tcl
