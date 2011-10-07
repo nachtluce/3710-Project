@@ -25,7 +25,7 @@
             <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.BYTE_SIZE">9</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.ALGORITHM">Minimum_Area</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.PRIMITIVE">8kx2</spirit:configurableElementValue>
-            <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.ASSUME_SYNCHRONOUS_CLK">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.ASSUME_SYNCHRONOUS_CLK">false</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.WRITE_WIDTH_A">16</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.WRITE_DEPTH_A">16384</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.READ_WIDTH_A">16</spirit:configurableElementValue>
@@ -80,7 +80,7 @@
                   <xilinx:device>xc3s500e</xilinx:device>
                   <xilinx:deviceFamily>spartan3e</xilinx:deviceFamily>
                   <xilinx:package>fg320</xilinx:package>
-                  <xilinx:speedGrade>-5</xilinx:speedGrade>
+                  <xilinx:speedGrade>-4</xilinx:speedGrade>
                </xilinx:part>
                <xilinx:flowOptions>
                   <xilinx:busFormat>BusFormatAngleBracketNotRipped</xilinx:busFormat>
