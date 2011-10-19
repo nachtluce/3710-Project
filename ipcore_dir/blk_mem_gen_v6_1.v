@@ -62,7 +62,7 @@ output [15 : 0] doutb;
 
 // synthesis translate_off
 
-  BLK_MEM_GEN_V6_1 #(
+  BLK_MEM_GEN_V6_2 #(
     .C_ADDRA_WIDTH(14),
     .C_ADDRB_WIDTH(14),
     .C_ALGORITHM(1),
@@ -70,7 +70,7 @@ output [15 : 0] doutb;
     .C_AXI_SLAVE_TYPE(0),
     .C_AXI_TYPE(1),
     .C_BYTE_SIZE(9),
-    .C_COMMON_CLK(1),
+    .C_COMMON_CLK(0),
     .C_DEFAULT_DATA("0"),
     .C_DISABLE_WARN_BHV_COLL(0),
     .C_DISABLE_WARN_BHV_RANGE(0),
@@ -89,11 +89,11 @@ output [15 : 0] doutb;
     .C_HAS_RSTB(0),
     .C_HAS_SOFTECC_INPUT_REGS_A(0),
     .C_HAS_SOFTECC_OUTPUT_REGS_B(0),
-    .C_INIT_FILE_NAME("no_coe_file_loaded"),
+    .C_INIT_FILE_NAME("blk_mem_gen_v6_1.mif"),
     .C_INITA_VAL("0"),
     .C_INITB_VAL("0"),
     .C_INTERFACE_TYPE(0),
-    .C_LOAD_INIT_FILE(0),
+    .C_LOAD_INIT_FILE(1),
     .C_MEM_TYPE(2),
     .C_MUX_PIPELINE_STAGES(0),
     .C_PRIM_TYPE(1),

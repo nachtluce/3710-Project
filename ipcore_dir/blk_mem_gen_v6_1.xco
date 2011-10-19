@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 13.2
-# Date: Thu Oct 06 04:45:17 2011
+# Date: Fri Oct 07 06:20:27 2011
 #
 ##############################################################
 #
@@ -12,7 +12,7 @@
 #
 ##############################################################
 #
-#  Generated from component: xilinx.com:ip:blk_mem_gen:6.1
+#  Generated from component: xilinx.com:ip:blk_mem_gen:6.2
 #
 ##############################################################
 #
@@ -31,22 +31,22 @@ SET implementationfiletype = Ngc
 SET package = fg320
 SET removerpms = false
 SET simulationfiles = Behavioral
-SET speedgrade = -5
+SET speedgrade = -4
 SET verilogsim = true
 SET vhdlsim = false
 # END Project Options
 # BEGIN Select
-SELECT Block_Memory_Generator xilinx.com:ip:blk_mem_gen:6.1
+SELECT Block_Memory_Generator xilinx.com:ip:blk_mem_gen:6.2
 # END Select
 # BEGIN Parameters
 CSET additional_inputs_for_power_estimation=false
 CSET algorithm=Minimum_Area
-CSET assume_synchronous_clk=true
+CSET assume_synchronous_clk=false
 CSET axi_id_width=4
 CSET axi_slave_type=Memory_Slave
 CSET axi_type=AXI4_Full
 CSET byte_size=9
-CSET coe_file=no_coe_file_loaded
+CSET coe_file=.\init.coe
 CSET collision_warnings=ALL
 CSET component_name=blk_mem_gen_v6_1
 CSET disable_collision_warnings=false
@@ -58,7 +58,7 @@ CSET enable_b=Always_Enabled
 CSET error_injection_type=Single_Bit_Error_Injection
 CSET fill_remaining_memory_locations=false
 CSET interface_type=Native
-CSET load_init_file=false
+CSET load_init_file=true
 CSET memory_type=True_Dual_Port_RAM
 CSET operating_mode_a=WRITE_FIRST
 CSET operating_mode_b=WRITE_FIRST
@@ -99,7 +99,7 @@ CSET write_width_a=16
 CSET write_width_b=16
 # END Parameters
 # BEGIN Extra information
-MISC pkg_timestamp=2011-06-21T06:43:52.000Z
+MISC pkg_timestamp=2011-03-11T08:24:14.000Z
 # END Extra information
 GENERATE
-# CRC: 18880656
+# CRC: c38c18c1

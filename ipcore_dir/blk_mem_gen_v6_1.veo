@@ -27,7 +27,7 @@
 *******************************************************************************/
 
 /*******************************************************************************
-*     Generated from core with identifier: xilinx.com:ip:blk_mem_gen:6.1       *
+*     Generated from core with identifier: xilinx.com:ip:blk_mem_gen:6.2       *
 *                                                                              *
 *     The Xilinx LogiCORE IP Block Memory Generator replaces the Dual Port     *
 *     Block Memory and Single Port Block Memory LogiCOREs, but is not a        *
@@ -43,8 +43,8 @@
 *******************************************************************************/
 
 // Interfaces:
-//    AXI4_MASTER_S_AXI
-//    AXI4Lite_MASTER_S_AXI
+//    AXI_SLAVE_S_AXI
+//    AXILite_SLAVE_S_AXI
 
 // The following must be inserted into your Verilog file for this
 // core to be instantiated. Change the instance name and port connections
