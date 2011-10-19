@@ -1,0 +1,16 @@
+
+# PlanAhead Generated physical constraints 
+
+NET "clock" LOC = C9;
+NET "data" LOC = B6;
+NET "latch" LOC = E7;
+NET "plyr_input[0]" LOC = F9;
+NET "plyr_input[1]" LOC = E9;
+NET "plyr_input[2]" LOC = D11;
+NET "plyr_input[3]" LOC = C11;
+NET "plyr_input[4]" LOC = F11;
+NET "plyr_input[5]" LOC = E11;
+NET "plyr_input[6]" LOC = E12;
+NET "plyr_input[7]" LOC = F12;
+NET "pulse" LOC = F7;
+NET "reset" LOC = N17;

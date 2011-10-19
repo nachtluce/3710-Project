@@ -21,11 +21,11 @@
 module LCD_Fib(
     input clk,
     input reset,
-    input SF_CEO,
-    output [11:8] SF_D,
-    output LCD_E,
-    output LCD_RS,
-    output LCD_RW,
+    input SF_CEO,//this is for disabling the flash
+    output [11:8] SF_D,// lcd control
+    output LCD_E,		//lcd control
+    output LCD_RS,	//lcd control
+    output LCD_RW,	//lcd control
     input [3:0] switches,
     input SetA,
     input SetB
@@ -37,7 +37,7 @@ module LCD_Fib(
 	wire gnd;
 	assign gnd = 0;
 
-	Fibonacci f( clk, ~reset, gnd, gnd, switches, tempOut);
+	Fibonacci f( clk, ~reset, ~SetA, ~SetB, switches, tempOut);
 	
 	lcd_ctrl l(clk, gnd, tempOut, SF_D, LCD_E, LCD_RS, LCD_RW);
 endmodule

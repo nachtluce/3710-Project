@@ -5,20 +5,28 @@ NET "LCD_E" LOC = M18;
 NET "LCD_RS" LOC = L18;
 NET "LCD_RW" LOC = L17;
 #NET "ROT_CENTER" LOC = N17;
-#NET "SF_CE0" LOC = D16;
-NET "SF_D[8]" LOC = R15;
-NET "SF_D[9]" LOC = R16;
-NET "SF_D[10]" LOC = P17;
-NET "SF_D[11]" LOC = M15;
+#NET "SF_CE0" LOC = D16;   #Changed the SF_D pins to have further discription
+#NET "SF_D[8]" LOC = R15;
+#NET "SF_D[9]" LOC = R16;
+#NET "SF_D[10]" LOC = P17;
+#NET "SF_D[11]" LOC = M15;
+#NET "SF_D[8]" LOC = "R15" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
+#NET "SF_D[9]" LOC = "R16" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
+#NET "SF_D[10]" LOC = "P17" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
+#NET "SF_D[11]" LOC = "M15" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
+NET "SF_D[8]" LOC = "R15" | DRIVE = 4 | SLEW = SLOW ;
+NET "SF_D[9]" LOC = "R16" | DRIVE = 4 | SLEW = SLOW ;
+NET "SF_D[10]" LOC = "P17" | DRIVE = 4 | SLEW = SLOW ;
+NET "SF_D[11]" LOC = "M15" | DRIVE = 4 | SLEW = SLOW ;
 
 # PlanAhead Generated physical constraints 
 
 NET "SF_CEO" LOC = D16;
-NET "SetA" LOC = "D18";
-NET "SetB" LOC = "K17";
+NET "SetA" LOC = "D18"  | PULLDOWN ;
+NET "SetB" LOC = "K17" | PULLDOWN ;
 NET "clk" LOC = C9;
-NET "reset" LOC = "H13";
-NET "switches[0]" LOC = N17;
+NET "reset" LOC = "H13" | PULLDOWN ;
+NET "switches[0]" LOC = N17 | PULLUP ;
 NET "switches[1]" LOC = H18;
 NET "switches[2]" LOC = L14;
 NET "switches[3]" LOC = L13;

@@ -82,22 +82,24 @@ module Fibonacci(
 		begin
 			countUp <= 0;   //Set the count so a slow clock will be triggered at next posedge
 			SelectIn <= 0;					//Set the input to go to register 0
-			Immediate <= Switches;		//Store the value from dip switches
+			Immediate <= Switches;		//Store the value from dip switches                    Changed****
 			MuxSelect <= 0;				//Select the immediate value
 			OpCode <= 8'b0000_1101; 	//Move instruction to ALU
 			WriteEnable <= 1;				//Set write enable to true
 			currentState <= 0;				//Tells the state machine to start over when ready
+			SlowClock <= 0;
 		end
 		
 		else if (~SetB)
 		begin
 			countUp <= 0;	//Set the count so a slow clock will be triggered at next posedge
 			SelectIn <= 1;					//Set the input to go to register 1
-			Immediate <= Switches;		//Store the value from dip switches
+			Immediate <= Switches;		//Store the value from dip switches                    changed*****
 			MuxSelect <= 0;				//Select the immediate value
 			OpCode <= 8'b0000_1101; 	//Move instruction to ALU
 			WriteEnable <= 1;				//Set write enable to true
 			currentState <= 0;			//Tells the state machine to start over when ready
+			SlowClock <= 0;
 		end
 		
 		else
