@@ -24,13 +24,13 @@ module ALUmod(
     input wire [3:0] opcode,
     output reg [15:0] S,
     input wire [3:0] opext,
-    output reg [4:0] CLFZN,
-	 input wire carry
+    output reg [4:0] CLFZN
+//	 input wire carry
     );
 
 
 //start always block and add all the different executions
-always@(A,B,opcode,opext,carry)
+always@(A,B,opcode,opext)//,carry)
 	begin
 	  casex({opcode, opext})
 	    8'b0000_0101: // ADD
@@ -60,7 +60,8 @@ always@(A,B,opcode,opext,carry)
 		   {CLFZN[4],S} = A + B;			// set carry bit and sum
 			CLFZN[2] = CLFZN[4];	 
 		 end
-		 
+/* ADDC, ADDCU ADDCUI, and ADCI are depricated
+    But not removed 
 		 8'b0000_0111: // ADDC (Add with carry)
 		 begin
 			CLFZN[4:0] = 0;		 
@@ -87,7 +88,7 @@ always@(A,B,opcode,opext,carry)
 			{CLFZN[4], S} = A + B + carry;
 			CLFZN[2] = CLFZN[4];
 		end
-		
+*/
 		8'b0000_1001: // SUB
 		begin
 			CLFZN = 0;
@@ -104,7 +105,7 @@ always@(A,B,opcode,opext,carry)
 			if( A[15] != B[15] && B[15] == S[15]) CLFZN[2] = 1'b1;  
 		end 
 		
-		8'b0000_1011: // CMP
+		8'b0011_xxxx: // CMP
 		begin
 			CLFZN = {1'b0,
 				A > B,
@@ -124,7 +125,7 @@ always@(A,B,opcode,opext,carry)
 		   S = 0;
 		end 		
 		
-		8'b1010_0010: // CMPU/I
+/*		8'b1010_0010: // CMPU/I
 		begin
 			CLFZN = 
 				{1'b0,
@@ -134,7 +135,7 @@ always@(A,B,opcode,opext,carry)
 				$signed(A) > $signed(B)};
 		   S = 0;
 		end 		
-		
+*/		
 		8'b0000_0001: // AND
 		begin
 		   CLFZN = 0; // flags are all set to zero, see CR16 programmers manual
@@ -153,24 +154,24 @@ always@(A,B,opcode,opext,carry)
 			S = A ^ B;
 		end
 		
-		8'b1010_0011: // NOT (logical not?  The the test bench says it is a logical not)
+		8'b0000_0100: // NOT (logical not?  The the test bench says it is a logical not)
 		begin
 			CLFZN = 0;
 			S = !A;
 		end
 		
-		8'b1000_0100: // LSH (left logical shift)
+		8'b0000_1100: // LSH (left logical shift)
 		begin
 			CLFZN = 0;
 			S = A << 1;
 		end
-		
+/*		 LSHI is depricated
 		8'b1000_xxxx: // LSHI (left logical shift immediate)
 		begin
 			CLFZN = 0;
 			S = A << 1;
 		end
-		
+*/	
 		8'b0000_1110: // RSH (Right logical shift)
 		begin
 			CLFZN = 0;
@@ -183,14 +184,14 @@ always@(A,B,opcode,opext,carry)
 			S = A >> 1;
 		end
 		
-		8'b1010_0001: // ALSH (Arithmedic left shift)
+		8'b0000_0111: // ALSH (Arithmedic left shift)
 		begin
 			CLFZN = 0;
 			//S = A <<< 1;
 			S = {A[14:0], A[0]};
 		end
 		
-		8'b1010_0100: // ARSH (Arithmedic right shift)
+		8'b0000_1000: // ARSH (Arithmedic right shift)
 		begin
 			CLFZN = 0;
 			//S = A >>> 1; // this statment did not work in the test bench for some reason.
@@ -205,7 +206,7 @@ always@(A,B,opcode,opext,carry)
 		end
 		
 		// the value of the A register passes though
-		8'b1101_xxxx: // MOVi
+		8'b1000_xxxx: // MOVi
 		begin
 			CLFZN = 0;
 			S = A;
