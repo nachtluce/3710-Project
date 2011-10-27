@@ -22,7 +22,7 @@ cp ../example_design/VGA_memory_top.ucf results/
 cd results
 
 echo 'Running ngdbuild'
-ngdbuild -p xc3s500e-fg320-5 VGA_memory_top
+ngdbuild -p xc3s500e-fg320-4 VGA_memory_top
 
 echo 'Running map'
 map VGA_memory_top -o mapped.ncd -pr i
@@ -36,5 +36,6 @@ trce -e 10 routed.ncd mapped.pcf -o routed
 echo 'Running design through bitgen'
 bitgen -w routed
 
-echo 'Running netgen to create gate level VHDL model'
-netgen -ofmt vhdl -sim -tm VGA_memory_top -pcf mapped.pcf -w routed.ncd routed.vhd
+echo 'Running netgen to create gate level Verilog model'
+netgen -ofmt verilog -sim -tm VGA_memory_top -pcf mapped.pcf -w routed.ncd routed.v
+cp routed.sdf ../../production/timing/

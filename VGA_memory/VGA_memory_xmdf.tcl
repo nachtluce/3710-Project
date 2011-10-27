@@ -43,12 +43,12 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.n
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.v
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.vho
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl_template
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.veo
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog_template
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.xco

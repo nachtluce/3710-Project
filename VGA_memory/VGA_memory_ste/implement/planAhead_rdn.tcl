@@ -45,7 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 
 
-set device xc3s500efg320-5
+set device xc3s500efg320-4
 set projName VGA_memory
 set design VGA_memory
 set projDir [file dirname [info script]]
@@ -61,7 +61,7 @@ opt_design
 place_design 
 route_design 
 write_sdf -rename_top_module VGA_memory_top -file routed.sdf 
-write_verilog -nolib -mode sim -sdf_anno false -rename_top_module VGA_memory_top routed.vhd
+write_verilog -nolib -mode sim -sdf_anno false -rename_top_module VGA_memory_top routed.v
 report_timing -nworst 30 -path_type full -file routed.twr
 report_drc -file routed.drc
 #write_bitstream
