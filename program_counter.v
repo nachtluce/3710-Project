@@ -24,9 +24,9 @@ initial begin
 	PC = 16'H0000;
 end
 
-always @(posedge Clock, negedge Reset)
+always @(posedge Clock, posedge Reset)
 begin
-	if(~Reset)
+	if(Reset)
 		begin
 		PC <= 16'H0000;
 		end
