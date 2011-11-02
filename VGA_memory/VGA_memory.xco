@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 13.2
-# Date: Thu Oct 27 22:05:35 2011
+# Date: Thu Oct 27 22:55:28 2011
 #
 ##############################################################
 #
@@ -46,7 +46,7 @@ CSET axi_id_width=4
 CSET axi_slave_type=Memory_Slave
 CSET axi_type=AXI4_Full
 CSET byte_size=9
-CSET coe_file=no_coe_file_loaded
+CSET coe_file=.\prime.coe
 CSET collision_warnings=ALL
 CSET component_name=VGA_memory
 CSET disable_collision_warnings=false
@@ -58,7 +58,7 @@ CSET enable_b=Always_Enabled
 CSET error_injection_type=Single_Bit_Error_Injection
 CSET fill_remaining_memory_locations=false
 CSET interface_type=Native
-CSET load_init_file=false
+CSET load_init_file=true
 CSET memory_type=Single_Port_RAM
 CSET operating_mode_a=READ_FIRST
 CSET operating_mode_b=WRITE_FIRST
@@ -102,4 +102,4 @@ CSET write_width_b=9
 MISC pkg_timestamp=2011-03-11T08:24:14.000Z
 # END Extra information
 GENERATE
-# CRC: 3a11578c
+# CRC: 52003110

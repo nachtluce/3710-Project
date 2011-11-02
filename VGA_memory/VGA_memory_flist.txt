@@ -1,7 +1,9 @@
 # Output products list for <VGA_memory>
 VGA_memory.asy
 VGA_memory.gise
+VGA_memory.mif
 VGA_memory.ngc
+VGA_memory.sym
 VGA_memory.v
 VGA_memory.veo
 VGA_memory.xco
