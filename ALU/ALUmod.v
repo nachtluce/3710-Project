@@ -212,6 +212,12 @@ always@(A,B,opcode,opext)//,carry)
 			S = A;
 		end
 		
+		// The upper bits of A are concatanated with the lower bits of B
+		8'b0111_xxxx: // MOVIU
+		begin
+			S = {A[15:8],B[7:0]};
+		end
+		
 		// NOP falls to the default case
 		default:
 		begin
