@@ -20,13 +20,17 @@
 //////////////////////////////////////////////////////////////////////////////////
 module Processor_Status_Register(
 	 input clock,
+	 input reset,
     input [4:0] CZLFM_in,
     output reg[4:0] CZLFN_out 
     );
 
-always@(posedge clock)
+always@(posedge clock, negedge reset)
 begin
-  CZLFN_out <= CZLFM_in;
+	if (~reset)
+		CZLFN_out <= 0;
+	else	
+		CZLFN_out <= CZLFM_in;
 end
 
 endmodule

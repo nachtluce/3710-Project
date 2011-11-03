@@ -48,9 +48,9 @@ module CPU_Controller(
 		state = 0;
 	end
 	
-	always@(posedge clock, negedge reset)
+	always@(posedge Clock, negedge Reset)
 	begin
-		if (~reset)
+		if (~Reset)
 		begin
 			state = 0;
 			OpCode = 0;
@@ -350,9 +350,9 @@ module CPU_Controller(
 						RegA = INS[7:4];
 						RegB = INS[3:0];
 						// The PC should increment by one 
-						Immediate = {{8{1'b1}},INS[11:4]};
+						PCImmediate = 8'h01;
 						// Set immediate value
-						Immediate = 16'h0000; 
+						Immediate = {{8{1'b1}},INS[11:4]}; 
 						// Select Immediate as ALU input
 						SelALU = 2'b00; 
 						// Don't care about the memory address
@@ -369,10 +369,39 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;						
 				end
-				4'b1100:
-				4'b1101:
-				4'b1110:
-				4'b1111:
+				4'bXXXX
+				begin
+					// Do nothing!
+						// Send instruction to ALU
+						OpCode = 0;
+						OpExt = 0;
+						// Disable Registers to write
+						RegWrite = 1'b0;
+						// Set the write to register
+						RegIn = 0;
+						// Set the operands
+						RegA = 0;
+						RegB = 0;
+						// The PC should increment by one 
+						PCImmediate = 8'h01;
+						// Set immediate value
+						Immediate = {{8{1'b1}},INS[11:4]}; 
+						// Select Immediate as ALU input
+						SelALU = 2'b00; 
+						// Don't care about the memory address
+						SelMEM = 2'b00; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;					
+				end
 			endcase
 		begin
 		end
