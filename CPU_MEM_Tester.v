@@ -52,6 +52,7 @@ module CPU_MEM_Tester;
 		for (i = 0; i < 100; i = i + 1)
 		begin
 			Clock = ~Clock;
+			#5;	
 		end
 	end
       
