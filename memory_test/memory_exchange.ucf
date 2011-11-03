@@ -1,0 +1,17 @@
+
+NET "clk" LOC = C9;
+NET "LCD_E" LOC = M18;
+NET "LCD_RS" LOC = L18;
+NET "LCD_RW" LOC = L17;
+NET "SF_D[8]" LOC = R15;
+NET "SF_D[9]" LOC = R16;
+NET "SF_D[10]" LOC = P17;
+NET "SF_D[11]" LOC = M15;
+
+NET "switches[0]" LOC = L13;
+NET "switches[1]" LOC = L14;
+NET "switches[2]" LOC = H18;
+NET "switches[3]" LOC = N17;
+
+NET "write" LOC = H13 | PULLDOWN;
+NET "Read_Select" LOC = D18 | PULLDOWN;
