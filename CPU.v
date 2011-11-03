@@ -37,7 +37,7 @@ module CPU(
 	 wire [15:0] Immediate;
 	 wire [7:0] PCImmediate;
 	 wire [1:0] SelALU;
-	 wire [15:0] A_to_mux;
+	 wire [15:0] A_to_Mux;
 	 wire [15:0] A_to_ALU;
 	 wire [15:0] B;
 	 wire [15:0] S;
@@ -51,11 +51,11 @@ module CPU(
 											PCReset, IRReset, IRWrite, PSRReset);
 	 RegFile2 rf(Clock, Reset, RegWrite, RegIn, RegA, RegB, S, A_to_Mux, B);
 	 ALUmod brain(A_to_ALU, B, OpCode, S, OpExt, ALU_TO_PSR);
-	 BusMux alu_mux(SelALU, Immediate, A_to_mux, Mem_Data, A_to_ALU);
+	 BusMux alu_mux(SelALU, Immediate, A_to_Mux, Mem_Data, A_to_ALU);
 	 Mux2 mem_mux(SelMEM, B, PC_OUT, Mem_Addr);
 	 program_counter pc(Clock, PCReset, PCIncrement, PCImmediate, S, PCWrite, PC_OUT);
-	 Processor_Status_Register psr( Clock, PSRReset, ALU_TO_PSR, PSR_TO_ALU);
-	 Reg16 InstructionRegister( Clock, IRReset, Mem_Data, INS_TO_CPU);
+	 Processor_Status_Register psr( Clock, PSRReset, ALU_TO_PSR, PSR_TO_CPU);
+	 Reg16 InstructionRegister( Clock, IRReset,IRWrite, Mem_Data, INS_TO_CPU);
 
 	 assign Mem_Data = S;
 	 

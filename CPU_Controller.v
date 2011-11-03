@@ -23,23 +23,23 @@ module CPU_Controller(
     input Reset,
     input [15:0] INS,
     input [4:0] PSR,
-    output [3:0] OpCode,
-    output [3:0] OpExt,
-    output RegWrite,
-    output [3:0] RegIn,
-    output [3:0] RegA,
-    output [3:0] RegB,
-    output [15:0] Immediate,
-	 output [7:0] PCImmediate,
-    output [1:0] SelALU,
-    output SelMEM,
-    output MemRW,
-    output PCWrite,
-    output PCIncrement,
-    output PCReset,
-    output IRReset,
-    output IRWrite,
-    output PSRReset
+    output reg [3:0] OpCode,
+    output reg [3:0] OpExt,
+    output reg RegWrite,
+    output reg [3:0] RegIn,
+    output reg [3:0] RegA,
+    output reg [3:0] RegB,
+    output reg [15:0] Immediate,
+	 output reg [7:0] PCImmediate,
+    output reg [1:0] SelALU,
+    output reg SelMEM,
+    output reg MemRW,
+    output reg PCWrite,
+    output reg PCIncrement,
+    output reg PCReset,
+    output reg IRReset,
+    output reg IRWrite,
+    output reg PSRReset
     );
 	 
 	 reg state;
@@ -204,7 +204,8 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
 				end
-				4'b0110: 
+				4'b0110:
+				begin
 					//ADDUI
 						// Send instruction to ALU
 						OpCode = INS[15:12];
@@ -236,7 +237,9 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+				end
 				4'b0111:
+				begin
 					//MOVIU
 						// Send instruction to ALU
 						OpCode = INS[15:12];
@@ -267,7 +270,8 @@ module CPU_Controller(
 						// Don't reset anything
 						PCReset = 1'b1;
 						IRReset = 1'b1;
-						PSRReset = 1'b1;			
+						PSRReset = 1'b1;
+				end		
 				4'b1000:
 				begin
 					//MOVI
@@ -369,7 +373,7 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;						
 				end
-				4'bXXXX
+				4'bXXXX:
 				begin
 					// Do nothing!
 						// Send instruction to ALU

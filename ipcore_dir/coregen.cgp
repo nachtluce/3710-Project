@@ -4,6 +4,6 @@ SET device = xc3s500e
 SET devicefamily = spartan3e
 SET flowvendor = Foundation_ISE
 SET package = fg320
-SET speedgrade = -4
+SET speedgrade = -5
 SET verilogsim = true
 SET vhdlsim = false
