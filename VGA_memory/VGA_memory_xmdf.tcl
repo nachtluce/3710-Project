@@ -39,8 +39,16 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.a
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
 
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.mif
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
+incr fcount
+
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.ngc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.sym
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VGA_memory.v
