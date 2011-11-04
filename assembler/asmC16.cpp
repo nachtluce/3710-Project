@@ -3,14 +3,21 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string>
 #include <string.h>
 #include <map>
+
+#include <iostream>
+
+#include "constants.h"
+#include "command_converter.hpp"
 
 using namespace std;
 
 // arbitrary maximum length of a single line
 #define MAXLINELENGTH 10000
+#define WRITEBUFFLENGTH 16
 
 map<string, int> LABEL_LOCATIONS;
 
@@ -48,7 +55,7 @@ char * readAndParse(FILE *inFilePtr, char *lineString,
   return(statusString);
 }
 
-// returns true if the string is a number
+// returns true if the string is a number in decimal format
 bool isNumber(char *string) {
   int i;
   return( (sscanf(string, "%d", &i)) == 1);
@@ -61,20 +68,23 @@ void LocateLabels(FILE *inFilePtr, char *lineString,
   int currentLine = 0;
   rewind(inFilePtr);
 
-  while(readAndParse(inFilePtr, lineString, &labelPtr, &opcodePtr, &arg0Ptr, &arg1Ptr)
+  while(readAndParse(inFilePtr, lineString, labelPtr, opcodePtr, arg0Ptr, arg1Ptr)
          != NULL)
   {
-    if(labelPtr != NULL) // record label at location
+    if(*labelPtr != NULL) // record label at location
     {
-      string temp(labelPtr);
-      temp.erase(temp.size() - 1); // remove the trailing :
+      string temp = *labelPtr;
       pair<string, int> value(temp, currentLine);
       LABEL_LOCATIONS.insert(value);
     }
 
-    if(opcode != NULL) // an opcode is on the line, so increase line number
+    if(*opcodePtr != NULL) // an opcode is on the line, so increase line number
     {
-      currentLine++;
+      // this is a psudo instruction that takes two instructions to create.
+      if(strcmp(*opcodePtr, LOAD_LBL) == 0)
+	currentLine += 2;
+      else 
+       currentLine++;
     }
   }
 }
@@ -83,8 +93,9 @@ int main(int argc, char *argv[])
 {
   char *inFileString, *outFileString;
   FILE *inFilePtr, *outFilePtr;
-  char *label, *opcode, *arg0, *arg1, *arg2;
+  char *label, *opcode, *arg0, *arg1;
   char lineString[MAXLINELENGTH + 1];
+  char writeBuff[WRITEBUFFLENGTH];
 
   if (argc != 3) {
     printf("error: usage: %s <assembly-code-file> <output-file>\n", argv[0]);
@@ -105,14 +116,67 @@ int main(int argc, char *argv[])
     return 1; // exit
   }
 
-  int currentLocation = 0;
-  while( readAndParse(inFilePtr, lineString, &label,
-                      &opcode, &arg0, &arg1) != NULL )
-  {
+  // find all labels and add them to the label table
+  LocateLabels(inFilePtr, lineString, &label, &opcode, &arg0, &arg1);
+  rewind(inFilePtr);
+
+#ifdef DEBUG
+  printf("PRINTING LABEL INFORMATION:\n");
+  map<string, int>::iterator it = LABEL_LOCATIONS.begin();
+  for( ; it != LABEL_LOCATIONS.end(); it++)
+    printf("%s => 0x%x\n", (*it).first.data(), (*it).second);
+#endif
+  
+
+  int lineNumber = 0;
+  while(readAndParse(inFilePtr, lineString, &label, &opcode, &arg0, &arg1)
+         != NULL)
+  { 
     
+    short data = 0;
 
+    // will only enter if there is an opcode
+    if(opcode != NULL)
+    {
+      if(strcmp(opcode, ".fill") == 0)
+      {
+	// try to read it has hex first, if that does not work, try again with dec
+	long t = strtol(arg0, NULL, 16);
+	data = (short) t;
+	if((long) data != t)
+	{
+	  printf("ERROR: UNABLE TO PARSE CONSTANT ON LINE: %d, is it under 16 bits?\n%d: %s", 
+                 lineNumber, lineNumber, lineString);
+	  exit(0);
+	}
+	if(data == 0)
+	{
+	  t = strtol(arg0, NULL, 10);
+          data = (short) t;
+          if((long) data != t)
+          {
+	    printf("ERROR: UNABLE TO PARSE CONSTANT ON LINE: %d, is it under 16 bits?\n%d: %s", 
+                 lineNumber, lineNumber, lineString);
+            exit(0);
+	  }
+	}
+      }
+      else{
+	printf("%s not supported yet\n", opcode);
+      }  
+      
+
+
+      // write the information to the file.  Each entry seperated by newline
+	sprintf(writeBuff, "%x\n", data);
+	//      itoa (data, writeBuff, 16);
+      fputs(writeBuff, outFilePtr);
+      //      fputs("\n", outFilePtr);
+
+    }
+
+    lineNumber++;
   }
-
   
   return 0;
 }

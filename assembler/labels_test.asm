@@ -1,0 +1,5 @@
+L1:	.fill 0x0001
+	.fill 0x0002
+L2:	.fill 0x0003
+L3:
+L4:	.fill 0x0004
