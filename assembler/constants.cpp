@@ -1,3 +1,5 @@
+#include "constants.h"
+
 // definitions of special instructions
 const char* LOAD_LBL   = "LOAD_LBL";
 // what this ability does is hard coded into the assembler
@@ -40,8 +42,8 @@ const int   ADD_OPCODE = 0x0;
 const int   ADD_OPEXT  = 0xA;
 
 const char* CMP_STR    = "CMP";
-const int   CMP_OPCODE = 0x0;
-const int   CMP_OPEXT  = 0xB;
+const int   CMP_OPCODE = 0x3;
+//const int   CMP_OPEXT  = 0xB;
 
 const char* LSH_STR    = "LSH";
 const int   LSH_OPCODE = 0x0;
@@ -55,8 +57,8 @@ const char* RSH_STR    = "RSH";
 const int   RSH_OPCODE = 0x0;
 const int   RSH_OPEXT  = 0xE;
 
-const char* CMPUI_STR  = "CMPUI";
-const int   CMPUI_OPCODE = 0x1;
+//const char* CMPUI_STR  = "CMPUI";
+//const int   CMPUI_OPCODE = 0x1;
 
 const char* NOP_STR  = "NOP";
 const int   NOP_OPCODE = 0x2;
@@ -82,19 +84,19 @@ const int   JUMP_OPCODE = 0x4;
 const int   JUMP_OPEXT  = 0x4;
 
 const char* ADDI_STR  = "ADDI";
-const int   ADDI_OPCODE = 0x0;
+const int   ADDI_OPCODE = 0x5;
 
 const char* ADDUI_STR  = "ADDUI";
-const int   ADDUI_OPCODE = 0x0;
+const int   ADDUI_OPCODE = 0x6;
 
 const char* MOVIU_STR  = "MOVIU";
-const int   MOVIU_OPCODE = 0x0;
+const int   MOVIU_OPCODE = 0x7;
 
 const char* MOVI_STR  = "MOVI";
-const int   MOVI_OPCODE = 0x0;
+const int   MOVI_OPCODE = 0x8;
 
 const char* SUBI_STR  = "SUBI";
-const int   SUBI_OPCODE = 0x0;
+const int   SUBI_OPCODE = 0x9;
 
 const char* CMPI_STR  = "CMPI";
-const int   CMPI_OPCODE = 0x0;
+const int   CMPI_OPCODE = 0xA;

@@ -1,9 +1,9 @@
 CC = g++
 CXXFLAGS += -g -Wall
 
-asmC16: asmC16.cpp command_converter.o
+asmC16: asmC16.cpp command_converter.o constants.o
 
-command_converter.o:
+command_converter.o: constants.o
 
 constants.o:
 

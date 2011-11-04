@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
          != NULL)
   { 
     
-    short data = 0;
+    unsigned data = 0;
 
     // will only enter if there is an opcode
     if(opcode != NULL)
@@ -141,34 +141,38 @@ int main(int argc, char *argv[])
       if(strcmp(opcode, ".fill") == 0)
       {
 	// try to read it has hex first, if that does not work, try again with dec
-	long t = strtol(arg0, NULL, 16);
+	long t = strtol(arg0, NULL, 10);
 	data = (short) t;
-	if((long) data != t)
-	{
-	  printf("ERROR: UNABLE TO PARSE CONSTANT ON LINE: %d, is it under 16 bits?\n%d: %s", 
-                 lineNumber, lineNumber, lineString);
-	  exit(0);
-	}
+	//	if((long) data != t)
+	//	{
+	//	  printf("ERROR: UNABLE TO PARSE CONSTANT ON LINE: %d, is it under 16 bits?\n%d: %s", 
+	//                 lineNumber, lineNumber, lineString);
+	//	  exit(0);
+	//	}
 	if(data == 0)
 	{
-	  t = strtol(arg0, NULL, 10);
+	  t = strtol(arg0, NULL, 16);
           data = (short) t;
-          if((long) data != t)
-          {
-	    printf("ERROR: UNABLE TO PARSE CONSTANT ON LINE: %d, is it under 16 bits?\n%d: %s", 
-                 lineNumber, lineNumber, lineString);
-            exit(0);
-	  }
+	  //          if((long) data != t)
+	  //          {
+	  //	    printf("ERROR: UNABLE TO PARSE CONSTANT ON LINE: %d, is it under 16 bits?\n%d: %s", 
+	  //                 lineNumber, lineNumber, lineString);
+	  //            exit(0);
+	  //	  }
 	}
       }
+      ////////////////////////
       else{
+	//	int instruction = getEncodedInstruction(
 	printf("%s not supported yet\n", opcode);
       }  
       
 
 
       // write the information to the file.  Each entry seperated by newline
-	sprintf(writeBuff, "%x\n", data);
+      data <<= 16;
+      data >>= 16;
+      sprintf(writeBuff, "%x\n", data);
 	//      itoa (data, writeBuff, 16);
       fputs(writeBuff, outFilePtr);
       //      fputs("\n", outFilePtr);
