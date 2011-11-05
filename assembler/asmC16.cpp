@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
       }
       else if(strcmp(opcode, LOAD_LBL) == 0)
       {
-	int reg = GetRegisterValue(*arg1);
+	int reg = GetRegisterValue(arg1);
 	if( LABEL_LOCATIONS.count(arg0) == 0)
 	{
 	  printf("ERROR: UNKNOWN REFERENCE %s ON LINE %d", arg0, lineNumber);
@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
 	  printf("ERROR: UNKNOWN REGISTER %s ON LINE %d", arg1, lineNumber);
 	  exit(-1);
 	}
-	unsigned label = LABEL_LOCATIONS.find(arg0);
+	unsigned int label = LABEL_LOCATIONS.find(arg0)->second;
 	  // the way the code is organized, this will do a 'pre push' and at the end of the block the other data will be written.  Funny, but it words.
 
       // do moviu to put upper bits of address in the reg
