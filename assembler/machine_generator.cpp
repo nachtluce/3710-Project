@@ -3,6 +3,7 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 #include "constants.h"
 #include "command_converter.hpp"
@@ -299,7 +300,7 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1)
     char immediate = (char) getImm(*arg0);
     int dst = GetRegisterValue(*arg1);
 
-    data = (opcode << 12) | (immediate << 4) | dst;
+    data = (opcode << 12) | ( (immediate) << 4) | dst;
   }
   // SUBI instruction (immediate)
   else if( opcode == SUBI_OPCODE )

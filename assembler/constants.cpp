@@ -1,7 +1,7 @@
 #include "constants.h"
 
 // definitions of special instructions
-const char* LOAD_LBL   = "LOAD_LBL";
+const char* LOAD_LBL   = "LOADLBL";
 // what this ability does is hard coded into the assembler
 
 // definitioins of assembly intertuctions

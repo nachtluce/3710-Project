@@ -26,7 +26,8 @@ int GetRegisterValue(char *reg)
     return -1;
 
   // This supports using "r#" or just "#" for the value of a register
-  if( reg[0] == 'r' )
+  // capital R is supported so codding can be done with CAPS-lock on
+  if( reg[0] == 'r' || reg[0] == 'R')
     reg++;
 
   int chk = sscanf( reg, "%d", &value);
