@@ -12,6 +12,7 @@
 
 #include "constants.h"
 #include "command_converter.hpp"
+#include "machine_generator.hpp"
 
 using namespace std;
 
@@ -128,7 +129,7 @@ int main(int argc, char *argv[])
 #endif
   
 
-  int lineNumber = 0;
+  int lineNumber = 1;
   while(readAndParse(inFilePtr, lineString, &label, &opcode, &arg0, &arg1)
          != NULL)
   { 
@@ -143,28 +144,21 @@ int main(int argc, char *argv[])
 	// try to read it has hex first, if that does not work, try again with dec
 	long t = strtol(arg0, NULL, 10);
 	data = (short) t;
-	//	if((long) data != t)
-	//	{
-	//	  printf("ERROR: UNABLE TO PARSE CONSTANT ON LINE: %d, is it under 16 bits?\n%d: %s", 
-	//                 lineNumber, lineNumber, lineString);
-	//	  exit(0);
-	//	}
 	if(data == 0)
 	{
 	  t = strtol(arg0, NULL, 16);
           data = (short) t;
-	  //          if((long) data != t)
-	  //          {
-	  //	    printf("ERROR: UNABLE TO PARSE CONSTANT ON LINE: %d, is it under 16 bits?\n%d: %s", 
-	  //                 lineNumber, lineNumber, lineString);
-	  //            exit(0);
-	  //	  }
 	}
       }
       ////////////////////////
       else{
-	//	int instruction = getEncodedInstruction(
-	printf("%s not supported yet\n", opcode);
+      	int instruction = getEncodedInstruction(&opcode, &arg0, &arg1);
+	if(instruction == -1)
+	  {
+	    printf("ERROR: unable to parse line %d\n%d: %s", lineNumber, lineNumber, lineString);
+	    exit(-1);
+	  }
+	data = instruction;
       }  
       
 
@@ -172,11 +166,8 @@ int main(int argc, char *argv[])
       // write the information to the file.  Each entry seperated by newline
       data <<= 16;
       data >>= 16;
-      sprintf(writeBuff, "%x\n", data);
-	//      itoa (data, writeBuff, 16);
+      sprintf(writeBuff, "%04x\n", data);
       fputs(writeBuff, outFilePtr);
-      //      fputs("\n", outFilePtr);
-
     }
 
     lineNumber++;
