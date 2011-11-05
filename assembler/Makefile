@@ -1,5 +1,5 @@
 CC = g++
-CXXFLAGS += -g -Wall
+CXXFLAGS += -g -Wall -DDEBUG
 
 asmC16: asmC16.cpp command_converter.o constants.o machine_generator.o
 

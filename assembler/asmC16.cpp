@@ -141,14 +141,51 @@ int main(int argc, char *argv[])
     {
       if(strcmp(opcode, ".fill") == 0)
       {
-	// try to read it has hex first, if that does not work, try again with dec
-	long t = strtol(arg0, NULL, 10);
-	data = (short) t;
-	if(data == 0)
-	{
-	  t = strtol(arg0, NULL, 16);
-          data = (short) t;
+	// if it is not the end location, that means this is referencing a label
+       	if(LABEL_LOCATIONS.count(arg0) > 0)
+	{// if it can be found in the table, this means it will be in the table
+	  data = (LABEL_LOCATIONS.find(arg0))->second;
 	}
+        else
+	{
+	 // try to read it has hex first, if that does not work, try again with dec
+	  long t = strtol(arg0, NULL, 10);
+	  data = (short) t;
+	  if(data == 0)
+	  {
+	    t = strtol(arg0, NULL, 16);
+            data = (short) t;
+	    if(data == 0)
+	      {
+		printf("WARNING: on line %d a reference was made that was resolved to 0", lineNumber);
+	      }
+	  }
+	}
+      }
+      else if(strcmp(opcode, LOAD_LBL) == 0)
+      {
+	int reg = GetRegisterValue(*arg1);
+	if( LABEL_LOCATIONS.count(arg0) == 0)
+	{
+	  printf("ERROR: UNKNOWN REFERENCE %s ON LINE %d", arg0, lineNumber);
+	  exit(-1);
+	}
+	if( reg == -1 )
+	{
+	  printf("ERROR: UNKNOWN REGISTER %s ON LINE %d", arg1, lineNumber);
+	  exit(-1);
+	}
+	unsigned label = LABEL_LOCATIONS.find(arg0);
+	  // the way the code is organized, this will do a 'pre push' and at the end of the block the other data will be written.  Funny, but it words.
+
+      // do moviu to put upper bits of address in the reg
+      
+      unsigned short tempData = (MOVIU_OPCODE << 12) | ( (label >> 4) & 0x0FF0) | reg;
+      sprintf(writeBuff, "%04x\n", tempData);
+      fputs(writeBuff, outFilePtr);
+	 
+      // now set data to write the lower bits
+      data = (MOVI_OPCODE << 12) | ( (label << 4) & 0x0FF0) | reg;
       }
       ////////////////////////
       else{
@@ -161,8 +198,6 @@ int main(int argc, char *argv[])
 	data = instruction;
       }  
       
-
-
       // write the information to the file.  Each entry seperated by newline
       data <<= 16;
       data >>= 16;
