@@ -293,6 +293,14 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1)
 
     data = (opcode << 12) | (immediate << 4) | dst;
   } 
+  // MOVI instruction (immediate)
+  else if( opcode == MOVI_OPCODE )
+  {
+    char immediate = (char) getImm(*arg0);
+    int dst = GetRegisterValue(*arg1);
+
+    data = (opcode << 12) | (immediate << 4) | dst;
+  }
   // SUBI instruction (immediate)
   else if( opcode == SUBI_OPCODE )
   {
