@@ -40,7 +40,7 @@ begin
 		end
 	else
 		begin
-		PC <= 0;
+		PC <= PC;
 		end
 end
 
