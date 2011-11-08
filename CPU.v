@@ -27,6 +27,8 @@ module CPU(
     output [15:0] Data_Out
     );
 	 
+	 assign Data_Out = 16'H0000;
+	 
 	 wire [15:0] INS_TO_CPU;
 	 wire [4:0] PSR_TO_CPU;
 	 wire [3:0] OpCode;
@@ -57,6 +59,6 @@ module CPU(
 	 Processor_Status_Register psr( Clock, PSRReset, ALU_TO_PSR, PSR_TO_CPU);
 	 Reg16 InstructionRegister( Clock, IRReset,IRWrite, Mem_Data, INS_TO_CPU);
 
-	 assign Mem_Data = S;
+	 // assign Mem_Data = S; <- can't assign an input.
 	 
 endmodule

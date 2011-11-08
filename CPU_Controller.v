@@ -52,7 +52,18 @@ module CPU_Controller(
 	begin
 		if (~Reset)
 		begin
-			state = 0;
+			state <= 0;
+		end
+		else
+		begin
+			state <= ~state;
+		end
+	end
+	
+	always@(*)
+	begin
+		if (~Reset)
+		begin
 			OpCode = 0;
 			OpExt = 0;
 			RegWrite = 0;
@@ -71,14 +82,9 @@ module CPU_Controller(
 			IRWrite = 0;
 			PSRReset = 0;
 		end
-		else
+		else // else don't reset
 		begin
-			state = ~state;
-		end
-	end
 	
-	always@(*)
-	begin
 		// State 0 -- Fetch
 		if (~state)
 		begin
@@ -105,7 +111,7 @@ module CPU_Controller(
 		else
 			casex (INS[15:0])
 				// Register to Register ALU instructions
-				4'b0000:
+				16'b0000_xxxx_xxxx_xxxx:
 					begin
 						// Send instruction to ALU
 						OpCode = INS[15:12];
@@ -137,7 +143,7 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;							
 					end
-				4'b0011:
+				16'b0011_xxxx_xxxx_xxxx:
 				begin 
 					// CMP
 						// Send instruction to ALU
@@ -170,7 +176,7 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;						
 				end
-				4'b0101:
+				16'b0101_xxxx_xxxx_xxxx:
 				begin
 					//ADDI
 						// Send instruction to ALU
@@ -204,7 +210,7 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
 				end
-				4'b0110:
+				16'b0110_xxxx_xxxx_xxxx:
 				begin
 					//ADDUI
 						// Send instruction to ALU
@@ -238,7 +244,7 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
 				end
-				4'b0111:
+				16'b0111_xxxx_xxxx_xxxx:
 				begin
 					//MOVIU
 						// Send instruction to ALU
@@ -272,7 +278,7 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
 				end		
-				4'b1000:
+				16'b1000_xxxx_xxxx_xxxx:
 				begin
 					//MOVI
 						// Send instruction to ALU
@@ -306,7 +312,7 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
 				end
-				4'b1001:
+				16'b1001_xxxx_xxxx_xxxx:
 				begin
 					//SUBI
 						// Send instruction to ALU
@@ -340,7 +346,7 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
 				end				
-				4'b1011:
+				16'b1011_xxxx_xxxx_xxxx:
 				begin 
 					// CMPI
 						// Send instruction to ALU
@@ -373,7 +379,7 @@ module CPU_Controller(
 						IRReset = 1'b1;
 						PSRReset = 1'b1;						
 				end
-				4'bXXXX:
+				16'bXXXX_XXXX_XXXX_XXXX:
 				begin
 					// Do nothing!
 						// Send instruction to ALU
@@ -407,7 +413,6 @@ module CPU_Controller(
 						PSRReset = 1'b1;					
 				end
 			endcase
-		begin
 		end
 	end
 	
