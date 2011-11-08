@@ -30,7 +30,7 @@ module CPU_with_Memory_Test(
 	 wire Memwrite;
 	 
 	 CPU c(Clock, Reset, data_out, mem_addr, Memwrite, data_in);
-	 blk_mem_gen_v6_1 mem(Clock, Memwrite, mem_addr[13:0], data_in, data_out);
+	 blk_mem_gen_v6_1 mem(~Clock, Memwrite, mem_addr[13:0], data_in, data_out);
 
 
 endmodule

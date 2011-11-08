@@ -39,7 +39,7 @@ const int   SUB_OPEXT  = 0x9;
 
 const char* ADD_STR    = "ADD";
 const int   ADD_OPCODE = 0x0;
-const int   ADD_OPEXT  = 0xA;
+const int   ADD_OPEXT  = 0x5;
 
 const char* CMP_STR    = "CMP";
 const int   CMP_OPCODE = 0x3;
