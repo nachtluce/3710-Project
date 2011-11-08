@@ -130,6 +130,7 @@ int main(int argc, char *argv[])
   
 
   int lineNumber = 1;
+  int codeLine   = 0;
   while(readAndParse(inFilePtr, lineString, &label, &opcode, &arg0, &arg1)
          != NULL)
   { 
@@ -183,6 +184,7 @@ int main(int argc, char *argv[])
       unsigned short tempData = (MOVIU_OPCODE << 12) | ( (label >> 4) & 0x0FF0) | reg;
       sprintf(writeBuff, "%04x\n", tempData);
       fputs(writeBuff, outFilePtr);
+      codeLine++;
 	 
       // now set data to write the lower bits
       data = (MOVI_OPCODE << 12) | ( (label << 4) & 0x0FF0) | reg;
@@ -204,7 +206,7 @@ int main(int argc, char *argv[])
       sprintf(writeBuff, "%04x\n", data);
       fputs(writeBuff, outFilePtr);
     }
-
+    codeLine++;
     lineNumber++;
   }
   

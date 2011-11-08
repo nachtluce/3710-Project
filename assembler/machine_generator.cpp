@@ -198,17 +198,13 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1)
   else if( opcode == CMP_OPCODE)
 //      && opext == CMP_OPEXT)
   {
-    printf("ERROR: CMP instruction must be clarified in implementation\nExiting");
-    exit(0);
-    /*
     int srcReg = GetRegisterValue(*arg0);
     int dstReg = GetRegisterValue(*arg1);
     if(srcReg == -1 || dstReg == -1)
       return -1;
 
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
+    data = (opcode << 12) | (srcReg << 4) | dstReg;
     return data;
-    */
   }
   // LOAD instruction (Register?)
   else if( opcode == LOAD_OPCODE
