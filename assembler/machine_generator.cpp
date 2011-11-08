@@ -6,8 +6,8 @@
 #include <iostream>
 
 #include "constants.h"
-#include "command_converter.hpp"
-#include "machine_generator.hpp"
+#include "command_converter.h"
+#include "machine_generator.h"
 
 using namespace std;
 

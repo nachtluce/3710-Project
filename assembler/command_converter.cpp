@@ -10,7 +10,7 @@
 #include <stdio.h>
 
 #include "constants.h"
-#include "command_converter.hpp"
+#include "command_converter.h"
 
 using namespace std;
 
