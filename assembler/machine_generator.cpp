@@ -60,6 +60,7 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
   || opcode == RSH_OPCODE  && opext== RSH_OPEXT
   || opcode == LOAD_OPCODE && opext== LOAD_OPEXT
   || opcode ==STORE_OPCODE && opext==STORE_OPEXT
+  || opcode == JUMP_OPCODE && opext== JUMP_OPEXT
      ){
     int srcReg = GetRegisterValue(*arg0);
     int dstReg = GetRegisterValue(*arg1);
@@ -82,6 +83,16 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
 
     data = (opcode << 12) | (immediate << 4) | dst;
   }
+  else if(
+     opcode == BGE_OPCODE && opext == BGE_OPEXT
+  || opcode == BGEU_OPCODE && opext == BGEU_OPEXT
+  || opcode == BEQ_OPCODE && opext == BEQ_OPEXT
+  || opcode == BL_OPCODE  && opext == BL_OPEXT
+  || opcode == BLU_OPCODE && opext == BLU_OPCODE
+  ){
+    // for branch, nothing else is needed
+    data = (opcode << 12) | (opext << 8);
+  }
   // jumpBI / JumpF1
   else if(
      opcode == JGE_OPCODE
@@ -90,284 +101,9 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
   || opcode == JL_OPCODE
   || opcode == JLU_OPCODE
      )
-    {
+  {
       printf("STILL NEED TO WORK ON JUMP\n");
-    }
-
-  /*
-  // AND instruction (Register)
-  if( opcode == AND_OPCODE
-      && opext == AND_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
   }
-  // OR instruction (Register)
-  else if( opcode == OR_OPCODE
-      && opext == OR_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // XOR instruction (Register)
-  else if( opcode == XOR_OPCODE
-      && opext == XOR_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // NOT instruction (Register)
-  else if( opcode == NOT_OPCODE
-      && opext == NOT_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // ADDU instruction (Register)
-  else if( opcode == ADDU_OPCODE
-      && opext == ADDU_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // ALSH instruction (Register)
-  else if( opcode == ALSH_OPCODE
-      && opext == ALSH_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // ARSH instruction (Register)
-  else if( opcode == ARSH_OPCODE
-      && opext == ARSH_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // SUB instruction (Register)
-  else if( opcode == SUB_OPCODE
-      && opext == SUB_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // ADD instruction (Register)
-  else if( opcode == ADD_OPCODE
-      && opext == ADD_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // LSH instruction (Register)
-  else if( opcode == LSH_OPCODE
-      && opext == LSH_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // MOV instruction (Register)
-  else if( opcode == MOV_OPCODE
-      && opext == MOV_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // RSH instruction (Register)
-  else if( opcode == RSH_OPCODE
-      && opext == RSH_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // NOP instruction (???)
-  else if( opcode == NOP_OPCODE )
-  {
-      data = (opcode << 12);
-      return data;
-  }
-  // CMP instruction (??)
-  else if( opcode == CMP_OPCODE)
-//      && opext == CMP_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // LOAD instruction (Register?)
-  else if( opcode == LOAD_OPCODE
-      && opext == LOAD_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // STORE instruction (Register?)
-  else if( opcode == STORE_OPCODE
-      && opext == STORE_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  */
-  // BCOND instruction (Register?)
-  else if( opcode == STORE_OPCODE
-      && opext == STORE_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // JCOND instruction (Register?)
-  else if( opcode == STORE_OPCODE
-      && opext == STORE_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // JUMP instruction (JAL)
-  else  if( opcode == JUMP_OPCODE
-      && opext == JUMP_OPEXT)
-  {
-    int srcReg = GetRegisterValue(*arg0);
-    int dstReg = GetRegisterValue(*arg1);
-    if(srcReg == -1 || dstReg == -1)
-      return -1;
-
-    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
-    return data;
-  }
-  // ADDi instruction (immediate)
-  else if( opcode == ADDI_OPCODE )
-  {
-    char immediate = (char) getImm(*arg0);
-    int  dst = GetRegisterValue(*arg1);
-
-    data = (opcode << 12) | (immediate << 4) | dst;
-  } 
-  // ADDUI instruction (immediate)
-  else if( opcode == ADDUI_OPCODE )
-  {
-    char immediate = (char) getImm(*arg0);
-    int  dst = GetRegisterValue(*arg1);
-
-    data = (opcode << 12) | (immediate << 4) | dst;
-  } 
-  // MOVIU instruction (immediate)
-  else if( opcode == MOVIU_OPCODE )
-  {
-    char immediate = (char) getImm(*arg0);
-    int  dst = GetRegisterValue(*arg1);
-
-    data = (opcode << 12) | (immediate << 4) | dst;
-  } 
-  // MOVI instruction (immediate)
-  else if( opcode == MOVI_OPCODE )
-  {
-    char immediate = (char) getImm(*arg0);
-    int dst = GetRegisterValue(*arg1);
-
-    data = (opcode << 12) | ( (immediate) << 4) | dst;
-  }
-  // SUBI instruction (immediate)
-  else if( opcode == SUBI_OPCODE )
-  {
-    char immediate = (char) getImm(*arg0);
-    int  dst = GetRegisterValue(*arg1);
-
-    data = (opcode << 12) | (immediate << 4) | dst;
-  }
-  // CMPI instruction (immediate)
-  else if( opcode == CMPI_OPCODE )
-  {
-    char immediate = (char) getImm(*arg0);
-    int  dst = GetRegisterValue(*arg1);
-
-    data = (opcode << 12) | (immediate << 4) | dst;
-  }
-  else
-    data = -1;
 
   return data;
 }
