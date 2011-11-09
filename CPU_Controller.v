@@ -130,7 +130,7 @@ module CPU_Controller(
 						// Select Registers A as ALU input
 						SelALU = 2'b01; 
 						// Don't care about the memory address
-						SelMEM = 2'b00; 
+						SelMEM = 1'b0; 
 						// Don't write to memory
 						MemRW = 1'b0;
 						// Don't write to Instruction register
@@ -163,7 +163,7 @@ module CPU_Controller(
 						// Select Registers A as ALU input
 						SelALU = 2'b01; 
 						// Don't care about the memory address
-						SelMEM = 2'b00; 
+						SelMEM = 1'b0; 
 						// Don't write to memory
 						MemRW = 1'b0;
 						// Don't write to Instruction register
@@ -196,7 +196,7 @@ module CPU_Controller(
 						// Select Immediate as ALU input
 						SelALU = 2'b00; 
 						// Don't care about the memory address
-						SelMEM = 2'b00; 
+						SelMEM = 1'b0; 
 						// Don't write to memory
 						MemRW = 1'b0;
 						// Don't write to Instruction register
@@ -230,7 +230,7 @@ module CPU_Controller(
 						// Select Immediate as ALU input
 						SelALU = 2'b00; 
 						// Don't care about the memory address
-						SelMEM = 2'b00; 
+						SelMEM = 1'b0; 
 						// Don't write to memory
 						MemRW = 1'b0;
 						// Don't write to Instruction register
@@ -264,7 +264,7 @@ module CPU_Controller(
 						// Select Immediate as ALU input
 						SelALU = 2'b00; 
 						// Don't care about the memory address
-						SelMEM = 2'b00; 
+						SelMEM = 1'b0; 
 						// Don't write to memory
 						MemRW = 1'b0;
 						// Don't write to Instruction register
@@ -298,7 +298,7 @@ module CPU_Controller(
 						// Select Immediate as ALU input
 						SelALU = 2'b00; 
 						// Don't care about the memory address
-						SelMEM = 2'b00; 
+						SelMEM = 1'b0; 
 						// Don't write to memory
 						MemRW = 1'b0;
 						// Don't write to Instruction register
@@ -332,7 +332,7 @@ module CPU_Controller(
 						// Select Immediate as ALU input
 						SelALU = 2'b00; 
 						// Don't care about the memory address
-						SelMEM = 2'b00; 
+						SelMEM = 1'b0; 
 						// Don't write to memory
 						MemRW = 1'b0;
 						// Don't write to Instruction register
@@ -366,7 +366,7 @@ module CPU_Controller(
 						// Select Immediate as ALU input
 						SelALU = 2'b00; 
 						// Don't care about the memory address
-						SelMEM = 2'b00; 
+						SelMEM = 1'b0; 
 						// Don't write to memory
 						MemRW = 1'b0;
 						// Don't write to Instruction register
@@ -378,6 +378,72 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;						
+				end
+				16'b0100_0000_XXXX_XXXX:
+				begin
+					// Load
+						// Send instruction to ALU (Move)
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
+						// Enable Registers to write
+						RegWrite = 1'b1;
+						// Set the write to register
+						RegIn = INS[3:0];
+						// Set the operands
+						RegA = 4'h0;
+						RegB = INS[7:4];
+						// The PC should increment by one 
+						PCImmediate = 8'h01;
+						// Set immediate value
+						Immediate = 16'h0000; 
+						// Select Immediate as memory data out
+						SelALU = 2'b10; 
+						// Memory address coming from the B register
+						SelMEM = 1'b1; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;					
+				end
+				16'b0100_0001_XXXX_XXXX:
+				begin
+					// Store
+						// Send instruction to ALU (Move)
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
+						// Disable Register write
+						RegWrite = 1'b0;
+						// Set the write to register
+						RegIn = 4'h0;
+						// Set the operands
+						RegA = INS[3:0];
+						RegB = INS[7:4];
+						// The PC should increment by one 
+						PCImmediate = 8'h01;
+						// Set immediate value
+						Immediate = 16'h0000; 
+						// Select ALU input as reg A
+						SelALU = 2'b00; 
+						// Memory address coming from the B register
+						SelMEM = 1'b1; 
+						// Do write to memory
+						MemRW = 1'b1;
+						// Do write to Instruction register
+						IRWrite = 1'b1;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;					
 				end
 				16'bXXXX_XXXX_XXXX_XXXX:
 				begin
