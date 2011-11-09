@@ -38,12 +38,63 @@ char getImm(char *imm)
   return data;
 }
 
-int getEncodedInstruction(char **instruction, char **arg0, char **arg1)
+int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int CodeLine)
 {
   int opcode = GetOpCode(*instruction);
   int opext  = GetOpExt(*instruction);
   int data = 0;
 
+  // register instructions
+  if(
+     opcode == AND_OPCODE && opext == AND_OPEXT
+  || opcode == OR_OPCODE  && opext == OR_OPEXT
+  || opcode == XOR_OPCODE && opext == XOR_OPEXT
+  || opcode == NOT_OPCODE && opext == NOT_OPEXT
+  || opcode == ADDU_OPCODE && opext== ADDU_OPEXT
+  || opcode == ALSH_OPCODE && opext== ALSH_OPEXT
+  || opcode == ARSH_OPCODE && opext== ARSH_OPEXT
+  || opcode == SUB_OPCODE  && opext== SUB_OPEXT
+  || opcode == ADD_OPCODE  && opext== ADD_OPEXT
+  || opcode == LSH_OPCODE  && opext== LSH_OPEXT
+  || opcode == MOV_OPCODE  && opext== MOV_OPEXT
+  || opcode == RSH_OPCODE  && opext== RSH_OPEXT
+  || opcode == LOAD_OPCODE && opext== LOAD_OPEXT
+  || opcode ==STORE_OPCODE && opext==STORE_OPEXT
+     ){
+    int srcReg = GetRegisterValue(*arg0);
+    int dstReg = GetRegisterValue(*arg1);
+    if(srcReg == -1 || dstReg == -1)
+      return -1;
+
+    data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
+    return data;
+  }
+  // immediate
+  else if( 
+     opcode == ADDUI_OPCODE
+  || opcode == MOVIU_OPCODE
+  || opcode == MOVI_OPCODE
+  || opcode == SUBI_OPCODE
+  || opcode == CMPI_OPCODE
+      ){
+    char immediate = (char) getImm(*arg0);
+    int  dst = GetRegisterValue(*arg1);
+
+    data = (opcode << 12) | (immediate << 4) | dst;
+  }
+  // jumpBI / JumpF1
+  else if(
+     opcode == JGE_OPCODE
+  || opcode == JGEU_OPCODE
+  || opcode == JEQ_OPCODE
+  || opcode == JL_OPCODE
+  || opcode == JLU_OPCODE
+     )
+    {
+      printf("STILL NEED TO WORK ON JUMP\n");
+    }
+
+  /*
   // AND instruction (Register)
   if( opcode == AND_OPCODE
       && opext == AND_OPEXT)
@@ -230,6 +281,7 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1)
     data = (opcode << 12) | (opext << 8) | (srcReg << 4) | dstReg;
     return data;
   }
+  */
   // BCOND instruction (Register?)
   else if( opcode == STORE_OPCODE
       && opext == STORE_OPEXT)
