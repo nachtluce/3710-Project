@@ -93,7 +93,7 @@ always@(A,B,opcode,opext)//,carry)
 		begin
 			CLFZN = 0;
 			// Overflow if neg - pos = pos or pos - neg = neg
-			S = A - B;			
+			S = B - A;			
 			if( A[15] != B[15] && B[15] == S[15]) CLFZN[2] = 1'b1;  
 		end
 		
@@ -101,7 +101,7 @@ always@(A,B,opcode,opext)//,carry)
 		begin
 			CLFZN = 0;
 			// Overflow if neg - pos = pos or pos - neg = neg
-			S = A - B;			
+			S = B - A;			
 			if( A[15] != B[15] && B[15] == S[15]) CLFZN[2] = 1'b1;  
 		end 
 		
