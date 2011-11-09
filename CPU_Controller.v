@@ -399,7 +399,7 @@ module CPU_Controller(
 						// Select Immediate as memory data out
 						SelALU = 2'b10; 
 						// Memory address coming from the B register
-						SelMEM = 1'b1; 
+						SelMEM = 1'b0; 
 						// Don't write to memory
 						MemRW = 1'b0;
 						// Don't write to Instruction register
@@ -432,7 +432,7 @@ module CPU_Controller(
 						// Select ALU input as reg A
 						SelALU = 2'b00; 
 						// Memory address coming from the B register
-						SelMEM = 1'b1; 
+						SelMEM = 1'b0; 
 						// Do write to memory
 						MemRW = 1'b1;
 						// Do write to Instruction register
