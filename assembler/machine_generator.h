@@ -8,6 +8,6 @@
   The first argument is the name of the instruction
   The second and third arguments are the arguments for the instruction
  */
-int getEncodedInstruction(char**, char**, char**);
+int getEncodedInstruction(char**, char**, char**, int);
 
 #endif

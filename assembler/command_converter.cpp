@@ -117,7 +117,7 @@ int GetOpExt(char *op)
   RETURN_OP_MATCH( JEQ_STR, JEQ_OPEXT );
   RETURN_OP_MATCH( JL_STR, JL_OPEXT );
   RETURN_OP_MATCH( JLU_STR, JLU_OPEXT );  
-  RETURN_OP_MATCH( JUMP_STR, JUMP_OPEXT );
+  //  RETURN_OP_MATCH( JUMP_STR, JUMP_OPEXT );
 
   // if no opext can be found, return -1 to signal no result
   return -1;
