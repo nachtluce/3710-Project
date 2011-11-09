@@ -1,4 +1,4 @@
-/*
+ /*
 
  */
 
@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
       }
       ////////////////////////
       else{
-      	int instruction = getEncodedInstruction(&opcode, &arg0, &arg1);
+      	int instruction = getEncodedInstruction(&opcode, &arg0, &arg1, codeLine);
 	if(instruction == -1)
 	  {
 	    printf("ERROR: unable to parse line %d\n%d: %s", lineNumber, lineNumber, lineString);
