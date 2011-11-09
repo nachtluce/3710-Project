@@ -430,7 +430,7 @@ module CPU_Controller(
 						// Set immediate value
 						Immediate = 16'h0000; 
 						// Select ALU input as reg A
-						SelALU = 2'b00; 
+						SelALU = 2'b01; 
 						// Memory address coming from the B register
 						SelMEM = 1'b0; 
 						// Do write to memory

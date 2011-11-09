@@ -77,7 +77,7 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
      ||(opcode == SUBI_OPCODE)
      ||(opcode == CMPI_OPCODE)
       ){
-    char immediate = (char) getImm(*arg0);
+    int immediate = getImm(*arg0) & 0xFF;
     int  dst = GetRegisterValue(*arg1);
 
     data = (opcode << 12) | (immediate << 4) | dst;
