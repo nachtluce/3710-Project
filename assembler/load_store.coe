@@ -1,2 +1,2 @@
 memory_initialization_radix=16;
-memory_initialization_vector= 7001, 8071, 4012, 5011, 4013, 5011, 4014, 1111, 1122, 1333, 0000;
+memory_initialization_vector= 7001, 80e1, 4012, 5011, 4013, 5011, 4014, 5011, 4112, 5011, 4114, 5011, 4113, 5011, 1111, 1122, 1333, beef, dead, beef, dead, 0000;
