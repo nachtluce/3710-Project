@@ -520,7 +520,248 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+				end
+
+				16'b1010_0000_xxxx_xxxx:
+				begin
+					// JGE
+						OpCode = 4'h0;
+						OpExt = 4'h0;
+						// Disable Registers to write
+						RegWrite = 1'b0; 
+						// Set the write to register
+						RegIn = 4'b0;
+						// Set the operands
+						RegA = 4'b0;
+						RegB = 4'b0;
+						// The PC should increment by one  
+						if(PSR[3] || PSR[0])
+							PCImmediate = 8'h01;
+						else
+							PCImmediate = INS[7:0]; 
+						// Don't care about the immediate
+						Immediate = 16'h0000; 
+						// Select Registers A as ALU input
+						SelALU = 2'b01; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+				end
+				16'b1010_0001_xxxx_xxxx:
+				begin
+					// JHG
+						OpCode = 4'h0;
+						OpExt = 4'h0;
+						// Disable Registers to write
+						RegWrite = 1'b0; 
+						// Set the write to register
+						RegIn = 4'b0;
+						// Set the operands
+						RegA = 4'b0;
+						RegB = 4'b0;
+						// The PC should increment by one  
+						if(PSR[3] || PSR[2])
+							PCImmediate = 8'h01;
+						else
+							PCImmediate = INS[7:0]; 
+						// Don't care about the immediate
+						Immediate = 16'h0000; 
+						// Select Registers A as ALU input
+						SelALU = 2'b01; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+				end
+				16'b1010_0010_xxxx_xxxx:
+				begin
+					// JEQ
+						OpCode = 4'h0;
+						OpExt = 4'h0;
+						// Disable Registers to write
+						RegWrite = 1'b0; 
+						// Set the write to register
+						RegIn = 4'b0;
+						// Set the operands
+						RegA = 4'b0;
+						RegB = 4'b0;
+						// The PC should increment by one  
+						if(PSR[3])
+							PCImmediate = 8'h01;
+						else
+							PCImmediate = INS[7:0]; 
+						// Don't care about the immediate
+						Immediate = 16'h0000; 
+						// Select Registers A as ALU input
+						SelALU = 2'b01; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+				end
+				16'b1010_0011_xxxx_xxxx:
+				begin
+					// JLT
+						OpCode = 4'h0;
+						OpExt = 4'h0;
+						// Disable Registers to write
+						RegWrite = 1'b0; 
+						// Set the write to register
+						RegIn = 4'b0;
+						// Set the operands
+						RegA = 4'b0;
+						RegB = 4'b0;
+						// The PC should increment by one  
+						if(~PSR[3] && ~PSR[0])
+							PCImmediate = 8'h01;
+						else
+							PCImmediate = INS[7:0]; 
+						// Don't care about the immediate
+						Immediate = 16'h0000; 
+						// Select Registers A as ALU input
+						SelALU = 2'b01; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+				end
+				16'b1010_0100_xxxx_xxxx:
+				begin
+					// JLS
+						OpCode = 4'h0;
+						OpExt = 4'h0;
+						// Disable Registers to write
+						RegWrite = 1'b0; 
+						// Set the write to register
+						RegIn = 4'b0;
+						// Set the operands
+						RegA = 4'b0;
+						RegB = 4'b0;
+						// The PC should increment by one  
+						if(~PSR[2])
+							PCImmediate = 8'h01;
+						else
+							PCImmediate = INS[7:0]; 
+						// Don't care about the immediate
+						Immediate = 16'h0000; 
+						// Select Registers A as ALU input
+						SelALU = 2'b01; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
 				end				
+				16'b1100_0000_xxxx_xxxx:
+				begin
+					// JUMP
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
+						// Disable Registers to write
+						RegWrite = 1'b0; 
+						// Set the write to register
+						RegIn = 4'b0;
+						// Set the operands
+						RegA = INS[7:4];
+						RegB = 4'b0;
+						// The PC shouldn't increment 
+						PCImmediate = 8'h00;
+						// Don't care about the immediate
+						Immediate = 16'h0000; 
+						// Select Registers A as ALU input
+						SelALU = 2'b01; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b1;
+						PCIncrement = 1'b0; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+				end
+				16'b1100_0001_xxxx_xxxx:
+				begin
+					// Store PC
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
+						// Disable Registers to write
+						RegWrite = 1'b1; 
+						// Set the write to register
+						RegIn = INS[3:0];
+						// Set the operands
+						RegA = 4'b0;
+						RegB = 4'b0;
+						// The PC should increment 
+						PCImmediate = 8'h01;
+						// Don't care about the immediate
+						Immediate = 16'h0000; 
+						// Select PC Out as ALU input
+						SelALU = 2'b11; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+				end
+				
 				16'b1011_xxxx_xxxx_xxxx:
 				begin 
 					// CMPI
