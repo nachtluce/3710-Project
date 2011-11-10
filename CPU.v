@@ -51,7 +51,7 @@ module CPU(
 											PCReset, IRReset, IRWrite, PSRReset);
 	 RegFile2 rf(Clock, Reset, RegWrite, RegIn, RegA, RegB, S, A_to_Mux, B);
 	 ALUmod brain(A_to_ALU, B, OpCode, S, OpExt, ALU_TO_PSR);
-	 BusMux alu_mux(SelALU, Immediate, A_to_Mux, Mem_Data, A_to_ALU);
+	 BusMux alu_mux(SelALU, Immediate, A_to_Mux, Mem_Data, A_to_ALU, PC_OUT);
 	 Mux2 mem_mux(SelMEM, B, PC_OUT, Mem_Addr);
 	 program_counter pc(Clock, PCReset, PCIncrement, PCImmediate, S, PCWrite, PC_OUT);
 	 Processor_Status_Register psr( Clock, PSRReset, ALU_TO_PSR, PSR_TO_CPU);

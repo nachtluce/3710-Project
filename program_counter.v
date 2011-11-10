@@ -37,6 +37,7 @@ begin
 	else if(increment == 1'b1)
 		begin
 		PC <= PC + In;
+		PC <= {PC[15],PC[15:0]} + {{9{In[7]}},In[7:0]};
 		end
 	else
 		begin
