@@ -84,10 +84,10 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
   }
   else if(
     (opcode == BGE_OPCODE && opext == BGE_OPEXT)
-  ||(opcode == BGEU_OPCODE && opext == BGEU_OPEXT)
+  ||(opcode == BHG_OPCODE && opext == BHG_OPEXT)
   ||(opcode == BEQ_OPCODE && opext == BEQ_OPEXT)
-  ||(opcode == BL_OPCODE  && opext == BL_OPEXT)
-    ||(opcode == BLU_OPCODE && opext == BLU_OPEXT)
+  ||(opcode == BLT_OPCODE  && opext == BLT_OPEXT)
+    ||(opcode == BLS_OPCODE && opext == BLS_OPEXT)
   ){
     // for branch, nothing else is needed
     data = (opcode << 12) | (opext << 8);
@@ -95,10 +95,10 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
   // jumpBI / JumpF1
   else if(
      (opcode == JGE_OPCODE)
-     ||(opcode == JGEU_OPCODE)
+     ||(opcode == JHG_OPCODE)
      ||(opcode == JEQ_OPCODE)
-     ||(opcode == JL_OPCODE)
-     ||(opcode == JLU_OPCODE)
+     ||(opcode == JLT_OPCODE)
+     ||(opcode == JLS_OPCODE)
      )
   {
     //we have current location in Codeline

@@ -105,40 +105,40 @@ extern const char* JGE_STR;
 extern const int   JGE_OPCODE;
 extern const int   JGE_OPEXT;
 
-extern const char* JGEU_STR;
-extern const int   JGEU_OPCODE;
-extern const int   JGEU_OPEXT;
+extern const char* JHG_STR;
+extern const int   JHG_OPCODE;
+extern const int   JHG_OPEXT;
 
 extern const char* JEQ_STR;
 extern const int   JEQ_OPCODE;
 extern const int   JEQ_OPEXT;
 
-extern const char* JL_STR;
-extern const int   JL_OPCODE;
-extern const int   JL_OPEXT;
+extern const char* JLT_STR;
+extern const int   JLT_OPCODE;
+extern const int   JLT_OPEXT;
 
-extern const char* JLU_STR;
-extern const int   JLU_OPCODE;
-extern const int   JLU_OPEXT;
+extern const char* JLS_STR;
+extern const int   JLS_OPCODE;
+extern const int   JLS_OPEXT;
 
 extern const char* BGE_STR;
 extern const int   BGE_OPCODE;
 extern const int   BGE_OPEXT;
 
-extern const char* BGEU_STR;
-extern const int   BGEU_OPCODE;
-extern const int   BGEU_OPEXT;
+extern const char* BHG_STR;
+extern const int   BHG_OPCODE;
+extern const int   BHG_OPEXT;
 
 extern const char* BEQ_STR;
 extern const int   BEQ_OPCODE;
 extern const int   BEQ_OPEXT;
 
-extern const char* BL_STR;
-extern const int   BL_OPCODE;
-extern const int   BL_OPEXT;
+extern const char* BLT_STR;
+extern const int   BLT_OPCODE;
+extern const int   BLT_OPEXT;
 
-extern const char* BLU_STR;
-extern const int   BLU_OPCODE;
-extern const int   BLU_OPEXT;
+extern const char* BLS_STR;
+extern const int   BLS_OPCODE;
+extern const int   BLS_OPEXT;
 
 #endif

@@ -64,21 +64,21 @@ const char* BGE_STR     = "BGE";
 const int   BGE_OPCODE  = 0x1;
 const int   BGE_OPEXT   = 0x0;
 
-const char* BGEU_STR     = "BGEU";
-const int   BGEU_OPCODE  = 0x1;
-const int   BGEU_OPEXT   = 0x1;
+const char* BHG_STR     = "BHG";
+const int   BHG_OPCODE  = 0x1;
+const int   BHG_OPEXT   = 0x1;
 
 const char* BEQ_STR     = "BEQ";
 const int   BEQ_OPCODE  = 0x1;
 const int   BEQ_OPEXT   = 0x2;
 
-const char* BL_STR     = "BL";
-const int   BL_OPCODE  = 0x1;
-const int   BL_OPEXT   = 0x3;
+const char* BLT_STR     = "BLT";
+const int   BLT_OPCODE  = 0x1;
+const int   BLT_OPEXT   = 0x3;
 
-const char* BLU_STR     = "BLU";
-const int   BLU_OPCODE  = 0x1;
-const int   BLU_OPEXT   = 0x4;
+const char* BLS_STR     = "BLS";
+const int   BLS_OPCODE  = 0x1;
+const int   BLS_OPEXT   = 0x4;
 
 const char* NOP_STR    = "NOP";
 const int   NOP_OPCODE = 0x2;
@@ -95,21 +95,21 @@ const char* JGE_STR    = "JGE";
 const int   JGE_OPCODE = 0x4;
 const int   JGE_OPEXT  = 0x3;
 
-const char* JGEU_STR    = "JGEU";
-const int   JGEU_OPCODE = 0x4;
-const int   JGEU_OPEXT  = 0x3;
+const char* JHG_STR    = "JHG";
+const int   JHG_OPCODE = 0x4;
+const int   JHG_OPEXT  = 0x3;
 
 const char* JEQ_STR    = "JEQ";
 const int   JEQ_OPCODE = 0x4;
 const int   JEQ_OPEXT  = 0x3;
 
-const char* JL_STR    = "JL";
-const int   JL_OPCODE = 0x4;
-const int   JL_OPEXT  = 0x3;
+const char* JLT_STR    = "JL";
+const int   JLT_OPCODE = 0x4;
+const int   JLT_OPEXT  = 0x3;
 
-const char* JLU_STR    = "JLU";
-const int   JLU_OPCODE = 0x4;
-const int   JLU_OPEXT  = 0x3;
+const char* JLS_STR    = "JLS";
+const int   JLS_OPCODE = 0x4;
+const int   JLS_OPEXT  = 0x3;
 
 const char* JUMP_STR    = "JUMP";
 const int   JUMP_OPCODE = 0xC;

@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
             data = (short) t;
 	    if(data == 0)
 	      {
-		printf("WARNING: on line %d a reference was made that was resolved to 0", lineNumber);
+		//	printf("WARNING: on line %d a reference was made that was resolved to 0", lineNumber);
 	      }
 	  }
 	}
