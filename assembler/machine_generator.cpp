@@ -118,6 +118,7 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
   }
   else if(
     (opcode == JUMP_OPCODE)
+    ||(opcode == CMP_OPCODE)
   )
   {
     int srcReg = GetRegisterValue(*arg0);
