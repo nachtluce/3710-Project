@@ -92,23 +92,23 @@ const int   STORE_OPCODE = 0x4;
 const int   STORE_OPEXT  = 0x1;
 
 const char* JGE_STR    = "JGE";
-const int   JGE_OPCODE = 0x4;
+const int   JGE_OPCODE = 0xA;
 const int   JGE_OPEXT  = 0x3;
 
 const char* JHG_STR    = "JHG";
-const int   JHG_OPCODE = 0x4;
+const int   JHG_OPCODE = 0xA;
 const int   JHG_OPEXT  = 0x3;
 
 const char* JEQ_STR    = "JEQ";
-const int   JEQ_OPCODE = 0x4;
+const int   JEQ_OPCODE = 0xA;
 const int   JEQ_OPEXT  = 0x3;
 
 const char* JLT_STR    = "JL";
-const int   JLT_OPCODE = 0x4;
+const int   JLT_OPCODE = 0xA;
 const int   JLT_OPEXT  = 0x3;
 
 const char* JLS_STR    = "JLS";
-const int   JLS_OPCODE = 0x4;
+const int   JLS_OPCODE = 0xA;
 const int   JLS_OPEXT  = 0x3;
 
 const char* JUMP_STR    = "JUMP";
