@@ -131,4 +131,4 @@ const char* SUBI_STR  = "SUBI";
 const int   SUBI_OPCODE = 0x9;
 
 const char* CMPI_STR  = "CMPI";
-const int   CMPI_OPCODE = 0xA;
+const int   CMPI_OPCODE = 0xB;
