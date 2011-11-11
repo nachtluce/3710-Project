@@ -35,6 +35,13 @@ module CPU_MEM_Tester;
 	);
 	
 	integer i = 0;
+	
+	always
+		begin
+			Clock = ~Clock;
+			#5;
+		end
+	
 
 	initial begin
 		// Initialize Inputs
@@ -51,8 +58,8 @@ module CPU_MEM_Tester;
 		// Add stimulus here
 		for (i = 0; i < 100; i = i + 1)
 		begin
-			Clock = ~Clock;
-			#5;	
+//			Clock = ~Clock;
+//			#5;	
 		end
 	end
       
