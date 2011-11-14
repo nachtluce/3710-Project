@@ -21,6 +21,7 @@
 module Processor_Status_Register(
 	 input clock,
 	 input reset,
+	 input enable,
     input [4:0] CZLFM_in,
     output reg[4:0] CZLFN_out 
     );
@@ -30,7 +31,9 @@ begin
 	if (~reset)
 		CZLFN_out <= 0;
 	else	
+	if (enable)
 		CZLFN_out <= CZLFM_in;
+		
 end
 
 endmodule

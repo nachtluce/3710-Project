@@ -39,7 +39,8 @@ module CPU_Controller(
     output reg PCReset,
     output reg IRReset,
     output reg IRWrite,
-    output reg PSRReset
+    output reg PSRReset,
+	 output reg PSREnable
     );
 	 
 	 reg state;
@@ -81,6 +82,7 @@ module CPU_Controller(
 			IRReset = 0;
 			IRWrite = 0;
 			PSRReset = 0;
+			PSREnable = 0;
 		end
 		else // else don't reset
 		begin
@@ -105,10 +107,13 @@ module CPU_Controller(
 			PCReset = 1;
 			IRReset = 1;
 			PSRReset = 1;
+			PSREnable = 0;
 		end
 			
 		// State 1 -- Execute
 		else
+			begin
+				PSREnable = 1;
 			casex (INS[15:0])
 				// Register to Register ALU instructions
 				16'b0000_xxxx_xxxx_xxxx:
@@ -156,7 +161,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] || PSR[0])
+						if(PSR[3] == 1 || PSR[0] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -180,7 +185,7 @@ module CPU_Controller(
 				end
 				16'b0001_0001_xxxx_xxxx:
 				begin
-					// BHG
+					// BHS
 						OpCode = 4'h0;
 						OpExt = 4'h0;
 						// Disable Registers to write
@@ -191,7 +196,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] || PSR[2])
+						if(PSR[3] == 1 || PSR[2] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -226,7 +231,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3])
+						if(PSR[3] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -261,7 +266,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(~PSR[3] && ~PSR[0])
+						if(PSR[3] == 0 && PSR[0] == 0)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -296,7 +301,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(~PSR[2])
+						if(PSR[2] == 0)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -535,7 +540,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] || PSR[0])
+						if(PSR[3] == 1 || PSR[0] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
@@ -559,7 +564,7 @@ module CPU_Controller(
 				end
 				16'b1010_0001_xxxx_xxxx:
 				begin
-					// JHG
+					// JHS
 						OpCode = 4'h0;
 						OpExt = 4'h0;
 						// Disable Registers to write
@@ -570,7 +575,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] || PSR[2])
+						if(PSR[3] == 1 || PSR[2] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
@@ -605,7 +610,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3])
+						if(PSR[3] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
@@ -640,7 +645,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(~PSR[3] && ~PSR[0])
+						if(PSR[3] == 0 && PSR[0] == 0)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
@@ -675,7 +680,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(~PSR[2])
+						if(PSR[2] == 0)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
@@ -895,6 +900,7 @@ module CPU_Controller(
 						PSRReset = 1'b1;					
 				end
 			endcase
+			end
 		end
 	end
 	

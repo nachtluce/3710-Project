@@ -107,21 +107,32 @@ always@(A,B,opcode,opext)//,carry)
 		
 		8'b0011_xxxx: // CMP
 		begin
-			CLFZN = {1'b0,
-				A > B,
-				1'b0,
-				A == B,
-				$signed(A) > $signed(B)};
+			//CLFZN = {1'b0,
+			//	A > B,
+			//	1'b0,
+			//	A == B,
+			//	$signed(A) > $signed(B)};
+			CLFZN = {A[15] & B[15],
+						A == B,
+						A > B,
+						1'b0,
+						$signed(A) > $signed(B)};
 			S = 0;
 		end 
 		
 		8'b1011_xxxx: // CMPI
 		begin
-			CLFZN = {1'b0,
+			//CLFZN = {1'b0,
+			//			A > B,
+			//			1'b0,
+			//			A == B,
+			//			$signed(A) > $signed(B)};
+						
+			CLFZN = {A[15] & B[15],
+						A == B,
 						A > B,
 						1'b0,
-						A == B,
-						$signed(A) > $signed(B)};
+						$signed(A) > $signed(B)};						
 		   S = 0;
 		end 		
 		

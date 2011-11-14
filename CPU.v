@@ -48,13 +48,13 @@ module CPU(
 											OpCode, OpExt, RegWrite, RegIn, RegA, RegB, 
 											Immediate, PCImmediate, SelALU, SelMEM, 
 											Mem_Write, PCWrite, PCIncrement, 
-											PCReset, IRReset, IRWrite, PSRReset);
+											PCReset, IRReset, IRWrite, PSRReset, PSREnable);
 	 RegFile2 rf(Clock, Reset, RegWrite, RegIn, RegA, RegB, S, A_to_Mux, B);
 	 ALUmod brain(A_to_ALU, B, OpCode, S, OpExt, ALU_TO_PSR);
 	 BusMux alu_mux(SelALU, Immediate, A_to_Mux, Mem_Data, PC_OUT, A_to_ALU);
 	 Mux2 mem_mux(SelMEM, B, PC_OUT, Mem_Addr);
 	 program_counter pc(Clock, PCReset, PCIncrement, PCImmediate, S, PCWrite, PC_OUT);
-	 Processor_Status_Register psr( Clock, PSRReset, ALU_TO_PSR, PSR_TO_CPU);
+	 Processor_Status_Register psr( Clock, PSRReset, PSREnable, ALU_TO_PSR, PSR_TO_CPU);
 	 Reg16 InstructionRegister( Clock, IRReset,IRWrite, Mem_Data, INS_TO_CPU);
 
 	 assign Data_Out = S;
