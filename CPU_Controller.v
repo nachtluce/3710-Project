@@ -161,7 +161,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] == 1 || PSR[0] == 1)
+						if(PSR[1] == 1 || PSR[0] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -196,7 +196,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] == 1 || PSR[2] == 1)
+						if(PSR[3] == 1 || PSR[1] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -231,7 +231,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] == 1)
+						if(PSR[1] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -266,7 +266,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] == 0 && PSR[0] == 0)
+						if(PSR[1] == 0 && PSR[0] == 0)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -301,7 +301,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[2] == 0)
+						if(PSR[3] == 0)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = 8'h02; 
@@ -540,7 +540,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] == 1 || PSR[0] == 1)
+						if(PSR[1] == 1 || PSR[0] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
@@ -575,7 +575,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] == 1 || PSR[2] == 1)
+						if(PSR[3] == 1 || PSR[1] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
@@ -610,7 +610,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] == 1)
+						if(PSR[1] == 1)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
@@ -645,7 +645,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[3] == 0 && PSR[0] == 0)
+						if(PSR[1] == 0 && PSR[0] == 0)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
@@ -680,7 +680,7 @@ module CPU_Controller(
 						RegA = 4'b0;
 						RegB = 4'b0;
 						// The PC should increment by one  
-						if(PSR[2] == 0)
+						if(PSR[3] == 0)
 							PCImmediate = 8'h01;
 						else
 							PCImmediate = INS[7:0]; 
