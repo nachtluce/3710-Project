@@ -1,5 +1,5 @@
 CC = g++
-CXXFLAGS += -g -Wall
+CXXFLAGS += -O2 -Wall
 
 all: asmC16 coe
 
