@@ -64,7 +64,7 @@ const char* BGE_STR     = "BGE";
 const int   BGE_OPCODE  = 0x1;
 const int   BGE_OPEXT   = 0x0;
 
-const char* BHG_STR     = "BHG";
+const char* BHG_STR     = "BHS";
 const int   BHG_OPCODE  = 0x1;
 const int   BHG_OPEXT   = 0x1;
 
@@ -95,7 +95,7 @@ const char* JGE_STR    = "JGE";
 const int   JGE_OPCODE = 0xA;
 const int   JGE_OPEXT  = 0x0;
 
-const char* JHG_STR    = "JHG";
+const char* JHG_STR    = "JHS";
 const int   JHG_OPCODE = 0xA;
 const int   JHG_OPEXT  = 0x1;
 
