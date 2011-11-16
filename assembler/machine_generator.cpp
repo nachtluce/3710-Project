@@ -154,6 +154,11 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
     // instruction in the form: opcode, opext, xxxx, address
     data = (opcode << 12) | (opext << 8) | (dstReg);
   }
-
+  else if(
+   (opcode == NOP_OPCODE)
+   ){
+    data = (opcode << 12);
+  }
+ 
   return data;
 }
