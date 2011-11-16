@@ -117,6 +117,9 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
       to_location = LABEL_LOCATIONS.find(*arg0)->second;
       // warning:  I did not add any check to see if it is jumping too far.
       offset = (LABEL_LOCATIONS.find(*arg0)->second - CodeLine) & 0xFF;
+#ifdef DEBUG
+      printf("Jump to label on CODELINE 0x%x, referencing label %s at CODELINE 0x%x\n", CodeLine, *arg0, LABEL_LOCATIONS.find(*arg0)->second);
+#endif
     }
     data = (opcode << 12) | (opext << 8) | (offset);
   }

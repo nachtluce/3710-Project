@@ -146,6 +146,9 @@ int main(int argc, char *argv[])
        	if(LABEL_LOCATIONS.count(arg0) > 0)
 	{// if it can be found in the table, this means it will be in the table
 	  data = (LABEL_LOCATIONS.find(arg0))->second;
+#ifdef DEBUG
+	  printf(".fill data on line 0x%x referenced label, filled with 0x%x\n", lineNumber, data);
+#endif
 	}
         else
 	{
@@ -168,12 +171,12 @@ int main(int argc, char *argv[])
 	int reg = GetRegisterValue(arg1);
 	if( LABEL_LOCATIONS.count(arg0) == 0)
 	{
-	  printf("ERROR: UNKNOWN REFERENCE %s ON LINE %d", arg0, lineNumber);
+	  printf("ERROR: UNKNOWN REFERENCE %s ON LINE %d\n", arg0, lineNumber);
 	  exit(-1);
 	}
 	if( reg == -1 )
 	{
-	  printf("ERROR: UNKNOWN REGISTER %s ON LINE %d", arg1, lineNumber);
+	  printf("ERROR: UNKNOWN REGISTER %s ON LINE %d\n", arg1, lineNumber);
 	  exit(-1);
 	}
 	unsigned int label = LABEL_LOCATIONS.find(arg0)->second;
@@ -184,7 +187,7 @@ int main(int argc, char *argv[])
       unsigned short tempData = (MOVIU_OPCODE << 12) | ( (label >> 4) & 0x0FF0) | reg;
       sprintf(writeBuff, "%04x\n", tempData);
       fputs(writeBuff, outFilePtr);
-      codeLine++;
+      codeLine++;  // codeline increased when data is written
 	 
       // now set data to write the lower bits
       data = (MOVI_OPCODE << 12) | ( (label << 4) & 0x0FF0) | reg;
@@ -205,8 +208,8 @@ int main(int argc, char *argv[])
       data >>= 16;
       sprintf(writeBuff, "%04x\n", data);
       fputs(writeBuff, outFilePtr);
+      codeLine++; // codeline increased if data is written
     }
-    codeLine++;
     lineNumber++;
   }
   
