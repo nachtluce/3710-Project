@@ -22,7 +22,7 @@ char getImm(char *imm)
   data = (char) t;
   if((int) data != t)
   {
-      printf("WARNING: Constant %s may have been truckated", imm);
+      printf("WARNING: Constant %s may have been truckated\n", imm);
       return data;
   }
   if(data == 0)
@@ -94,11 +94,11 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
   }
   // jumpBI / JumpF1
   else if(
-     (opcode == JGE_OPCODE)
-     ||(opcode == JHG_OPCODE)
-     ||(opcode == JEQ_OPCODE)
-     ||(opcode == JLT_OPCODE)
-     ||(opcode == JLS_OPCODE)
+	  (opcode == JGE_OPCODE && opext == JGE_OPEXT)
+     ||(opcode == JHG_OPCODE && opext == JHG_OPEXT)
+     ||(opcode == JEQ_OPCODE && opext == JEQ_OPEXT)
+     ||(opcode == JLT_OPCODE && opext == JLT_OPEXT)
+     ||(opcode == JLS_OPCODE && opext == JLS_OPEXT)
      )
   {
     //we have current location in Codeline
@@ -117,8 +117,7 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
     data = (opcode << 12) | (opext << 8) | (offset);
   }
   else if(
-    (opcode == JUMP_OPCODE)
-    ||(opcode == CMP_OPCODE)
+    (opcode == CMP_OPCODE)
   )
   {
     int srcReg = GetRegisterValue(*arg0);
@@ -128,6 +127,28 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
 
     data = (opcode << 12) | (srcReg << 4) | dstReg;
     return data;
+  }
+  else if(
+    (opcode == JUMP_OPCODE && opext == JUMP_OPEXT)
+  )
+  {
+    int address = GetRegisterValue(*arg0);
+    if(address == -1)
+      return -1;
+    // instruction in the form: opcode, opext, address, xxxx
+    data = (opcode << 12) | (opext << 8) | (address << 4);
+  }
+  else if(
+    (opcode == STOREPC_OPCODE && opext == STOREPC_OPEXT)
+  )
+  {
+    int dstReg = GetRegisterValue(*arg0);
+  
+    if(dstReg == -1)
+      return -1;
+
+    // instruction in the form: opcode, opext, xxxx, address
+    data = (opcode << 12) | (opext << 8) | (dstReg);
   }
 
   return data;

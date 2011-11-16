@@ -79,6 +79,7 @@ int GetOpCode(char *op)
   RETURN_OP_MATCH( MOVI_STR, MOVI_OPCODE );
   RETURN_OP_MATCH( SUBI_STR, SUBI_OPCODE );
   RETURN_OP_MATCH( CMPI_STR, CMPI_OPCODE );
+  RETURN_OP_MATCH( STOREPC_STR, STOREPC_OPCODE );
 
   // if it can't find it return -1, for error
   return -1;
@@ -117,7 +118,8 @@ int GetOpExt(char *op)
   RETURN_OP_MATCH( JEQ_STR, JEQ_OPEXT );
   RETURN_OP_MATCH( JLT_STR, JLT_OPEXT );
   RETURN_OP_MATCH( JLS_STR, JLS_OPEXT );  
-  //  RETURN_OP_MATCH( JUMP_STR, JUMP_OPEXT );
+  RETURN_OP_MATCH( JUMP_STR, JUMP_OPEXT );
+  RETURN_OP_MATCH( STOREPC_STR, STOREPC_OPEXT );
 
   // if no opext can be found, return -1 to signal no result
   return -1;

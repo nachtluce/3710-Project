@@ -113,7 +113,7 @@ const int   JLS_OPEXT  = 0x4;
 
 const char* JUMP_STR    = "JUMP";
 const int   JUMP_OPCODE = 0xC;
-//const int   JUMP_OPEXT  = 0x4;
+const int   JUMP_OPEXT  = 0x0;
 
 const char* ADDI_STR  = "ADDI";
 const int   ADDI_OPCODE = 0x5;
@@ -132,3 +132,9 @@ const int   SUBI_OPCODE = 0x9;
 
 const char* CMPI_STR  = "CMPI";
 const int   CMPI_OPCODE = 0xB;
+
+const char* STOREPC_STR = "STOREPC";
+const int   STOREPC_OPCODE = 0xC;
+const int   STOREPC_OPEXT = 0x1;
+
+
