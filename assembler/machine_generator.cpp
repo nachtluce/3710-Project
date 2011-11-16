@@ -22,7 +22,9 @@ char getImm(char *imm)
   data = (char) t;
   if((int) data != t)
   {
+#ifdef DEBUG
       printf("WARNING: Constant %s may have been truckated\n", imm);
+#endif
       return data;
   }
   if(data == 0)
@@ -31,7 +33,9 @@ char getImm(char *imm)
     data = (char) t;
     if((int) data != t)
     {
-      printf("WARNING: Constant %s may have been trunkated", imm);
+#ifdef DEBUG
+      printf("WARNING: Constant %s may have been trunkated\n", imm);
+#endif
       return data;
     }
   }
