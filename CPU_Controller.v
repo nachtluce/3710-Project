@@ -783,7 +783,7 @@ module CPU_Controller(
 						// The PC should increment by one 
 						PCImmediate = 8'h01;
 						// Set immediate value
-						Immediate = {{8{1'b1}},INS[11:4]}; 
+						Immediate = {{8{INS[11]}},INS[11:4]}; 
 						// Select Immediate as ALU input
 						SelALU = 2'b00; 
 						// Don't care about the memory address
