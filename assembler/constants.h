@@ -141,4 +141,8 @@ extern const char* BLS_STR;
 extern const int   BLS_OPCODE;
 extern const int   BLS_OPEXT;
 
+extern const char* STOREPC_STR;
+extern const int   STOREPC_OPCODE;
+extern const int   STOREPC_OPEXT;
+
 #endif
