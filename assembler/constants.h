@@ -145,4 +145,29 @@ extern const char* STOREPC_STR;
 extern const int   STOREPC_OPCODE;
 extern const int   STOREPC_OPEXT;
 
+const char* JOFFSET_STR;
+const int   JOFFSET_OPCODE;
+const int   JOFFSET_OPEXT;
+
+const char* SETBEGINVGA_STR;
+const int   SETBEGINVGA_OPCODE;
+const int   SETBEGINVGA_OPEXT;
+
+const char* SETROWVGA_STR;
+const int   SETROWVGA_OPCODE;
+const int   SETROWVGA_OPEXT;
+
+const char* READSERIAL_STR;
+const int   READSERIAL_OPCODE;
+const int   READSERIAL_OPEXT;
+
+const char* WRITESERIAL_STR;
+const int   WRITESERIAL_OPCODE;
+const int   WRITESERIAL_OPEXT;
+
+const char* READGAMEPAD_STR;
+const int   READGAMEPAD_OPCODE;
+const int   READGAMEPAD_OPEXT;
+
+
 #endif
