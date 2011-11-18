@@ -22,7 +22,7 @@ module VGASuperPixConverter(
     input [9:0] col,
     input [8:0] row,
     output reg [4:0] xSupPix,
-    output reg [3:0]  ySupPix,
+    output reg [3:0] ySupPix,
 	 output reg [4:0] xSubCount,
 	 output reg [4:0] ySubCount	 
     );
@@ -131,6 +131,11 @@ begin
 		 xSupPix = 19;
 		 xSubCount = col - 608;
 	end
+	else
+	begin
+		 xSupPix = 5'bxxxxx;
+		 xSubCount = 5'bxxxxx;
+	end
 
 	//handle ROWS
 	if(row < 32)// && act)
@@ -207,6 +212,11 @@ begin
 	begin
 		 ySupPix = 14;
 		 ySubCount = row - 448;
+	end
+	else
+	begin
+		 ySupPix = 5'bxxxxx;
+		 ySubCount = 5'bxxxxx;
 	end
 	 
 end
