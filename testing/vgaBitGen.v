@@ -39,7 +39,7 @@ module vgaBitGen(
 //...
 	reg[3:0] xWord;
 	wire [8:0] MemData;
-	reg [11:0] fetchAddress;//this is the location to fetch in vga memory
+	reg [9:0] fetchAddress = 0;//this is the location to fetch in vga memory
 
 	VGA_memory mem(clk,0,fetchAddress,0,MemData);
 	//on the posEdge of the clock what ever is on the fetch address, the memory on that location the memory will return on MemData or the value
@@ -103,6 +103,8 @@ begin
 				fetchAddress = xWord + 84;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 14
 				fetchAddress = xWord + 90;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 			
 		end
 		if(picNum == 1)//Dude Up
@@ -141,6 +143,8 @@ begin
 				fetchAddress = xWord + 180;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 15
 				fetchAddress = xWord + 186;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 		end
 		if(picNum == 2)//Dude Left
 		begin
@@ -177,7 +181,9 @@ begin
 			else if(ySubCount > 27 && ySubCount < 30) //row 14
 				fetchAddress = xWord + 276;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 282;//			
+				fetchAddress = xWord + 282;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;				
 		end
 		if(picNum == 3)//Dude Down
 		begin
@@ -213,6 +219,8 @@ begin
 				fetchAddress = xWord + 372;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 14
 				fetchAddress = xWord + 378;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 		end
 		if(picNum == 4)
 		begin
@@ -248,6 +256,8 @@ begin
 				fetchAddress = xWord + 468;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 14
 				fetchAddress = xWord + 474;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 		end
 
 		if(picNum == 5)
@@ -284,6 +294,8 @@ begin
 				fetchAddress = xWord + 564;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 14
 				fetchAddress = xWord + 560;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 		end
 		if(picNum == 6)
 		begin
@@ -319,6 +331,8 @@ begin
 				fetchAddress = xWord + 650;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 14
 				fetchAddress = xWord + 656;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 		end
 		if(picNum == 7)
 		begin
@@ -354,6 +368,8 @@ begin
 				fetchAddress = xWord + 746;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 14
 				fetchAddress = xWord + 752;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 		end
 		if(picNum == 8)
 		begin
@@ -389,6 +405,8 @@ begin
 				fetchAddress = xWord + 842;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 14
 				fetchAddress = xWord + 848;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 		end
 		if(picNum == 9)
 		begin
@@ -424,7 +442,11 @@ begin
 				fetchAddress = xWord + 938;//
 			else if(ySubCount > 29 && ySubCount < 32) //row 14
 				fetchAddress = xWord + 944;//
+			else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 		end
+		else
+				fetchAddress = 10'bxxxx_xxxx_xx;
 
 		
 end
