@@ -58,13 +58,13 @@ VGA_CTRL vgaSigGen( .Reset(rst),.HSync(hSync0), .VSync(vSync0), .Clk50(clk), .PC
 //convert it into 20x15 superpixels.
 VGASuperPixConverter supPixConvert(col, row, xSupPix, ySupPix, xSubCount, ySubCount);
 //send the command to access main memory the starting address should contain
-vgaMemoryAccess AccessMainMem( clk, rst, xSupPix, ySupPix, rowLength, startAddress, memData,fetchAddress, PicNum);
+vgaMemoryAccess AccessMainMem(/* clk,*/ rst, xSupPix, ySupPix, rowLength, startAddress, memData,fetchAddress, PicNum);
 
 
 vgaBitGen bitGen(PicNum, xSubCount, ySubCount, clk, R0, G0,B0);
 
 
-	blk_mem_gen_v6_2 MainMem(clk,0,fetchAddress,0, memData,clk,0,0,0);
+	blk_mem_gen_v6_1 MainMem(clk,0,fetchAddress,0, memData,clk,0,0,0);
 
 always @(posedge clk) 
 begin

@@ -20,7 +20,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module vgaMemoryAccess(
-    input clk,
+    //input clk,
 	 input reset,
 	 //input act,
     input [4:0] xSupPix,
@@ -34,7 +34,7 @@ module vgaMemoryAccess(
 
 
 //imageLibrary
-reg [15:0] fetchLoc;//fetchLoc = startAddress + supPix
+//reg [15:0] fetchLoc;//fetchLoc = startAddress + supPix
 
 always @(*)
 begin
