@@ -22,9 +22,16 @@ module CPU(
     input Clock,
     input Reset,
     input [15:0] Mem_Data,
+	 input SerialValid,
+	 input [15:0] SerialRead,
+	 input [7:0] GamePad,
     output [15:0] Mem_Addr,
     output Mem_Write,
-    output [15:0] Data_Out
+    output [15:0] Data_Out,
+	 output [15:0] VGA_Start,
+	 output [15:0] VGA_Row,
+	 output SerialWrite,
+	 output SerialData
     );
 	 
 	 wire [15:0] INS_TO_CPU;
@@ -45,10 +52,13 @@ module CPU(
 	 wire [4:0] ALU_TO_PSR;
 	 
 	 CPU_Controller CPU_Control(Clock, Reset, INS_TO_CPU, PSR_TO_CPU, 
+											GamePad, SerialRead, SerialValid,
 											OpCode, OpExt, RegWrite, RegIn, RegA, RegB, 
 											Immediate, PCImmediate, SelALU, SelMEM, 
 											Mem_Write, PCWrite, PCIncrement, 
-											PCReset, IRReset, IRWrite, PSRReset, PSREnable);
+											PCReset, IRReset, IRWrite, PSRReset, PSREnable,
+											VGAS_R, VGAS_E, VGAR_R, VGAR_E,
+											SerialWrite);
 	 RegFile2 rf(Clock, Reset, RegWrite, RegIn, RegA, RegB, S, A_to_Mux, B);
 	 ALUmod brain(A_to_ALU, B, OpCode, S, OpExt, ALU_TO_PSR);
 	 BusMux alu_mux(SelALU, Immediate, A_to_Mux, Mem_Data, PC_OUT, A_to_ALU);
@@ -56,6 +66,8 @@ module CPU(
 	 program_counter pc(Clock, PCReset, PCIncrement, PCImmediate, S, PCWrite, PC_OUT);
 	 Processor_Status_Register psr( Clock, PSRReset, PSREnable, ALU_TO_PSR, PSR_TO_CPU);
 	 Reg16 InstructionRegister( Clock, IRReset,IRWrite, Mem_Data, INS_TO_CPU);
+	 Reg16 VGASRegister( Clock, VGAS_R, VGAS_E, S, VGA_Start);
+	 Reg16 VGARRegister( Clock, VGAR_R, VGAR_R, S, VGA_Row);
 
 	 assign Data_Out = S;
 	 

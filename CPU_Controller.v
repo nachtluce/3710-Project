@@ -23,6 +23,9 @@ module CPU_Controller(
     input Reset,
     input [15:0] INS,
     input [4:0] PSR,
+	 input [7:0] GamePad,
+	 input [15:0] SerialData,
+	 input SerialValid,
     output reg [3:0] OpCode,
     output reg [3:0] OpExt,
     output reg RegWrite,
@@ -40,7 +43,12 @@ module CPU_Controller(
     output reg IRReset,
     output reg IRWrite,
     output reg PSRReset,
-	 output reg PSREnable
+	 output reg PSREnable,
+	 output reg VGAS_R,
+	 output reg VGAS_E,
+	 output reg VGAR_R,
+	 output reg VGAR_E,
+	 output reg SerialWrite
     );
 	 
 	 reg state;
@@ -83,6 +91,11 @@ module CPU_Controller(
 			IRWrite = 0;
 			PSRReset = 0;
 			PSREnable = 0;
+		   VGAS_R = 0;
+	      VGAS_E = 0;
+	      VGAR_R = 0;
+	      VGAR_E = 0;
+	      SerialWrite = 0;
 		end
 		else // else don't reset
 		begin
@@ -108,6 +121,11 @@ module CPU_Controller(
 			IRReset = 1;
 			PSRReset = 1;
 			PSREnable = 0;
+			VGAS_R = 1;
+	      VGAS_E = 0;
+	      VGAR_R = 1;
+	      VGAR_E = 0;
+	      SerialWrite = 0;
 		end
 			
 		// State 1 -- Execute
@@ -146,7 +164,12 @@ module CPU_Controller(
 						// Don't reset anything
 						PCReset = 1'b1;
 						IRReset = 1'b1;
-						PSRReset = 1'b1;							
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 					end
 				16'b0001_0000_xxxx_xxxx:
 				begin
@@ -182,6 +205,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;
 				end
 				16'b0001_0001_xxxx_xxxx:
 				begin
@@ -217,6 +245,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b0001_0010_xxxx_xxxx:
 				begin
@@ -252,6 +285,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b0001_0011_xxxx_xxxx:
 				begin
@@ -287,6 +325,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b0001_0100_xxxx_xxxx:
 				begin
@@ -322,6 +365,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end				
 				16'b0011_xxxx_xxxx_xxxx:
 				begin 
@@ -354,7 +402,12 @@ module CPU_Controller(
 						// Don't reset anything
 						PCReset = 1'b1;
 						IRReset = 1'b1;
-						PSRReset = 1'b1;						
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b0101_xxxx_xxxx_xxxx:
 				begin
@@ -389,6 +442,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b0110_xxxx_xxxx_xxxx:
 				begin
@@ -423,6 +481,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b0111_xxxx_xxxx_xxxx:
 				begin
@@ -457,6 +520,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end		
 				16'b1000_xxxx_xxxx_xxxx:
 				begin
@@ -491,6 +559,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b1001_xxxx_xxxx_xxxx:
 				begin
@@ -525,6 +598,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 
 				16'b1010_0000_xxxx_xxxx:
@@ -561,6 +639,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b1010_0001_xxxx_xxxx:
 				begin
@@ -596,6 +679,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b1010_0010_xxxx_xxxx:
 				begin
@@ -631,6 +719,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b1010_0011_xxxx_xxxx:
 				begin
@@ -666,6 +759,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b1010_0100_xxxx_xxxx:
 				begin
@@ -701,6 +799,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b1010_0101_xxxx_xxxx:
 				begin
@@ -733,6 +836,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end				
 				16'b1100_0000_xxxx_xxxx:
 				begin
@@ -765,6 +873,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b1100_0001_xxxx_xxxx:
 				begin
@@ -797,6 +910,11 @@ module CPU_Controller(
 						PCReset = 1'b1;
 						IRReset = 1'b1;
 						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				
 				16'b1011_xxxx_xxxx_xxxx:
@@ -830,7 +948,12 @@ module CPU_Controller(
 						// Don't reset anything
 						PCReset = 1'b1;
 						IRReset = 1'b1;
-						PSRReset = 1'b1;						
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b0100_0000_XXXX_XXXX:
 				begin
@@ -863,7 +986,12 @@ module CPU_Controller(
 						// Don't reset anything
 						PCReset = 1'b1;
 						IRReset = 1'b1;
-						PSRReset = 1'b1;					
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 				16'b0100_0001_XXXX_XXXX:
 				begin
@@ -896,8 +1024,130 @@ module CPU_Controller(
 						// Don't reset anything
 						PCReset = 1'b1;
 						IRReset = 1'b1;
-						PSRReset = 1'b1;					
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
+				16'b1101_0000_xxxx_xxxx:
+				begin
+					//SETBEGINVGA
+						// Send instruction to ALU (MOV)
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
+						// disable Registers to write
+						RegWrite = 1'b0;
+						// Set the write to register
+						RegIn = 4'h0;
+						// Set the operands
+						RegA = INS[7:4];
+						RegB = 4'h0;
+						// The PC should increment by one 
+						PCImmediate = 8'h01;
+						// The Immediate value from the instruction:
+						Immediate = 16'h0000; 
+						// Select registerA as ALU input
+						SelALU = 2'b01; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						// 
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 1;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
+				end	
+				16'b1101_0001_xxxx_xxxx:
+				begin
+					//SETROWVGA
+						// Send instruction to ALU (MOV)
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
+						// disable Registers to write
+						RegWrite = 1'b0;
+						// Set the write to register
+						RegIn = 4'h0;
+						// Set the operands
+						RegA = INS[7:4];
+						RegB = 4'h0;
+						// The PC should increment by one 
+						PCImmediate = 8'h01;
+						// The Immediate value from the instruction:
+						Immediate = 16'h0000; 
+						// Select registerA as ALU input
+						SelALU = 2'b01; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						// 
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 1;
+						SerialWrite = 0;						
+				end		
+				16'b1101_0100_xxxx_xxxx:
+				begin
+					//READ GamePad
+						// Send instruction to ALU (MOV)
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
+						// enable Registers to write
+						RegWrite = 1'b1;
+						// Set the write to register
+						RegIn = INS[3:0];
+						// Set the operands
+						RegA = 4'h0;
+						RegB = 4'h0;
+						// The PC should increment by one 
+						PCImmediate = 8'h01;
+						// The Immediate value from the instruction:
+						Immediate = {8'h00,GamePad[7:0]}; 
+						// Select Immediate as ALU input
+						SelALU = 2'b00; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						// 
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
+				end				
 				16'bXXXX_XXXX_XXXX_XXXX:
 				begin
 					// Do nothing!
@@ -929,7 +1179,12 @@ module CPU_Controller(
 						// Don't reset anything
 						PCReset = 1'b1;
 						IRReset = 1'b1;
-						PSRReset = 1'b1;					
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
 				end
 			endcase
 			end
