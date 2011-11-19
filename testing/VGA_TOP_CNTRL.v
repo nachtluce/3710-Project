@@ -48,7 +48,7 @@ wire[3:0] ySupPix;
 wire[4:0] xSubCount;
 wire[4:0] ySubCount;
 wire[8:0] PicNum;
-wire[15:0] rowLength = 15;
+wire[15:0] rowLength = 5;
 wire[15:0] startAddress = 1;
 wire[15:0] memData;
 wire[15:0] fetchAddress;
@@ -61,7 +61,7 @@ VGASuperPixConverter supPixConvert(col, row, xSupPix, ySupPix, xSubCount, ySubCo
 vgaMemoryAccess AccessMainMem(/* clk,*/ rst, xSupPix, ySupPix, rowLength, startAddress, memData,fetchAddress, PicNum);
 
 
-vgaBitGen bitGen(PicNum, xSubCount, ySubCount, clk, R0, G0,B0);
+vgaBitGen bitGen(PicNum, xSubCount, ySubCount, clk, act, R0, G0,B0);
 
 
 	blk_mem_gen_v6_1 MainMem(clk,0,fetchAddress,0, memData,clk,0,0,0);

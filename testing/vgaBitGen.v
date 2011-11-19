@@ -23,6 +23,7 @@ module vgaBitGen(
     input [4:0] xSubCount,
     input [4:0] ySubCount,
     input clk,
+	 input act,
     output reg R,
     output reg B,
     output reg G
@@ -464,7 +465,7 @@ begin
 //			G = MemData[7];
 //			B = MemData[6];
 		end
-		else if(xSubCount < 4 && xSubCount > 1 )
+		else if(xSubCount < 4 && xSubCount > 1 && act)
 		begin
 		
 //			{R,B,G} = 3'b100;//Set Red for all of the pixels
@@ -474,7 +475,7 @@ begin
 //			B = MemData[6];
 
 		end
-		else if(xSubCount < 6 && xSubCount > 3 )
+		else if(xSubCount < 6 && xSubCount > 3 && act)
 		begin
 
 	//		{R,B,G} = 3'b100;//Set Red for all of the pixels	
@@ -484,7 +485,7 @@ begin
 //			B = MemData[6];
 
 		end
-		else if(xSubCount < 8 && xSubCount > 5 )
+		else if(xSubCount < 8 && xSubCount > 5 && act)
 		begin
 
 //			{R,B,G} = 3'b100;//Set Red for all of the pixels	
@@ -494,7 +495,7 @@ begin
 //			B = MemData[6];
 
 		end
-		else if(xSubCount < 10 && xSubCount > 7 )
+		else if(xSubCount < 10 && xSubCount > 7 && act)
 		begin
 
 //			{R,B,G} = 3'b100;//Set Red for all of the pixels	
@@ -504,7 +505,7 @@ begin
 //			B = MemData[6];
 
 		end
-		else if(xSubCount < 12 && xSubCount > 9 )
+		else if(xSubCount < 12 && xSubCount > 9 && act)
 		begin
 
 //			{R,B,G} = 3'b100;//Set Red for all of the pixels	
@@ -514,7 +515,7 @@ begin
 //			B = MemData[6];
 
 		end
-		else if(xSubCount < 14 && xSubCount > 11 )
+		else if(xSubCount < 14 && xSubCount > 11 && act)
 		begin
 			
 	//		{R,B,G} = 3'b100;//Set Red for all of the pixels
@@ -524,7 +525,7 @@ begin
 //			B = MemData[6];
 
 		end
-		else if(xSubCount < 16 && xSubCount > 13 )
+		else if(xSubCount < 16 && xSubCount > 13 && act)
 		begin
 
 //			{R,B,G} = 3'b100;//Set Red for all of the pixels		
@@ -534,7 +535,7 @@ begin
 //			B = MemData[6];
 
 		end
-		else if(xSubCount < 18 && xSubCount > 15 )
+		else if(xSubCount < 18 && xSubCount > 15 && act)
 		begin
 	
 	//		{R,B,G} = 3'b110;//Set Red for all of the pixels
@@ -544,7 +545,7 @@ begin
 //			B = MemData[6];
 
 		end
-		else if(xSubCount < 20 && xSubCount > 17 )
+		else if(xSubCount < 20 && xSubCount > 17 && act)
 		begin
 		
 //			{R,B,G} = 3'b110;//Set Red for all of the pixels
@@ -554,37 +555,37 @@ begin
 //			B = MemData[6];
 
 		end
-		else if(xSubCount < 22 && xSubCount > 19 )
+		else if(xSubCount < 22 && xSubCount > 19 && act)
 		begin
 
 //			{R,B,G} = 3'b110;//Set Red for all of the pixels
 			{R,B,G} = MemData[5:3];//set the RGB		pixel 11
 		end
-		else if(xSubCount < 24 && xSubCount > 21 )
+		else if(xSubCount < 24 && xSubCount > 21 && act)
 		begin
 		
 	//		{R,B,G} = 3'b110;//Set Red for all of the pixels
 			{R,B,G} = MemData[2:0];//set the RGB		pixel 12
 		end
-		else if(xSubCount < 26 && xSubCount > 23 )
+		else if(xSubCount < 26 && xSubCount > 23 && act)
 		begin
 
 //			{R,B,G} = 3'b110;//Set Red for all of the pixels		
 		{R,B,G} = MemData[8:6];//set the RGB		pixel 13
 		end
-		else if(xSubCount < 28 && xSubCount > 25 )
+		else if(xSubCount < 28 && xSubCount > 25 && act)
 		begin
 
 //			{R,B,G} = 3'b110;//Set Red for all of the pixels	
 	{R,B,G} = MemData[5:3];//set the RGB		pixel 14
 		end
-		else if(xSubCount < 30 && xSubCount > 27 )
+		else if(xSubCount < 30 && xSubCount > 27 && act)
 		begin
 
 //			{R,B,G} = 3'b110;//Set Red for all of the pixels	
 	{R,B,G} = MemData[2:0];//set the RGB		pixel 15
 		end
-		else if(xSubCount < 32 && xSubCount > 29 )
+		else if(xSubCount < 32 && xSubCount > 29 && act)
 		begin
 	
 	//		{R,B,G} = 3'b110;//Set Red for all of the pixels

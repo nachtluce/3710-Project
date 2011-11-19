@@ -38,7 +38,7 @@ module vgaMemoryAccess(
 
 always @(*)
 begin
-	 FetchAddress = startAddress + xSupPix + (ySupPix * rowLength);
+			FetchAddress = startAddress + xSupPix + (ySupPix * rowLength);
 
 // set all outputs to 0
 	if(reset)
@@ -48,6 +48,7 @@ begin
 		end
 	else//fetch data and set the input from data as the rgb worl
 		begin
+		
 			PicNum = memData[8:0];
 		end
 	
