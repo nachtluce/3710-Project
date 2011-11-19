@@ -67,7 +67,7 @@ module CPU(
 	 Processor_Status_Register psr( Clock, PSRReset, PSREnable, ALU_TO_PSR, PSR_TO_CPU);
 	 Reg16 InstructionRegister( Clock, IRReset,IRWrite, Mem_Data, INS_TO_CPU);
 	 Reg16 VGASRegister( Clock, VGAS_R, VGAS_E, S, VGA_Start);
-	 Reg16 VGARRegister( Clock, VGAR_R, VGAR_R, S, VGA_Row);
+	 Reg16 VGARRegister( Clock, VGAR_R, VGAR_E, S, VGA_Row);
 
 	 assign Data_Out = S;
 	 

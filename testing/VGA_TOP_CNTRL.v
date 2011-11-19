@@ -21,11 +21,15 @@
 module VGA_TOP_CNTRL(
     input clk,
     input rst,
+	 input [15:0] memData,
+	 input [15:0] VGAS,
+	 input [15:0] VGAR,
     output reg R,
     output reg G,
     output reg B,
     output reg hSync,
-    output reg vSync
+    output reg vSync,
+	 output [15:0] fetchAddress
     );
 
 wire hSync0;
@@ -48,23 +52,23 @@ wire[3:0] ySupPix;
 wire[4:0] xSubCount;
 wire[4:0] ySubCount;
 wire[8:0] PicNum;
-wire[15:0] rowLength = 5;
-wire[15:0] startAddress = 1;
-wire[15:0] memData;
-wire[15:0] fetchAddress;
+//wire[15:0] rowLength = 5;
+//wire[15:0] startAddress = 1;
+//wire[15:0] memData;
+//wire[15:0] fetchAddress;
 //this will generate all the singals neccessary for the displaying anything
 VGA_CTRL vgaSigGen( .Reset(rst),.HSync(hSync0), .VSync(vSync0), .Clk50(clk), .PClk(pxlclk), 
 	 .Col(col), .Row(row), .Col0(col0), .Row0(row0), .Active(act) );
 //convert it into 20x15 superpixels.
 VGASuperPixConverter supPixConvert(col, row, xSupPix, ySupPix, xSubCount, ySubCount);
 //send the command to access main memory the starting address should contain
-vgaMemoryAccess AccessMainMem(/* clk,*/ rst, xSupPix, ySupPix, rowLength, startAddress, memData,fetchAddress, PicNum);
+vgaMemoryAccess AccessMainMem(/* clk,*/ rst, xSupPix, ySupPix, VGAR, VGAS, memData,fetchAddress, PicNum);
 
 
 vgaBitGen bitGen(PicNum, xSubCount, ySubCount, clk, act, R0, G0,B0);
 
 
-	blk_mem_gen_v6_1 MainMem(clk,0,fetchAddress,0, memData,clk,0,0,0);
+//	blk_mem_gen_v6_1 MainMem(clk,0,fetchAddress,0, memData,clk,0,0,0);
 
 always @(posedge clk) 
 begin
