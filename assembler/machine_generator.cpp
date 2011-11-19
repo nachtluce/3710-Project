@@ -103,6 +103,7 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
      ||(opcode == JEQ_OPCODE && opext == JEQ_OPEXT)
      ||(opcode == JLT_OPCODE && opext == JLT_OPEXT)
      ||(opcode == JLS_OPCODE && opext == JLS_OPEXT)
+     ||(opcode == JOFFSET_OPCODE && opext == JOFFSET_OPEXT)
      )
   {
     //we have current location in Codeline
@@ -147,6 +148,8 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
   }
   else if(
     (opcode == STOREPC_OPCODE && opext == STOREPC_OPEXT)
+    || (opcode == READSERIAL_OPCODE && opext == READSERIAL_OPEXT)
+    || (opcode == READGAMEPAD_OPCODE && opext == READGAMEPAD_OPEXT)
   )
   {
     int dstReg = GetRegisterValue(*arg0);
@@ -154,8 +157,22 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
     if(dstReg == -1)
       return -1;
 
-    // instruction in the form: opcode, opext, xxxx, address
+    // instruction in the form: opcode, opext, xxxx, register
     data = (opcode << 12) | (opext << 8) | (dstReg);
+  }
+
+  else if(
+	  (opcode == SETBEGINVGA_OPCODE && opext == SETBEGINVGA_OPEXT)
+	  || (opcode == SETROWVGA_OPCODE && opext == SETROWVGA_OPEXT)
+	  || (opcode == WRITESERIAL_OPCODE && opext == WRITESERIAL_OPEXT)
+	  )
+  {
+    int srcReg = GetRegisterValue(*arg0);
+
+    if(srcReg == -1)
+      return -1;
+   // instruction in the form: opcode, opext, register, xxxx
+    data = (opcode << 12) | (opext << 8) | (srcReg << 4);
   }
   else if(
    (opcode == NOP_OPCODE)

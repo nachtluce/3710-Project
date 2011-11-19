@@ -137,4 +137,27 @@ const char* STOREPC_STR = "STOREPC";
 const int   STOREPC_OPCODE = 0xC;
 const int   STOREPC_OPEXT = 0x1;
 
+const char* JOFFSET_STR = "JOFFSET";
+const int   JOFFSET_OPCODE = 0xA;
+const int   JOFFSET_OPEXT = 0x5;
+
+const char* SETBEGINVGA_STR = "SETBEGINVGA";
+const int   SETBEGINVGA_OPCODE = 0xD;
+const int   SETBEGINVGA_OPEXT = 0x0;
+
+const char* SETROWVGA_STR = "SETROWVGA";
+const int   SETROWVGA_OPCODE = 0xD;
+const int   SETROWVGA_OPEXT = 0x1;
+
+const char* READSERIAL_STR = "READSERIAL";
+const int   READSERIAL_OPCODE = 0xD;
+const int   READSERIAL_OPEXT = 0x2;
+
+const char* WRITESERIAL_STR = "WRITESERIAL";
+const int   WRITESERIAL_OPCODE = 0xD;
+const int   WRITESERIAL_OPEXT = 0x3;
+
+const char* READGAMEPAD_STR = "READGAMEPAD";
+const int   READGAMEPAD_OPCODE = 0xD;
+const int   READGAMEPAD_OPEXT = 0x4;
 
