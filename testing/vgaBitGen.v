@@ -42,7 +42,7 @@ module vgaBitGen(
 	wire [8:0] MemData;
 	reg [11:0] fetchAddress;//this is the location to fetch in vga memory
 
-	VGA_memory mem(clk,0,fetchAddress,0,MemData);
+	VGA_memory mem(clk, 1'b0, fetchAddress, 9'b0_0000_0000, MemData);
 	//on the posEdge of the clock what ever is on the fetch address, the memory on that location the memory will return on MemData or the value
 	//of memData will be valid at the same clock
 	

@@ -28,6 +28,14 @@ assign Active = HClock[11] & VClock[10];
 assign VSync = VClock[9];
 assign HSync = HClock[10];
 
+
+/*
+ * Initial conditions
+ */
+initial begin
+PClk = 0;
+end
+ 
 /*
  * VGA timing information.
  */

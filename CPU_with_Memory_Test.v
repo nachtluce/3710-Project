@@ -32,8 +32,8 @@ module CPU_with_Memory_Test(
 	 output G,
 	 output B,
 	 output hSync,
-	 output vSync,
-	 output [15:0] fetchAddress
+	 output vSync
+//	 output [15:0] fetchAddress
     );
 	 
 	 wire [15:0] mem_addr;
@@ -52,11 +52,11 @@ module CPU_with_Memory_Test(
 	
     // Main Memory	
 	 blk_mem_gen_v6_1 mem(~Clock, Memwrite, mem_addr[13:0], data_in, data_out, 
-	                       Clock, 0, VGAToMainMemAddress, 0, MainMemToVGAData);
+	                       Clock, 1'b0, VGAToMainMemAddress, 1'b0, MainMemToVGAData);
 	 
 	 // GamePad controller
 	 Controller2 gameInput(Clock, Reset, GamePadData, GamePad, GPulse, GLatch);
 	 
 	 // VGA Controller
-	 VGA_TOP_CNTRL VGA(Clock, Reset, MainMemToVGAData, VGAS, VGAR, R, G, B, hSync, vSync, VGAToMainMemAddress);
+	 VGA_TOP_CNTRL VGA(Clock, ~Reset, MainMemToVGAData, VGAS, VGAR, R, G, B, hSync, vSync, VGAToMainMemAddress);
 endmodule
