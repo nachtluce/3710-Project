@@ -226,6 +226,7 @@ always@(A,B,opcode,opext)//,carry)
 		// The upper bits of A are concatanated with the lower bits of B
 		8'b0111_xxxx: // MOVIU
 		begin
+			CLFZN = 0;
 			S = {A[15:8],B[7:0]};
 		end
 		
