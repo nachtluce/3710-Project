@@ -31,7 +31,7 @@ module CPU(
 	 output [15:0] VGA_Start,
 	 output [15:0] VGA_Row,
 	 output SerialWrite,
-	 output SerialData
+	 output [15:0] SerialData
     );
 	 
 	 wire [15:0] INS_TO_CPU;
