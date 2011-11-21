@@ -29,6 +29,8 @@ int GetRegisterValue(char *reg)
   // capital R is supported so codding can be done with CAPS-lock on
   if( reg[0] == 'r' || reg[0] == 'R')
     reg++;
+  else
+    return -1;
 
   int chk = sscanf( reg, "%d", &value);
 
