@@ -46,8 +46,19 @@ module CPU_with_Memory_Test(
 	 wire [15:0] VGAS;
 	 wire [15:0] VGAR;
 	 
+	 reg c25Clk;
+	 
+	 initial begin
+		c25Clk = 1'b0;
+	 end
+	
+	 always@(negedge Clock)
+	 begin
+		c25Clk <= ~c25Clk;
+	 end
+	 
 	 // CPU
-	 CPU c(Clock, Reset, data_out, serialValid, serialRead, GamePad, mem_addr, Memwrite, data_in,
+	 CPU c(c25Clk, ~Reset, data_out, serialValid, serialRead, GamePad, mem_addr, Memwrite, data_in,
 				VGAS, VGAR, SerialWrite, SerialData);
 	
     // Main Memory	
@@ -55,8 +66,8 @@ module CPU_with_Memory_Test(
 	                       Clock, 1'b0, VGAToMainMemAddress, 1'b0, MainMemToVGAData);
 	 
 	 // GamePad controller
-	 Controller2 gameInput(Clock, Reset, GamePadData, GamePad, GPulse, GLatch);
+	 Controller2 gameInput(Clock, ~Reset, GamePadData, GamePad, GPulse, GLatch);
 	 
 	 // VGA Controller
-	 VGA_TOP_CNTRL VGA(Clock, ~Reset, MainMemToVGAData, VGAS, VGAR, R, G, B, hSync, vSync, VGAToMainMemAddress);
+	 VGA_TOP_CNTRL VGA(Clock, Reset, MainMemToVGAData, VGAS, VGAR, R, G, B, hSync, vSync, VGAToMainMemAddress);
 endmodule
