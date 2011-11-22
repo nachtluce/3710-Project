@@ -26,6 +26,7 @@ module CPU_Controller(
 	 input [7:0] GamePad,
 	 input [15:0] SerialData,
 	 input SerialValid,
+	 input [15:0] Time,
     output reg [3:0] OpCode,
     output reg [3:0] OpExt,
     output reg RegWrite,
@@ -1147,7 +1148,46 @@ module CPU_Controller(
 						VGAR_R = 1;
 						VGAR_E = 0;
 						SerialWrite = 0;						
-				end				
+				end
+				16'b1101_0101_xxxx_xxxx:
+				begin
+					//READ Clock
+						// Send instruction to ALU (MOV)
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
+						// enable Registers to write
+						RegWrite = 1'b1;
+						// Set the write to register
+						RegIn = INS[3:0];
+						// Set the operands
+						RegA = 4'h0;
+						RegB = 4'h0;
+						// The PC should increment by one 
+						PCImmediate = 8'h01;
+						// The Immediate value from the instruction:
+						Immediate = Time; 
+						// Select Immediate as ALU input
+						SelALU = 2'b00; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						// 
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialWrite = 0;						
+				end								
 				16'bXXXX_XXXX_XXXX_XXXX:
 				begin
 					// Do nothing!

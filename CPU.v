@@ -50,9 +50,10 @@ module CPU(
 	 wire [15:0] S;
 	 wire [15:0] PC_OUT;
 	 wire [4:0] ALU_TO_PSR;
-	 
+	 wire [15:0] Time;
+	
 	 CPU_Controller CPU_Control(Clock, Reset, INS_TO_CPU, PSR_TO_CPU, 
-											GamePad, SerialRead, SerialValid,
+											GamePad, SerialRead, SerialValid,Time,
 											OpCode, OpExt, RegWrite, RegIn, RegA, RegB, 
 											Immediate, PCImmediate, SelALU, SelMEM, 
 											Mem_Write, PCWrite, PCIncrement, 
@@ -68,6 +69,7 @@ module CPU(
 	 Reg16 InstructionRegister( Clock, IRReset,IRWrite, Mem_Data, INS_TO_CPU);
 	 Reg16 VGASRegister( Clock, VGAS_R, VGAS_E, S, VGA_Start);
 	 Reg16 VGARRegister( Clock, VGAR_R, VGAR_E, S, VGA_Row);
+	 SystemClock timer(Clock, Reset, Time);
 
 	 assign Data_Out = S;
 	 
