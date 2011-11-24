@@ -161,3 +161,7 @@ const char* READGAMEPAD_STR = "READGAMEPAD";
 const int   READGAMEPAD_OPCODE = 0xD;
 const int   READGAMEPAD_OPEXT = 0x4;
 
+const char* CLOCK_STR = "CLOCK";
+const int   CLOCK_OPCODE = 0xD;
+const int   CLOCK_OPEXT  = 0x5;
+
