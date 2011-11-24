@@ -25,11 +25,16 @@ module Controller2(
     output [7:0] plyr_input,
     output reg pulse,
     output reg latch
+	// output debug
     );
 	reg latch1, pulse1, data1;
 	reg left, right, up, down, A, B, select, start;
 	reg left1, right1, up1, down1, A1, B1, select1, start1;
 	assign plyr_input = {left, right, up, down, A, B, select, start};
+	
+	//reg debug;
+	
+	//assign debug = data;
 
 
    reg [3:0] state, nextstate, returnstate, nextreturnstate;
@@ -50,13 +55,6 @@ module Controller2(
 
        parameter TWELVE_US = 12'h258;   //1770;    //count for 12 us on a 27 MHz clock
        parameter SIX_US = 12'h12C;//BB8; //count for 6 us on a 27 MHz clock
-		 
-		 initial begin
-			state = INIT;
-			returnstate = INIT;
-			count = 0;
-			start = 0;
-		 end
  
        always @ (posedge clock)
        begin
@@ -86,7 +84,20 @@ module Controller2(
  
        always @ (state or returnstate or count or data1)
        begin
-
+              //defaults
+              nextstate = state;
+              nextreturnstate = returnstate;
+              nextcount = count;
+              latch1 = latch;
+              pulse1 = pulse;
+              left1 = left;
+              right1 = right;
+              up1 = up;
+              down1 = down;
+              A1 = A;
+              B1 = B;
+              select1 = select;
+              start1 = start;
 
               case (state)
               INIT:
@@ -213,26 +224,9 @@ module Controller2(
               end
               READ_RIGHT:
               begin
-                     right1    = ~data1;
+                     right1 = ~data1;
                      nextstate = INIT;
               end
-				  default
-				  begin
-					  //defaults
-					  nextstate = state;
-					  nextreturnstate = returnstate;
-					  nextcount = count;
-					  latch1 = latch;
-					  pulse1 = pulse;
-					  left1 = left;
-					  right1 = right;
-					  up1 = up;
-					  down1 = down;
-					  A1 = A;
-					  B1 = B;
-					  select1 = select;
-					  start1 = start;
-				  end
               endcase
        end
 
