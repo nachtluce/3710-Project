@@ -9,9 +9,9 @@ NET "B" LOC = G15;
 NET "hSync" LOC = F15;
 NET "vSync" LOC = F14;
 
-NET "GPulse" LOC = F7;
-NET "GLatch" LOC = E7;
-NET "GamePadData" LOC = B6;
+NET "GPulse" LOC = C5;
+NET "GLatch" LOC = D5;
+NET "GamePadData" LOC = A4;
 
 #Created by Constraints Editor (xc3s500e-fg320-4) - 2011/11/20
 NET "Clock" TNM_NET = Clock;
