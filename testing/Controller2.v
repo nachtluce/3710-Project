@@ -19,7 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Controller2(
-    input reset,
+//    input reset,
     input clock,
     input data,
     output [7:0] plyr_input,
@@ -33,6 +33,7 @@ module Controller2(
 	assign plyr_input = {left, right, up, down, A, B, select, start};
 	
 	//reg debug;
+	assign reset = 1;
 	
 	//assign debug = data;
 
@@ -55,6 +56,28 @@ module Controller2(
 
        parameter TWELVE_US = 12'h258;   //1770;    //count for 12 us on a 27 MHz clock
        parameter SIX_US = 12'h12C;//BB8; //count for 6 us on a 27 MHz clock
+ 
+		initial begin
+			state = INIT;
+			returnstate = INIT;
+			count = 0;
+			left = 0;
+			left1 = 0;
+			right = 0;
+			right1 = 0;
+			up = 0;
+			up1 = 0;
+			down = 0;
+			down1 = 0;
+			A = 0;
+			A1 = 0;
+			B = 0; 
+			B1 = 0;
+			select = 0;
+			select1 = 0;
+			start = 0;
+			start1 = 0;
+		end
  
        always @ (posedge clock)
        begin

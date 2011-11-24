@@ -16,7 +16,7 @@ BEGIN:	LOADLBL VGA_L1_R0, R0
 	XOR R10, R10
 	STORE R2, R10
 
-LOOP:	MOVI 1, R11
+LOOP:	MOVI 2, R11
 	LOAD R0, R10
 	
 	LOADLBL MOVE_PERSON, R14
@@ -29,9 +29,9 @@ LOOP:	MOVI 1, R11
 MOVE_PERSON:
 	READGAMEPAD R3
 	# check to see button down was pressed, jump if true
-	LOAD R0, R10
-	ADDI 1, R10
-	STORE R3, R10
+#	LOAD R0, R10
+#	ADDI 1, R10
+	STORE R10, R3 # debug, change the start VGA square to the button being pressed
 	
 	LOADLBL BUTTON_DOWN, R10
 	LOAD R10, R9
@@ -53,33 +53,37 @@ MOVE_PERSON:
 	CMP R3, R9
 	JEQ MOVE_RIGHT
 
-#	JOFFSET MOVE_PERSON_E
+	JOFFSET MOVE_PERSON_E
 
 # r8 is the location to be moved to
 MOVE_DOWN:
-#	MOV R2, R8
-#	ADD R1, R8
-#	JOFFSET MOVE_END
+	MOV R2, R8
+	ADD R1, R8
+	JOFFSET MOVE_END
 MOVE_UP:
-#	MOV R2, R8
-#	SUB R1, R8
-#	JOFFSET MOVE_END
+	MOV R2, R8
+	SUB R1, R8
+	JOFFSET MOVE_END
 MOVE_LEFT:
-#	MOV R2, R8
-#	SUBI 1, R8
-#	JOFFSET MOVE_END
+	MOV R2, R8
+	SUBI 1, R8
+	JOFFSET MOVE_END
 MOVE_RIGHT:
 	MOV R2, R8
 	ADDI 1, R8
-#	JOFFSET MOVE_END
+	JOFFSET MOVE_END
 MOVE_END:
+	# the new location of the person will be R8!
 	# move the person tile to the new location
-	LOAD R2, R9
-	STORE R8, R2
+#	LOAD R2, R9
+	XOR R9, R9 # this should create the code for a person.
+	STORE R8, R9	# store R9 into location R8
 	# move the passable square tile to the old location
 	LOADLBL PASSABLE_SQUARE, R10
 	LOAD R10, R9 
 	STORE R2, R9
+
+	MOV R8, R2
 		
 MOVE_PERSON_E:	
 	LOADLBL LOOP, R10
