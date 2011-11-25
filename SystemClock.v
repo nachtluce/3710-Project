@@ -28,6 +28,7 @@ module SystemClock(
 	
 	initial begin
 		count = 0;
+		Time  = 0;
 	end
 
 	always @(posedge Clock, negedge Reset)
