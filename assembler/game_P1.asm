@@ -8,6 +8,8 @@ INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	#set VGA pointers
 	SETBEGINVGA R5
 	SETROWVGA R6
+	LOADLBL G_VGA_ROW, R5
+	STORE R5, R6
 
 	# set player location
 	LOADLBL VGA_L2_R1, R7
