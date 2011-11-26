@@ -41,12 +41,16 @@ MAIN_LOOP_R1:
 	JUMP R5
 	
 MAIN_LOOP_R2:	
-	LOADLBL WAIT_FINISH, R5
-#	MOV R13, R1
+	LOADLBL ADJUST_SCREEN, R5
 	LOADLBL MAIN_LOOP_R3, R14
 	JUMP R5
 	
-MAIN_LOOP_R3:	
+MAIN_LOOP_R3:
+	LOADLBL WAIT_FINISH, R5
+	LOADLBL MAIN_LOOP_R4, R14
+	JUMP R5
+		
+MAIN_LOOP_R4:
 	MOV R13, R1
 	
 	LOADLBL VGA_L2_R0, R10
@@ -205,7 +209,125 @@ MOVE_PERSON_L12:
 MOVE_PERSON_END:
 	JUMP R14
 	
+############################## ADJUST_SCREEN ##############################
+# This method is used to center the screen on player 1.
+# global variables define how the screen will be adjusted.
+#  G_WINDOW_PTR_MIN - window pointer should never be less than this value
+#  G_WINDOW_PTR_MAX - window pointer hsould never be more than this value
+#  G_WINDOW_W_BORDER- when man gets within this man squares of the edge
+#                        the screen will be adjusted
+#  G_WINDOW_H_BORDER- when the man get within this many square of the top or
+#	                 bottom the screen will be adjusted.
 
+# ALGORITHMS: The algorithm used to adjust the screen does the following:
+#	find how many rows down from the VGA_PTR player 1 is.  As a byproduct
+#       the column the player is in will also be calculated.
+#       1) if column is out of bounds, adjust appropreatly
+#	2) if row is out of bounds, adjust appropreatly
+#       3) if adjusting the column and row caused the VGA pointer to be
+#		out of bounds, unadjust appropreatly
+	
+# Arguments: None
+# Return: None
+
+# R5  - loop counter, stores how many rows down the player is from VGA_START
+# R6  - column counter, stores what column the player is in from VGA_START
+# R7  - VGA_POINTER value pulled from G_VGA_START
+# R8  -
+# R9  -
+# R10 - Used to store memory locations of loads and stores
+# R11 - Used to store values for temporary calculations
+# R12 - Used to store values for temporary calculations
+ADJUST_SCREEN:
+	# get the VGA start pointer
+	LOADLBL G_VGA_START, R10
+	LOAD R10, R7
+	# get the location of player1.  put into R6, will be adjusted in loop
+	#  to become column counter
+	LOADLBL G_PLAYER1_LOCATION, R10
+	LOAD R10, R6
+	# get the row width of the maze.  Used in the loop to find where the
+	#  player is located
+	LOADLBL G_VGA_ROW, R10
+	LOAD R10, R12
+	# loop counter = 0, column counter -= VGA_START
+	XOR R5, R5
+	SUB R7, R6
+
+	# load how wide the window is.  This is used in the loop.
+	LOADLBL G_WINDOW_WIDTH, R10
+	LOAD R10, R11
+	# count how many rows down the player is
+ADJUST_SCREEN_L1S:
+	CMP R11, R6
+	JHS ADJUST_SCREEN_L1E
+
+	ADDI 1, R5
+	SUB R12, R6
+
+	JOFFSET ADJUST_SCREEN_L1S
+ADJUST_SCREEN_L1E:	
+
+# adjust screen horizontally, if needed
+# if location < window border, adjust screen because it is to the left
+	LOADLBL G_WINDOW_W_BORDER, R10
+	LOAD R10, R11
+	CMP R11, R6
+	JHS ADJUST_SCREEN_L2_LEFT
+# if location > window_width - boarder, adjust screen because it is to the right
+	LOADLBL G_WINDOW_WIDTH, R10
+	LOAD R10, R12
+	SUB R11, R12
+	CMP R12, R6
+	JLS ADJUST_SCREEN_L3_RIGHT
+
+# do vertical, but for now just return if nothing was found
+	JOFFSET ADJUST_SCREEN_L4
+
+ADJUST_SCREEN_L2_LEFT:
+	SUBI 1, R7
+	JOFFSET ADJUST_SCREEN_L4
+ADJUST_SCREEN_L3_RIGHT:
+	ADDI 1, R7
+	JOFFSET ADJUST_SCREEN_L4
+
+ADJUST_SCREEN_L4:
+	
+# if loop < G_WINDOW_H_BOARDER, adjust screen because it is too high
+	LOADLBL G_WINDOW_H_BORDER, R10
+	LOAD R10, R11
+	CMP R11, R5
+	JHS ADJUST_SCREEN_L5_HIGH
+# if loop > window_hight - border, adjust screen because it is too low
+	LOADLBL G_WINDOW_HIGHT, R10
+	LOAD R10, R12
+	SUB R11, R12
+	CMP R12, R5
+	JLS ADJUST_SCREEN_L6_LOW
+
+	JOFFSET ADJUST_SCREEN_L7
+
+ADJUST_SCREEN_L5_HIGH:
+	LOADLBL G_VGA_ROW, R10
+	LOAD R10, R12
+	SUB R12, R7
+	JOFFSET ADJUST_SCREEN_L7
+ADJUST_SCREEN_L6_LOW:
+	LOADLBL G_VGA_ROW, R10
+	LOAD R10, R12
+	ADD R12, R7
+	JOFFSET ADJUST_SCREEN_L7
+	
+ADJUST_SCREEN_L7:
+
+	# TODO: check if it is out of bounds
+	SETBEGINVGA R7
+	LOADLBL G_VGA_START, R10
+	STORE R10, R7
+
+	JUMP R14
+
+	
 ############################## WAIT_SETUP ##############################
 # This method is used to setup the wait method.  The arument passed is
 # how many millisecods from WAIT_SETUP being called, WAIT should finish
@@ -308,13 +430,14 @@ G_WIN_SQUARE:	.fill 0x0006
 G_BOX_SQUARE:	.fill 0x0005
 
 # window information used by adjust screen method
-G_WINDOW_POINTER_MIN:	.fill VGA_L2_R0
+G_WINDOW_PTR_MIN:	.fill VGA_L2_R0
 G_WINDOW_PTR_MAX:	.fill VGA_END
 
-G_WINDOW_W_BOARDER:	.fill 5
-G_WINDOW_H_BOARDER:	.fill 5
+G_WINDOW_W_BORDER:	.fill 3
+G_WINDOW_H_BORDER:	.fill 3
 
-
+G_WINDOW_WIDTH:	.fill 20	# how many tiles across the screen displays
+G_WINDOW_HIGHT:	.fill 15	# how many tiles vertically the screen displays
 
 
 ##################################################
