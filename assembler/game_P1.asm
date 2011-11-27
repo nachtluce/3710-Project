@@ -11,6 +11,18 @@ INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	LOADLBL G_VGA_ROW, R5
 	STORE R5, R6
 
+	# calculate  15 * rowwidth
+	LSH R6, R7
+	LSH R7, R7
+	LSH R7, R7
+	LSH R7, R7
+	SUB R6, R7
+	# calculate VGA_END - 15 * rowidth.  This will be max ptr location
+	LOADLBL VGA_END, R8
+	SUB R7, R8
+	LOADLBL G_WINDOW_PTR_MAX, R10
+	STORE R10, R8
+
 	# set player location
 	LOADLBL VGA_L2_R1, R7
 	ADDI 1, R7
@@ -185,7 +197,7 @@ MOVE_PERSON_L10:
 	CMP R5, R7
 	JEQ MOVE_PERSON_L12
 
-# if trying to move to a box location, it will eventually move the box
+ # if trying to move to a box location, it will eventually move the box
 #	LOADLBL G_BOX_SQUARE, R10
 #	LOAD R10, R7
 #	CMP R5, R7
@@ -234,7 +246,7 @@ MOVE_PERSON_END:
 # R6  - column counter, stores what column the player is in from VGA_START
 # R7  - VGA_POINTER value pulled from G_VGA_START
 # R8  -
-# R9  -
+# R9  - Uaws to store values for temporary calculations
 # R10 - Used to store memory locations of loads and stores
 # R11 - Used to store values for temporary calculations
 # R12 - Used to store values for temporary calculations
@@ -268,37 +280,59 @@ ADJUST_SCREEN_L1S:
 	JOFFSET ADJUST_SCREEN_L1S
 ADJUST_SCREEN_L1E:	
 
-# adjust screen horizontally, if needed
-# if location < window border, adjust screen because it is to the left
+ # adjust screen horizontally, if needed
+ # if location < window border, adjust screen because it is to the left
 	LOADLBL G_WINDOW_W_BORDER, R10
 	LOAD R10, R11
 	CMP R11, R6
 	JHS ADJUST_SCREEN_L2_LEFT
-# if location > window_width - boarder, adjust screen because it is to the right
+ # if location > window_width - boarder, adjust screen because it is to the right
 	LOADLBL G_WINDOW_WIDTH, R10
 	LOAD R10, R12
 	SUB R11, R12
 	CMP R12, R6
 	JLS ADJUST_SCREEN_L3_RIGHT
 
-# do vertical, but for now just return if nothing was found
+ # do vertical, but for now just return if nothing was found
 	JOFFSET ADJUST_SCREEN_L4
 
 ADJUST_SCREEN_L2_LEFT:
-	SUBI 1, R7
+ # if adjusting the pointer would make it smaller than the min value
+ # jump to have the value adjusted vertically.
+	LOADLBL G_WINDOW_PTR_MIN, R10
+	LOAD R10, R12
+	MOV R7, R11
+	SUBI 1, R11
+	MOV R11, R7
+	CMP R11, R12
+	JLS ADJUST_SCREEN_L6_LOW
+	
+#	MOV R11, R7
 	JOFFSET ADJUST_SCREEN_L4
 ADJUST_SCREEN_L3_RIGHT:
-	ADDI 1, R7
+ # if adjusting the pointer would make it larger than the max value
+ # jump to have the value adjusted vertically.  it will adjust horizontally
+ # regaurdless of if it will go out of bounds.  However, it will adjust
+ # verdically if it will go out of bounds.
+	LOADLBL G_WINDOW_PTR_MAX, R10
+	LOAD R10, R12
+	MOV R7, R11
+	ADDI 1, R11
+	CMP R11, R12
+	MOV R11, R7
+	JHS ADJUST_SCREEN_L5_HIGH
+	
+#	ADDI R11, R7
 	JOFFSET ADJUST_SCREEN_L4
 
 ADJUST_SCREEN_L4:
 	
-# if loop < G_WINDOW_H_BOARDER, adjust screen because it is too high
+ # if loop < G_WINDOW_H_BOARDER, adjust screen because it is too high
 	LOADLBL G_WINDOW_H_BORDER, R10
 	LOAD R10, R11
 	CMP R11, R5
 	JHS ADJUST_SCREEN_L5_HIGH
-# if loop > window_hight - border, adjust screen because it is too low
+ # if loop > window_hight - border, adjust screen because it is too low
 	LOADLBL G_WINDOW_HIGHT, R10
 	LOAD R10, R12
 	SUB R11, R12
@@ -309,15 +343,34 @@ ADJUST_SCREEN_L4:
 
 ADJUST_SCREEN_L5_HIGH:
 	LOADLBL G_VGA_ROW, R10
+	LOAD R10, R9
+	LOADLBL G_WINDOW_PTR_MIN, R10
 	LOAD R10, R12
-	SUB R12, R7
+	MOV R7, R11
+	SUB R9, R11
+
+ # if min > adjusted  Dont do anything--jump to other adjust verdical secion
+	CMP R11, R12
+#	JLS ADJUST_SCREEN_L6_LOW
+	JLS ADJUST_SCREEN_L7
+
+	MOV R11, R7
 	JOFFSET ADJUST_SCREEN_L7
 ADJUST_SCREEN_L6_LOW:
 	LOADLBL G_VGA_ROW, R10
+	LOAD R10, R9
+	LOADLBL G_WINDOW_PTR_MAX, R10
 	LOAD R10, R12
-	ADD R12, R7
+	MOV R7, R11
+	ADD R9, R11
+
+ # if max < adjusted, don't do anyting
+	CMP R11, R12
+	JHS ADJUST_SCREEN_L7
+
+	MOV R11, R7
 	JOFFSET ADJUST_SCREEN_L7
-	
+
 ADJUST_SCREEN_L7:
 
 	# TODO: check if it is out of bounds
@@ -430,8 +483,8 @@ G_WIN_SQUARE:	.fill 0x0006
 G_BOX_SQUARE:	.fill 0x0005
 
 # window information used by adjust screen method
-G_WINDOW_PTR_MIN:	.fill VGA_L2_R0
-G_WINDOW_PTR_MAX:	.fill VGA_END
+G_WINDOW_PTR_MIN:	.fill VGA_L2_PRE
+G_WINDOW_PTR_MAX:	.fill .fill 0x0000 # programatically as END - 15 * ROW_SIZE
 
 G_WINDOW_W_BORDER:	.fill 3
 G_WINDOW_H_BORDER:	.fill 3
@@ -442,7 +495,25 @@ G_WINDOW_HIGHT:	.fill 15	# how many tiles vertically the screen displays
 
 ##################################################
 	###### MAP DATA #######
+VGA_L2_PRE:
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
 
+	
 VGA_L2_R0:
 	.fill 0x0004
 	.fill 0x0004
@@ -864,5 +935,20 @@ VGA_L2_R19:
 	.fill 0x0004
 	.fill 0x0004	
 
-VGA_END:
+
 	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+VGA_END:	.fill 0x0004
