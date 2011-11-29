@@ -701,7 +701,7 @@ STACK:	.fill 0x0000
 
 	
 # The G prefix defines that it is a global data field
-DATA:
+DATA_START:
 
 G_VGA_START:	.fill VGA_L2_R0
 G_VGA_ROW:	.fill 0x0000	#must be set programatically
@@ -764,21 +764,21 @@ VGA_L2_PRE:
 
 	
 VGA_L2_R0:
-	.fill 0x0001
-	.fill 0x0002
-	.fill 0x0003
 	.fill 0x0004
-	.fill 0x0005
-	.fill 0x0006
-	.fill 0x0007
-	.fill 0x0008
-	.fill 0x0009
-	.fill 0x000A
-	.fill 0x000B
-	.fill 0x000C
-	.fill 0x000D
-	.fill 0x000E
-	.fill 0x000F
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
+	.fill 0x0004
 	.fill 0x0004
 	.fill 0x0004
 	.fill 0x0004
@@ -1201,3 +1201,17 @@ VGA_L2_R19:
 	.fill 0x0004
 	.fill 0x0004
 VGA_END:	.fill 0x0004
+
+DATA_END:	.fill 0x0000
+
+
+##################
+# This is the location in memory where a backup of all changing data is
+# stored.  When a game is restarted, it pulls all the information from
+# this area.
+# This just assumes that there is enough room in memory to store a backup
+# of the map and data.  If not you will know pretty fast because the memory
+# will be currupted before the game starts.  However, since there is 16k words,
+# it should not be too hard to figure out if it is too big: if the total line
+# count of the output of the assembler is more than 8k, it might be too large
+DATA_BACKUP:	
