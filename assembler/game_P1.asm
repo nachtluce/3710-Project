@@ -101,8 +101,7 @@ MAIN_LOOP_R4:
 # R9 - current location of person
 # R8 - potential next location of person
 # R7 - Used for very short calculations (less than a few lines)
-# R6 - next tile type for person (so the person looks to walking in
-#        the direction)
+# R6 - 
 # R5 - Used for short calculations (less than a few lines)
 	
 MOVE_PERSON:
@@ -198,15 +197,69 @@ MOVE_PERSON_L10:
 	JEQ MOVE_PERSON_L12
 
  # if trying to move to a box location, it will eventually move the box
-#	LOADLBL G_BOX_SQUARE, R10
-#	LOAD R10, R7
-#	CMP R5, R7
-#	JEQ MOVE_PERSON_L11_BOX
+	LOADLBL G_BOX_SQUARE, R10
+	LOAD R10, R7
+	CMP R5, R7
+	JEQ MOVE_PERSON_L11_BOX
 
 # otherwise, the square can not be moved to, so set so it does not move person
 	MOV R9, R8
 JOFFSET MOVE_PERSON_L12
 
+# run the move box method.  If the next square is no longer a box, move the
+# person.  Otherwise we assume the box could not be moved so the person
+# will not be moved
+MOVE_PERSON_L11_BOX:
+	# store R14, R13, R12, R11, R9, R8, R6 on stack
+	STORE R15, R14
+	ADDI 1, R15
+	STORE R15, R13
+	ADDI 1, R15
+	STORE R15, R12
+	ADDI 1, R15
+	STORE R15, R11
+	ADDI 1, R15
+	STORE R15, R9
+	ADDI 1, R15
+	STORE R15, R8
+	ADDI 1, R15
+	STORE R15, R6
+	ADDI 1, R15
+	# setup argument:
+	#  R11 - pointer to box being moved
+	#  R12 - controller input
+	#  R14 - return location
+	MOV R8, R11
+	LOADLBL MOVE_PERSON_L11_BOX_R, R14
+	LOADLBL MOVE_BLOCK, R5
+	JUMP R5
+	# R12 contains controller input
+
+MOVE_PERSON_L11_BOX_R:	
+	SUBI 1, R15
+	LOAD R15, R6
+	SUBI 1, R15
+	LOAD R15, R8
+	SUBI 1, R15
+	LOAD R15, R9
+	SUBI 1, R15
+	LOAD R15, R11
+	SUBI 1, R15
+	LOAD R15, R12
+	SUBI 1, R15
+	LOAD R15, R13
+	SUBI 1, R15
+	LOAD R15, R14
+
+# check to see if the block is moved (by checking if it is a passable square
+	LOAD R8, R7
+	LOADLBL G_PASSABLE_SQUARE, R10
+	LOAD R10, R5
+	CMP R7, R5
+	JEQ MOVE_PERSON_L12
+# If not, don't move the person
+	MOV R9, R8
+	
 MOVE_PERSON_L12:
 	# store the passable square where the person 'used to be'
 	LOADLBL G_PASSABLE_SQUARE, R10
@@ -217,9 +270,157 @@ MOVE_PERSON_L12:
 	STORE R8, R7
 	# store the new location of the person in the global data area
 	STORE R11, R8
-
+	
 MOVE_PERSON_END:
 	JUMP R14
+
+##############################   MOVE_BLOCK  ##############################
+# This method is used to move a box or block around the square.  Boxes are moved
+# in the same way a player is moved around.  If the block can not move in the
+# direction desired, the block will not move.  If it can move it will
+# be pushed into the new location.  If the new location is a lava square,
+# the lava and block will be destroyed and the lava square will be turned into
+# a passable square.
+	
+# Arguments:
+# R11 - Pointer to location of box that we are trying to move
+# R12 - Controller input (just like to MOVE_PERSON)
+# Returns: nothing.
+
+# Variables used:
+# R10 - temp register used to load values from memory
+# R9 - current location of box, used to make copy, paste easy from MOVE_PERSON
+# R8 - potential next location of block
+# R7 - Used for very short calculations (less than a few lines)
+# R6 - 
+# R5 - Used for short calculations (less than a few lines)
+
+MOVE_BLOCK:
+	# consistency check, verify it is a box being moved.  If not return
+	LOADLBL G_BOX_SQUARE, R10
+	LOAD R10, R7
+	LOAD R11, R5
+	CMP R7, R5
+	JEQ MOVE_BLOCK_START # If they are not equal it is not a box being moved
+	JUMP R14
+	
+MOVE_BLOCK_START:	
+	# This is done to make COPY/PASTE easy.  MOVE_BLOCK is almost the same
+	# as moving a person, with only a few minor rule differences
+	MOV R11, R9	# put the current location of the block into R9.
+	MOV R9, R8	# put the currect location into R8, so adjustments
+	                # be made directoy to R8
+
+# Decode what button was pressed (order of presidence DOWN, UP, RIGHT, LEFT)
+# check if down button was pressed
+MOVE_BLOCK_L1:	
+	LOADLBL G_BUTTON_DOWN, R10
+	LOAD R10, R7
+	AND R12, R7
+	CMPI 0, R7 # if it is zero the button was not pressed
+	JEQ MOVE_BLOCK_L2
+	JOFFSET MOVE_BLOCK_L6_DOWN
+# check if up button was pressed
+MOVE_BLOCK_L2:
+	LOADLBL G_BUTTON_UP, R10
+	LOAD R10, R7
+	AND R12, R7
+	CMPI 0, R7
+	JEQ MOVE_BLOCK_L3
+	JOFFSET MOVE_BLOCK_L7_UP
+# check if right button was pressed
+MOVE_BLOCK_L3:
+	LOADLBL G_BUTTON_RIGHT, R10
+	LOAD R10, R7
+	AND R12, R7
+	CMPI 0, R7
+	JEQ MOVE_BLOCK_L4
+	JOFFSET MOVE_BLOCK_L8_RIGHT
+# check if left button was pressed
+MOVE_BLOCK_L4:
+	LOADLBL G_BUTTON_LEFT, R10
+	LOAD R10, R7
+	AND R12, R7
+	CMPI 0, R7
+	JEQ MOVE_BLOCK_L5
+	JOFFSET MOVE_BLOCK_L9_LEFT
+# no buttons were pressed for a move, so just end function
+MOVE_BLOCK_L5:	
+	JUMP R14
+
+# process specific logic for directional move
+# 1) find the next location the block may move to
+MOVE_BLOCK_L6_DOWN:
+	# to move down, add vga row size to location
+	LOADLBL G_VGA_ROW, R10
+	LOAD R10, R7
+	ADD R7, R8
+	JOFFSET MOVE_BLOCK_L10
+MOVE_BLOCK_L7_UP:
+	# to move up, subtract vga row size to location
+	LOADLBL G_VGA_ROW, R10
+	LOAD R10, R7
+	SUB R7, R8
+	JOFFSET MOVE_BLOCK_L10
+MOVE_BLOCK_L8_RIGHT:
+	# to move right, add 1 to currect location
+	ADDI 1, R8
+	JOFFSET MOVE_BLOCK_L10
+MOVE_BLOCK_L9_LEFT:
+	# to move left, subtract 1 from currenct location
+	SUBI 1, R8
+	JOFFSET MOVE_BLOCK_L10
+	
+# end movement specific portion
+# 1) check to see if won!
+# 2) check to see if movable
+#   -> if not movable R9->R8
+# 3) set variables appropreatly for the move
+MOVE_BLOCK_L10:	
+	LOAD R8, R5	# R5 = what is in the square trying to move to
+
+	LOADLBL G_PASSABLE_SQUARE, R10
+	LOAD R10, R7
+	CMP R5, R7
+	JEQ MOVE_BLOCK_L12_PASSABLE
+
+	LOADLBL G_LAVA_SQUARE, R10
+	LOAD R10, R7
+	CMP R5, R7
+	JEQ MOVE_BLOCK_L13_LAVA
+
+# otherwise, the block can not be moved, so just jump out of method and leave
+# everything as is
+	JOFFSET MOVE_BLOCK_END
+
+# If pushing the block into a normal passable location
+MOVE_BLOCK_L12_PASSABLE:
+	# remove the block from where it used to be
+	LOADLBL G_PASSABLE_SQUARE, R10
+	LOAD R10, R7
+	STORE R9, R7
+	# put the block in the next location
+	LOADLBL G_BOX_SQUARE, R10
+	LOAD R10, R7
+	STORE R8, R7
+
+	JOFFSET MOVE_BLOCK_END
+# If pushing the block into a lava square
+# 1) block is removed
+# 2) lava square becomes passable square (blcok covers lava)
+MOVE_BLOCK_L13_LAVA:	
+	# remove the block from the map
+	LOADLBL G_PASSABLE_SQUARE, R10
+	LOAD R10, R7
+	STORE R9, R7
+	# store a passable square into the next location
+	STORE R8, R7
+
+	JOFFSET MOVE_BLOCK_END
+
+MOVE_BLOCK_END:
+	JUMP R14
+
 	
 ############################## ADJUST_SCREEN ##############################
 # This method is used to center the screen on player 1.
@@ -479,6 +680,7 @@ G_WAIT_UNTIL:	.fill 0x0000
 
 # square information used by move methods
 G_PASSABLE_SQUARE:	.fill 0x000C
+G_LAVA_SQUARE:	.fill 0x0007
 G_WIN_SQUARE:	.fill 0x0006
 G_BOX_SQUARE:	.fill 0x0005
 
