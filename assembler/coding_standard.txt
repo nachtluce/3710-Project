@@ -6,18 +6,21 @@ Registers will be used in the following way:
 _________________________________________
 | R0-R4   | Saved Registers             |
 | R5-R10  | Temp Registers              |
-| R11,R12 | Arguments for methods       |
+| R11-R13 | Arguments for methods       |
 | R13     | Return value for methods    |
 | R14     | Return Address for methods  |
 | R15     | Stack Pointer               |
 -----------------------------------------
+*R13 can be used as an argument and modifed according to what should be
+returned.  No reason to leave that register unused, even though it might
+add some confusion.
 
 When a method calls another method, the following registers should
 remain consistant:
 
 _________________________________________
 | R0-R4  | Saved Registers              |
-| R14    | Return addres for method     |
+| R14    | Return address for method     |
 | R15*   | Stack Pointer                |
 -----------------------------------------
 (*) Unless used to pass additional arguments to a method

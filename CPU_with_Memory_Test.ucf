@@ -9,9 +9,18 @@ NET "B" LOC = G15;
 NET "hSync" LOC = F15;
 NET "vSync" LOC = F14;
 
-NET "GPulse" LOC = F7;
-NET "GLatch" LOC = E7;
-NET "GamePadData" LOC = B6;
+NET "GPulse" LOC = C5;
+NET "GLatch" LOC = D5;
+NET "GamePadData" LOC = A4;
+
+NET "debug[0]" LOC = F9;
+NET "debug[1]" LOC = E9;
+NET "debug[2]" LOC = D11;
+NET "debug[3]" LOC = C11;
+NET "debug[4]" LOC = F11;
+NET "debug[5]" LOC = E11;
+NET "debug[6]" LOC = E12;
+NET "debug[7]" LOC = F12;
 
 #Created by Constraints Editor (xc3s500e-fg320-4) - 2011/11/20
 NET "Clock" TNM_NET = Clock;

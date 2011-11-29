@@ -112,6 +112,7 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
     if( LABEL_LOCATIONS.count(*arg0) == 0)
     {
       offset = getImm(*arg0) & (0xFF); // only take the lower character, should be signed
+      printf("WARNING: \'%s\' used as jump reference.  Should use labels\n\t(if it should be a label, check to see if it is spelt correctly)\n", *arg0);
     }
     else
     {
@@ -150,6 +151,7 @@ int getEncodedInstruction(char **instruction, char **arg0, char **arg1, int Code
     (opcode == STOREPC_OPCODE && opext == STOREPC_OPEXT)
     || (opcode == READSERIAL_OPCODE && opext == READSERIAL_OPEXT)
     || (opcode == READGAMEPAD_OPCODE && opext == READGAMEPAD_OPEXT)
+    || (opcode == CLOCK_OPCODE && opext == CLOCK_OPEXT )
   )
   {
     int dstReg = GetRegisterValue(*arg0);

@@ -26,7 +26,7 @@ module CPU_MEM_Tester;
 
 	// Inputs
 	reg Clock;
-	reg Reset;
+	//reg Reset;
 	reg GamePadData;
 	reg serialValid;
 	reg [15:0] serialRead;
@@ -35,7 +35,7 @@ module CPU_MEM_Tester;
 	// Instantiate the Unit Under Test (UUT)
 	CPU_with_Memory_Test uut (
 		.Clock(Clock), 
-		.Reset(Reset),
+	//	.Reset(Reset),
 		.GamePadData(GamePadData),
 		.serialValid(serialValid),
 		.serialRead(serialRead)
@@ -54,16 +54,16 @@ module CPU_MEM_Tester;
 		// Initialize Inputs
 		GamePadData = 0;
 		Clock = 0;
-		Reset = 1;
+	//	Reset = 0;
 		serialValid = 0;
 		serialRead = 0;
 
 		// Wait 100 ns for global reset to finish
 		#100;
 		
-		Reset = 0;
+	//	Reset = 1;
 		#5
-		Reset = 1;
+		//Reset = 0;
         
 		// Add stimulus here
 		for (i = 0; i < 100; i = i + 1)

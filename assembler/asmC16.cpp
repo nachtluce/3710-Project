@@ -182,15 +182,18 @@ int main(int argc, char *argv[])
 	unsigned int label = LABEL_LOCATIONS.find(arg0)->second;
 	  // the way the code is organized, this will do a 'pre push' and at the end of the block the other data will be written.  Funny, but it words.
 
-      // do moviu to put upper bits of address in the reg
-      
-      unsigned short tempData = (MOVIU_OPCODE << 12) | ( (label >> 4) & 0x0FF0) | reg;
+/* NOTE: The CPU is setup so the lower bits MUST be placed into the register first.  A movi instruction
+will eliminate the upper bits and set them to 00h, so the movui must be done after.
+*/
+
+      // do movi to put upper bits of address in the reg
+      unsigned short tempData = (MOVI_OPCODE << 12) | ( (label << 4) & 0x0FF0) | reg;
       sprintf(writeBuff, "%04x\n", tempData);
       fputs(writeBuff, outFilePtr);
       codeLine++;  // codeline increased when data is written
 	 
-      // now set data to write the lower bits
-      data = (MOVI_OPCODE << 12) | ( (label << 4) & 0x0FF0) | reg;
+      // now set data to write the upper bits
+      data = (MOVIU_OPCODE << 12) | ( (label >> 4) & 0x0FF0) | reg;
       }
       ////////////////////////
       else{

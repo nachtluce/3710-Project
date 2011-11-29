@@ -169,5 +169,8 @@ extern const char* READGAMEPAD_STR;
 extern const int   READGAMEPAD_OPCODE;
 extern const int   READGAMEPAD_OPEXT;
 
+extern const char* CLOCK_STR;
+extern const int   CLOCK_OPCODE;
+extern const int   CLOCK_OPEXT;
 
 #endif
