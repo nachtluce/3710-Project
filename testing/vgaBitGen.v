@@ -39,6 +39,7 @@ module vgaBitGen(
 //pic4 is 0x120 to 0x17F
 //...
 	reg[3:0] xWord;
+	reg[3:0] yWord;
 	wire [8:0] MemData;
 	reg [11:0] fetchAddress;//this is the location to fetch in vga memory
 
@@ -64,390 +65,432 @@ begin
 	else if(xSubCount > 28  && xSubCount < 35)
 		 xWord = 5;
 end
+always @(*)
+	begin
+		if(ySubCount < 2)
+			yWord = 0;
+		else if(ySubCount > 1 && ySubCount < 4)
+			yWord = 6;
+		else if(ySubCount > 3 && ySubCount < 6)
+			yWord = 12;
+		else if(ySubCount > 5 && ySubCount < 8)
+			yWord = 18;
+		else if(ySubCount > 7 && ySubCount < 10)
+			yWord = 24;
+		else if(ySubCount > 9 && ySubCount < 12)
+			yWord = 30;
+		else if(ySubCount > 11 && ySubCount < 14)
+			yWord = 36;
+		else if(ySubCount > 13 && ySubCount < 16)
+			yWord = 42;
+		else if(ySubCount > 15 && ySubCount < 18)
+			yWord = 48;
+		else if(ySubCount > 17 && ySubCount < 20)
+			yWord = 54;
+		else if(ySubCount > 19 && ySubCount < 22)
+			yWord = 60;
+		else if(ySubCount > 21 && ySubCount < 24)
+			yWord = 66;
+		else if(ySubCount > 23 && ySubCount < 26)
+			yWord = 72;
+		else if(ySubCount > 25 && ySubCount < 28)
+			yWord = 78;
+		else if(ySubCount > 27 && ySubCount < 30)
+			yWord = 84;
+		else if(ySubCount > 29 && ySubCount < 32)
+			yWord = 90;
+		else
+			yWord = 0;
+		
+	
+	end
 
 always @(*)//this use to be posegde clk
 begin
-		
-		if(picNum == 0)//Dude Right
-		begin
-		
-			
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 0;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 6;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 12;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 18;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 24;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 30;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 36;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 42;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 48;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 54;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 60;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 66;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 72;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 78;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 84;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 90;//
-			else
-				fetchAddress = 10'b0000_0000_00;
-			
-		end
-		else if(picNum == 1)//Dude Up
-		begin
+		//we need a multiplier to advance the image address based on 
+		fetchAddress = (picNum * 95) +(xWord + yWord);
+		//example 0 * 95 = 0 + (0 +0); = 0
+		//example 2  1 * 95 +
+		// if(picNum == 0)//Dude Right
+		// begin
 		
 			
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 96;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 102;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 108;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 114;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 120;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 126;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 132;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 138;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 144;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 150;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 156;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 162;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 168;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 174;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 180;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 15
-				fetchAddress = xWord + 186;//
-			else
-				fetchAddress = 10'b0000_0000_00;
-		end
-		else if(picNum == 2)//Dude Left
-		begin
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 0;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 6;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 12;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 18;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 24;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 30;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 36;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 42;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 48;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 54;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 60;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 66;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 72;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 78;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 84;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 14
+				// fetchAddress = xWord + 90;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;
+			
+		// end
+		// else if(picNum == 1)//Dude Up
+		// begin
 		
 			
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 192;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 198;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 204;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 210;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 216;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 222;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 228;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 234;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 240;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 246;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 252;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 258;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 264;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 270;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 276;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 282;//
-			else
-				fetchAddress = 10'b0000_0000_00;				
-		end
-		else if(picNum == 3)//Dude Down
-		begin
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 288;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 294;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 300;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 306;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 312;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 318;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 324;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 330;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 336;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 342;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 348;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 354;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 360;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 366;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 372;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 378;//
-			else
-				fetchAddress = 10'b0000_0000_00;
-		end
-		else if(picNum == 4)
-		begin
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 384;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 390;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 396;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 402;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 408;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 414;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 420;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 426;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 432;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 438;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 444;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 450;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 456;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 462;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 468;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 474;//
-			else
-				fetchAddress = 10'b0000_0000_00;
-		end
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 96;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 102;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 108;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 114;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 120;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 126;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 132;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 138;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 144;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 150;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 156;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 162;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 168;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 174;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 180;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 15
+				// fetchAddress = xWord + 186;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;
+		// end
+		// else if(picNum == 2)//Dude Left
+		// begin
+		
+			
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 192;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 198;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 204;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 210;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 216;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 222;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 228;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 234;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 240;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 246;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 252;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 258;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 264;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 270;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 276;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 14
+				// fetchAddress = xWord + 282;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;				
+		// end
+		// else if(picNum == 3)//Dude Down
+		// begin
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 288;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 294;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 300;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 306;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 312;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 318;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 324;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 330;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 336;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 342;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 348;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 354;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 360;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 366;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 372;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 14
+				// fetchAddress = xWord + 378;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;
+		// end
+		// else if(picNum == 4)
+		// begin
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 384;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 390;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 396;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 402;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 408;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 414;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 420;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 426;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 432;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 438;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 444;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 450;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 456;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 462;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 468;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 14
+				// fetchAddress = xWord + 474;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;
+		// end
 
-		else if(picNum == 5)
-		begin
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 480;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 486;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 492;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 498;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 504;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 510;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 516;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 522;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 528;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 534;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 540;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 546;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 552;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 558;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 564;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 560;//
-			else
-				fetchAddress = 10'b0000_0000_00;
-		end
-		else if(picNum == 6)
-		begin
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 566;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 572;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 578;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 584;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 590;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 596;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 602;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 608;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 614;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 620;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 626;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 632;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 638;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 644;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 650;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 656;//
-			else
-				fetchAddress = 10'b0000_0000_00;
-		end
-		else if(picNum == 7)
-		begin
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 662;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 668;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 674;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 680;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 686;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 692;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 698;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 704;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 710;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 716;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 722;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 728;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 734;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 740;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 746;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 752;//
-			else
-				fetchAddress = 10'b0000_0000_00;
-		end
-		else if(picNum == 8)
-		begin
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 758;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 764;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 770;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 776;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 782;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 788;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 794;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 800;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 806;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 812;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 818;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 824;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 830;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 836;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 842;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 848;//
-			else
-				fetchAddress = 10'b0000_0000_00;
-		end
-		else if(picNum == 9)
-		begin
-			if(ySubCount < 2)//row 0 of 16
-				fetchAddress = xWord + 854;
-			else if(ySubCount > 1 && ySubCount < 4) //row 1
-				fetchAddress = xWord + 860;//
-			else if(ySubCount > 3 && ySubCount < 6) //row 2
-				fetchAddress = xWord + 866;//
-			else if(ySubCount > 5 && ySubCount < 8) //row 3
-				fetchAddress = xWord + 872;//
-			else if(ySubCount > 7 && ySubCount < 10) //row 4
-				fetchAddress = xWord + 878;//
-			else if(ySubCount > 9 && ySubCount < 12) //row 5
-				fetchAddress = xWord + 884;//
-			else if(ySubCount > 11 && ySubCount < 14) //row 6
-				fetchAddress = xWord + 890;//
-			else if(ySubCount > 13 && ySubCount < 16) //row 7
-				fetchAddress = xWord + 896;//
-			else if(ySubCount > 15 && ySubCount < 18) //row 8
-				fetchAddress = xWord + 902;//
-			else if(ySubCount > 17 && ySubCount < 20) //row 9
-				fetchAddress = xWord + 908;//
-			else if(ySubCount > 19 && ySubCount < 22) //row 10
-				fetchAddress = xWord + 914;//
-			else if(ySubCount > 21 && ySubCount < 24) //row 11
-				fetchAddress = xWord + 920;//
-			else if(ySubCount > 23 && ySubCount < 26) //row 12
-				fetchAddress = xWord + 926;//
-			else if(ySubCount > 25 && ySubCount < 28) //row 13
-				fetchAddress = xWord + 932;//
-			else if(ySubCount > 27 && ySubCount < 30) //row 14
-				fetchAddress = xWord + 938;//
-			else if(ySubCount > 29 && ySubCount < 32) //row 14
-				fetchAddress = xWord + 944;//
-			else
-				fetchAddress = 10'b0000_0000_00;
-		end
-		else
-				fetchAddress = 10'b0000_0000_00;
+		// else if(picNum == 5)
+		// begin
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 480;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 486;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 492;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 498;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 504;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 510;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 516;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 522;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 528;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 534;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 540;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 546;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 552;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 558;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 564;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 14
+				// fetchAddress = xWord + 560;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;
+		// end
+		// else if(picNum == 6)
+		// begin
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 566;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 572;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 578;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 584;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 590;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 596;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 602;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 608;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 614;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 620;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 626;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 632;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 638;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 644;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 650;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 14
+				// fetchAddress = xWord + 656;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;
+		// end
+		// else if(picNum == 7)
+		// begin
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 662;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 668;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 674;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 680;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 686;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 692;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 698;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 704;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 710;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 716;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 722;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 728;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 734;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 740;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 746;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 14
+				// fetchAddress = xWord + 752;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;
+		// end
+		// else if(picNum == 8)
+		// begin
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 758;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 764;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 770;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 776;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 782;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 788;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 794;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 800;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 806;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 812;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 818;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 824;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 830;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 836;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 842;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 14
+				// fetchAddress = xWord + 848;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;
+		// end
+		// else if(picNum == 9)
+		// begin
+			// if(ySubCount < 2)//row 0 of 16
+				// fetchAddress = xWord + 854;
+			// else if(ySubCount > 1 && ySubCount < 4) //row 1
+				// fetchAddress = xWord + 860;//
+			// else if(ySubCount > 3 && ySubCount < 6) //row 2
+				// fetchAddress = xWord + 866;//
+			// else if(ySubCount > 5 && ySubCount < 8) //row 3
+				// fetchAddress = xWord + 872;//
+			// else if(ySubCount > 7 && ySubCount < 10) //row 4
+				// fetchAddress = xWord + 878;//
+			// else if(ySubCount > 9 && ySubCount < 12) //row 5
+				// fetchAddress = xWord + 884;//
+			// else if(ySubCount > 11 && ySubCount < 14) //row 6
+				// fetchAddress = xWord + 890;//
+			// else if(ySubCount > 13 && ySubCount < 16) //row 7
+				// fetchAddress = xWord + 896;//
+			// else if(ySubCount > 15 && ySubCount < 18) //row 8
+				// fetchAddress = xWord + 902;//
+			// else if(ySubCount > 17 && ySubCount < 20) //row 9
+				// fetchAddress = xWord + 908;//
+			// else if(ySubCount > 19 && ySubCount < 22) //row 10
+				// fetchAddress = xWord + 914;//
+			// else if(ySubCount > 21 && ySubCount < 24) //row 11
+				// fetchAddress = xWord + 920;//
+			// else if(ySubCount > 23 && ySubCount < 26) //row 12
+				// fetchAddress = xWord + 926;//
+			// else if(ySubCount > 25 && ySubCount < 28) //row 13
+				// fetchAddress = xWord + 932;//
+			// else if(ySubCount > 27 && ySubCount < 30) //row 14
+				// fetchAddress = xWord + 938;//
+			// else if(ySubCount > 29 && ySubCount < 32) //row 14
+				// fetchAddress = xWord + 944;//
+			// else
+				// fetchAddress = 10'b0000_0000_00;
+		// end
+		// else
+				// fetchAddress = 10'b0000_0000_00;
 
 		
 end
