@@ -186,10 +186,10 @@ MOVE_PERSON_L9_LEFT:
 MOVE_PERSON_L10:	
 	LOAD R8, R5	# what is in the square trying to move to
 	
-#	LOADLBL G_WIN_SQUARE, R10
-#	LOAD R10, R7	# load the winning square into R7
-#	CMP R5, R7
-#	JEQ #WIN#
+	LOADLBL G_WIN_SQUARE, R10
+	LOAD R10, R7	# load the winning square into R7
+	CMP R5, R7
+	JEQ MOVE_PERSON_L11_WIN
 
 	LOADLBL G_PASSABLE_SQUARE, R10
 	LOAD R10, R7
@@ -206,6 +206,22 @@ MOVE_PERSON_L10:
 	MOV R9, R8
 JOFFSET MOVE_PERSON_L12
 
+# prepare to win and jump to win method
+MOVE_PERSON_L11_WIN:
+# the person will move onto the win square than jump to win method.  The trophy
+# should appear where the exit location is located
+	LOADLBL G_PASSABLE_SQUARE, R10
+	LOAD R10, R7
+
+	STORE R11, R8
+	
+	STORE R9, R7
+	MOV R8, R11
+
+	LOADLBL WIN_GAME, R10
+	JUMP R10	# it will never return from this method
+
+	
 # run the move box method.  If the next square is no longer a box, move the
 # person.  Otherwise we assume the box could not be moved so the person
 # will not be moved
@@ -581,6 +597,35 @@ ADJUST_SCREEN_L7:
 
 	JUMP R14
 
+############################## WIN_GAME ##############################
+# In single player game, turn the player into a trophy.  In a multiplayer
+# version of this game the other player will be turned into a skull, because
+# they lost.
+
+# Arguments: R11 - pointer to the location of the winning player
+
+# Returns: does not return. . .ever
+
+# R11 - location of winner
+# R10 - used as temporary for memory references.
+# R9  - stores tiles
+WIN_GAME:
+	LOADLBL G_SKULL_SQUARE, R10
+	LOAD R10, R9
+# this seems redundent because it is only a single player version
+	LOADLBL G_PLAYER1_LOCATION, R10
+	STORE R10, R9
+
+	LOADLBL G_TROPHY_SQUARE, R10
+	LOAD R10, R9
+
+	STORE R11, R9
+
+
+WIN_GAME_LOOP:
+	JOFFSET WIN_GAME_LOOP
+	
+
 	
 ############################## WAIT_SETUP ##############################
 # This method is used to setup the wait method.  The arument passed is
@@ -683,6 +728,8 @@ G_PASSABLE_SQUARE:	.fill 0x000C
 G_LAVA_SQUARE:	.fill 0x0007
 G_WIN_SQUARE:	.fill 0x0006
 G_BOX_SQUARE:	.fill 0x0005
+G_TROPHY_SQUARE:	.fill 0x000A
+G_SKULL_SQUARE:	.fill 0x000B
 
 # window information used by adjust screen method
 G_WINDOW_PTR_MIN:	.fill VGA_L2_PRE
@@ -717,21 +764,21 @@ VGA_L2_PRE:
 
 	
 VGA_L2_R0:
+	.fill 0x0001
+	.fill 0x0002
+	.fill 0x0003
 	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
-	.fill 0x0004
+	.fill 0x0005
+	.fill 0x0006
+	.fill 0x0007
+	.fill 0x0008
+	.fill 0x0009
+	.fill 0x000A
+	.fill 0x000B
+	.fill 0x000C
+	.fill 0x000D
+	.fill 0x000E
+	.fill 0x000F
 	.fill 0x0004
 	.fill 0x0004
 	.fill 0x0004
