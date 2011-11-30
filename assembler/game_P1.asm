@@ -782,8 +782,8 @@ G_PASSABLE_SQUARE:	.fill 0x000C
 G_LAVA_SQUARE:	.fill 0x0007
 G_WIN_SQUARE:	.fill 0x0006
 G_BOX_SQUARE:	.fill 0x0005
-G_TROPHY_SQUARE:	.fill 0x000A
-G_SKULL_SQUARE:	.fill 0x000B
+G_TROPHY_SQUARE:	.fill 0x000D
+G_SKULL_SQUARE:	.fill 0x000E
 
 # window information used by adjust screen method
 G_WINDOW_PTR_MIN:	.fill VGA_L2_PRE
