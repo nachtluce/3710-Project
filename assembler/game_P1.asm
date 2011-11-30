@@ -670,8 +670,62 @@ WAIT_FINISH_L1S:
 
 WAIT_FINISH_L1E:
 	JUMP R14
-	
-	
+
+
+############################## BACKUP_SAVE ##############################
+# Save all the data section to another portion of memory.  Everything from
+# DATA_START -> DATA_END will be copied to DATA_BACKUP.  No bounds checking
+# is done, so the programer must verify the data can be correctly
+# stored to the memory location without any problems.
+
+# THIS IS A SAFE FUNCTION (NO TEMPS ARE MODIFED), only R11, R12, R13
+# Argument: None	
+
+# R11 - Memory Pointer to data being copied.
+# R12 - Memory Pointer to data location being copied to
+# R13 - Temporary to store value temporarily
+
+BACKUP_SAVE:
+	LOADLBL DATA_START, R11
+	LOADLBL DATA_BACKUP, R12
+
+BACKUP_SAVE_L1S:
+	LOAD R11, R13
+	STORE R12, R13
+
+	ADDI 1, R11
+	ADDI 1, R12
+
+	LOADLBL DATA_END, R13
+
+	JEQ BACKUP_SAVE_L1E
+	JOFFSET BACKUP_SAVE_L1S
+
+BACKUP_SAVE_L1E:
+	JUMP R14
+
+############################## BACKUP_RESTORE ##############################
+# Restore everything in the User memory and return to R14
+#
+BACKUP_RESTORE:	
+	LOADLBL DATA_START, R11
+	LOADLBL DATA_BACKUP, R12
+
+BACKUP_RESTORE_L1S:
+	LOAD R12, R13
+	STORE R11, R13
+
+	ADDI 1, R11
+	ADDI 1, R12
+
+	LOADLBL DATA_END, R13
+
+	JEQ BACKUP_RESTORE_L1E
+	JOFFSET BACKUP_RESTORE_L1S
+
+BACKUP_RESTORE_L1E:
+	JUMP R14
+
 	
 # allocated stack
 STACK:	.fill 0x0000
