@@ -8,8 +8,9 @@ SETUP:
 INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	
 	LOADLBL VGA_R0, R5
-	LOADLBL VGA_R1, R6
-	SUB R5, R6	# calculate the row width
+	#LOADLBL VGA_R1, R6
+	#SUB R5, R6	# calculate the row width
+	MOV 20, R6
 	#set VGA pointers
 	SETBEGINVGA R5
 	SETROWVGA R6
@@ -72,14 +73,14 @@ MAIN_LOOP_R3:
 MAIN_LOOP_R4:
 	MOV R13, R1
 	
-#	LOADLBL VGA_L2_R0, R10
-#	LOAD R10, R2
-#	ADD R3, R2
-#	STORE R10, R2
+	LOADLBL VGA_R0, R10
+	LOAD R10, R2
+	ADD R3, R2
+	STORE R10, R2
 
-#	XOR R4, R4
-#	SUB R3, R4
-#	MOV R4, R3
+	XOR R4, R4
+	SUB R3, R4
+	MOV R4, R3
 	
 	JOFFSET MAIN_LOOP
 
