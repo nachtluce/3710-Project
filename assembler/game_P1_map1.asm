@@ -10,7 +10,7 @@ INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	LOADLBL VGA_R0, R5
 	#LOADLBL VGA_R1, R6
 	#SUB R5, R6	# calculate the row width
-	MOV 20, R6
+	MOVI 20, R6
 	#set VGA pointers
 	SETBEGINVGA R5
 	SETROWVGA R6
