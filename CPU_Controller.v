@@ -24,7 +24,7 @@ module CPU_Controller(
     input [15:0] INS,
     input [4:0] PSR,
 	 input [7:0] GamePad,
-	 input [15:0] SerialData,
+	 input [15:0] SerialDataIn,
 	 input SerialValid,
 	 input [15:0] Time,
     output reg [3:0] OpCode,
@@ -49,7 +49,8 @@ module CPU_Controller(
 	 output reg VGAS_E,
 	 output reg VGAR_R,
 	 output reg VGAR_E,
-	 output reg SerialWrite
+	 output reg SerialWrite,
+	 output reg SerialRead
     );
 	 
 	 reg state;
@@ -97,6 +98,7 @@ module CPU_Controller(
 	      VGAR_R = 0;
 	      VGAR_E = 0;
 	      SerialWrite = 0;
+			SerialRead = 0;
 		end
 		else // else don't reset
 		begin
@@ -127,6 +129,7 @@ module CPU_Controller(
 	      VGAR_R = 1;
 	      VGAR_E = 0;
 	      SerialWrite = 0;
+			SerialRead = 0;
 		end
 			
 		// State 1 -- Execute
@@ -170,7 +173,8 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
-						SerialWrite = 0;						
+						SerialWrite = 0;
+						SerialRead = 0;	
 					end
 				16'b0001_0000_xxxx_xxxx:
 				begin
@@ -211,6 +215,7 @@ module CPU_Controller(
 						VGAR_R = 1;
 						VGAR_E = 0;
 						SerialWrite = 0;
+						SerialRead = 0;
 				end
 				16'b0001_0001_xxxx_xxxx:
 				begin
@@ -250,7 +255,8 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
-						SerialWrite = 0;						
+						SerialWrite = 0;
+						SerialRead = 0;	
 				end
 				16'b0001_0010_xxxx_xxxx:
 				begin
@@ -290,7 +296,8 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
-						SerialWrite = 0;						
+						SerialWrite = 0;
+						SerialRead = 0;	
 				end
 				16'b0001_0011_xxxx_xxxx:
 				begin
@@ -330,6 +337,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b0001_0100_xxxx_xxxx:
@@ -370,6 +378,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end				
 				16'b0011_xxxx_xxxx_xxxx:
@@ -408,6 +417,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b0101_xxxx_xxxx_xxxx:
@@ -447,6 +457,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b0110_xxxx_xxxx_xxxx:
@@ -486,6 +497,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b0111_xxxx_xxxx_xxxx:
@@ -525,6 +537,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end		
 				16'b1000_xxxx_xxxx_xxxx:
@@ -564,6 +577,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b1001_xxxx_xxxx_xxxx:
@@ -603,6 +617,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 
@@ -644,6 +659,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b1010_0001_xxxx_xxxx:
@@ -684,6 +700,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b1010_0010_xxxx_xxxx:
@@ -724,6 +741,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b1010_0011_xxxx_xxxx:
@@ -764,6 +782,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b1010_0100_xxxx_xxxx:
@@ -804,6 +823,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b1010_0101_xxxx_xxxx:
@@ -841,6 +861,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end				
 				16'b1100_0000_xxxx_xxxx:
@@ -878,6 +899,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b1100_0001_xxxx_xxxx:
@@ -915,6 +937,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				
@@ -954,6 +977,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b0100_0000_XXXX_XXXX:
@@ -992,6 +1016,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b0100_0001_XXXX_XXXX:
@@ -1030,6 +1055,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b1101_0000_xxxx_xxxx:
@@ -1069,6 +1095,7 @@ module CPU_Controller(
 						VGAS_E = 1;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end	
 				16'b1101_0001_xxxx_xxxx:
@@ -1108,8 +1135,88 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 1;
+						SerialRead = 0;
 						SerialWrite = 0;						
-				end		
+				end	
+				16'b1101_0010_xxxx_xxxx:
+				begin
+					// Read Serial
+						OpCode = 4'h0;
+						OpExt = 4'h0;
+						// Disable Registers to write
+						RegWrite = 1'b1; 
+						// Set the write to register
+						RegIn = INS[3:0];
+						// Set the operands
+						RegA = 4'b0;
+						RegB = 4'b0;
+						// The PC should increment by one  
+						if(~SerialValid)
+							PCImmediate = 8'h01;
+						else
+							PCImmediate = 8'h02; 
+						// Don't care about the immediate
+						Immediate = SerialDataIn; 
+						// Select Registers A as ALU input
+						SelALU = 2'b00; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialRead = 1;
+						SerialWrite = 0;						
+				end
+				16'b1101_0011_xxxx_xxxx:
+				begin
+					// Write Serial
+						OpCode = 4'h0;
+						OpExt = 4'h0;
+						// Disable Registers to write
+						RegWrite = 1'b0; 
+						// Set the write to register
+						RegIn = 4'b0;
+						// Set the operands
+						RegA = INS[7:4];
+						RegB = 4'b0;
+						// The PC should increment by one  
+						PCImmediate = 8'h01; 
+						// Don't care about the immediate
+						Immediate = 16'h0000; 
+						// Select Registers A as ALU input
+						SelALU = 2'b01; 
+						// Don't care about the memory address
+						SelMEM = 1'b0; 
+						// Don't write to memory
+						MemRW = 1'b0;
+						// Don't write to Instruction register
+						IRWrite = 1'b0;
+						// Don't write to Program Counter
+						PCWrite = 1'b0;
+						PCIncrement = 1'b1; 
+						// Don't reset anything
+						PCReset = 1'b1;
+						IRReset = 1'b1;
+						PSRReset = 1'b1;
+						VGAS_R = 1;
+						VGAS_E = 0;
+						VGAR_R = 1;
+						VGAR_E = 0;
+						SerialRead = 0;
+						SerialWrite = 1;						
+				end				
 				16'b1101_0100_xxxx_xxxx:
 				begin
 					//READ GamePad
@@ -1147,6 +1254,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 				16'b1101_0101_xxxx_xxxx:
@@ -1186,6 +1294,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end								
 				16'bXXXX_XXXX_XXXX_XXXX:
@@ -1224,6 +1333,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 			endcase

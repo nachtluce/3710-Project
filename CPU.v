@@ -23,15 +23,16 @@ module CPU(
     input Reset,
     input [15:0] Mem_Data,
 	 input SerialValid,
-	 input [15:0] SerialRead,
+	 input [15:0] SerialDataIn,
 	 input [7:0] GamePad,
     output [15:0] Mem_Addr,
     output Mem_Write,
     output [15:0] Data_Out,
 	 output [15:0] VGA_Start,
 	 output [15:0] VGA_Row,
-	 output SerialWrite,
-	 output [15:0] SerialData
+	 output SerialSend,
+	 output SerialRead,
+	 output [15:0] SerialDataOut
     );
 	 
 	 wire [15:0] INS_TO_CPU;
@@ -53,13 +54,13 @@ module CPU(
 	 wire [15:0] Time;
 	
 	 CPU_Controller CPU_Control(Clock, Reset, INS_TO_CPU, PSR_TO_CPU, 
-											GamePad, SerialRead, SerialValid,Time,
+											GamePad, SerialDataIn, SerialValid, Time,
 											OpCode, OpExt, RegWrite, RegIn, RegA, RegB, 
 											Immediate, PCImmediate, SelALU, SelMEM, 
 											Mem_Write, PCWrite, PCIncrement, 
 											PCReset, IRReset, IRWrite, PSRReset, PSREnable,
 											VGAS_R, VGAS_E, VGAR_R, VGAR_E,
-											SerialWrite);
+											SerialSend, SerialRead);
 	 RegFile2 rf(Clock, Reset, RegWrite, RegIn, RegA, RegB, S, A_to_Mux, B);
 	 ALUmod brain(A_to_ALU, B, OpCode, S, OpExt, ALU_TO_PSR);
 	 BusMux alu_mux(SelALU, Immediate, A_to_Mux, Mem_Data, PC_OUT, A_to_ALU);
@@ -72,5 +73,6 @@ module CPU(
 	 SystemClock timer(Clock, Reset, Time);
 
 	 assign Data_Out = S;
+	 assign SerialDataOut = S;
 	 
 endmodule

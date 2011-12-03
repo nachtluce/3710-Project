@@ -22,10 +22,8 @@ module CPU_with_Memory_Test(
     input Clock,
 //    input Reset,
 	 input GamePadData,
-	 input serialValid,
-	 input [15:0] serialRead,
-	 output SerialWrite,
-	 output [15:0] SerialData,
+	 input SerialRxD,
+	 output SerialTxD,
 	 output GPulse,
 	 output GLatch,
 	 output R,
@@ -61,10 +59,12 @@ module CPU_with_Memory_Test(
 	 end
 	 
 	 reg Reset = 1;
+	 wire [15:0] SerialDataIn;
+	 wire [15:0] SerialDataOut;
 	 
 	 // CPU
-	 CPU c(c25Clk, Reset, data_out, serialValid, serialRead, GamePad, mem_addr, Memwrite, data_in,
-				VGAS, VGAR, SerialWrite, SerialData);
+	 CPU c(c25Clk, Reset, data_out, SerialValid, SerialDataOut, GamePad, mem_addr, Memwrite, data_in,
+				VGAS, VGAR, SerialSend, SerialRead, SerialDataIn);
 	
     // Main Memory	
 	 blk_mem_gen_v6_1 mem(~Clock, Memwrite, mem_addr[13:0], data_in, data_out, 
@@ -75,4 +75,7 @@ module CPU_with_Memory_Test(
 	 
 	 // VGA Controller
 	 VGA_TOP_CNTRL VGA(Clock, ~Reset, MainMemToVGAData, VGAS, VGAR, R, G, B, hSync, vSync, VGAToMainMemAddress);
+	 
+	 // Serial Controller
+	 SerialController Serial(c25Clk, SerialSend, SerialRead, SerialDataIn, SerialRxD, SerialValid, SerialDataOut, SerialTxD);
 endmodule
