@@ -54,7 +54,7 @@ module CPU(
 	 wire [15:0] Time;
 	
 	 CPU_Controller CPU_Control(Clock, Reset, INS_TO_CPU, PSR_TO_CPU, 
-											GamePad, SerialRead, SerialValid,Time,
+											GamePad, SerialDataIn, SerialValid, Time,
 											OpCode, OpExt, RegWrite, RegIn, RegA, RegB, 
 											Immediate, PCImmediate, SelALU, SelMEM, 
 											Mem_Write, PCWrite, PCIncrement, 

@@ -63,7 +63,7 @@ module SerialTransmit(
 		endcase
 	 end
 	 
-	 always@(state)
+	 always@(state, sending)
 	 begin
 		case(state)
 			0:
@@ -78,14 +78,17 @@ module SerialTransmit(
 				end
 			2:
 				begin
+					Busy <= 1;
 					Transmit <= 0;
 				end
 			19:
 				begin
+					Busy <= 1;
 					Transmit <= 1;
 				end
 			default:
 				begin
+					Busy <= 1;
 					Transmit <= sending[state - 3];
 				end
 				

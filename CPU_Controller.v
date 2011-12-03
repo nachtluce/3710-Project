@@ -1333,6 +1333,7 @@ module CPU_Controller(
 						VGAS_E = 0;
 						VGAR_R = 1;
 						VGAR_E = 0;
+						SerialRead = 0;
 						SerialWrite = 0;						
 				end
 			endcase

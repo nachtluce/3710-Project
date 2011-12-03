@@ -39,7 +39,7 @@ module SerialController(
 	wire [15:0] rDataOut;
 	reg [15:0] rDataIn;
 	reg rSend;
-	reg read;
+	reg readAlready;
 	
 	BaudRateGen baud(Clock, BaudTick, OverSampleTick);
 	SerialTransmit transmit(Clock, BaudTick, rDataIn, rSend, Transmit, busy); 
@@ -52,7 +52,7 @@ module SerialController(
 		outputStart <= 0;
 		outputEnd <= 0;
 		Valid <= 0;
-		read <= 0;
+		readAlready <= 0;
 	end
 	 
    always@(posedge Clock)
@@ -78,16 +78,16 @@ module SerialController(
 			end
 		
 		// Checking if there is new data to push on the buffer
-		if (rValid && ~read)
+		if (rValid && ~readAlready)
 			begin
 				outputBuffer[outputEnd] <= rDataOut;
-				read <= 1;
+				readAlready <= 1;
 				outputEnd <= outputEnd + 1;
 			end
 			
 		// If there isn't a valid read showing shut off read flag	
 		if (~rValid)
-			read <= 0;
+			readAlready <= 0;
 		
 		// Checking if there is data to send and sending:
 		if (inputStart != inputEnd)

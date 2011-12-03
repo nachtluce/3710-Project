@@ -65,7 +65,7 @@ module SerialReceive(
 					if (counter == 0)
 						begin
 							DataOut[state - 2] <= Receive;
-							counter = counter + 1;
+							counter <= counter + 1;
 						end
 					else
 						begin
