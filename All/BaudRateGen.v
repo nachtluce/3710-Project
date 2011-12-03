@@ -36,7 +36,7 @@ module BaudRateGen(
 	
 	always @(posedge Clock)
 	begin
-		if (OversampleCounter == 7)
+		if (OversampleCounter == 27)
 			begin
 				OversampleCounter = 0;
 				OversampleTick = 1;
