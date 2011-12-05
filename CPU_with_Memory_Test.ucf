@@ -13,6 +13,9 @@ NET "GPulse" LOC = C5;
 NET "GLatch" LOC = D5;
 NET "GamePadData" LOC = A4;
 
+NET "SerialRxD" LOC = U8;
+NET "SerialTxD" LOC = M13;
+
 NET "debug[0]" LOC = F9;
 NET "debug[1]" LOC = E9;
 NET "debug[2]" LOC = D11;
