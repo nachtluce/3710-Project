@@ -619,7 +619,7 @@ WIN_GAME:
 # this seems redundent because it is only a single player version
 	LOADLBL G_PLAYER1_LOCATION, R10
 	STORE R10, R9
-
+	
 	LOADLBL G_TROPHY_SQUARE, R10
 	LOAD R10, R9
 
@@ -777,8 +777,10 @@ DATA_START:
 G_VGA_START:	.fill VGA_R0
 G_VGA_ROW:	.fill 0x0000	#must be set programatically
 
-G_PLAYER1_LOCATION:	.fill G_HOST_START		# must be set programatically
 
+G_PLAYER1_LOCATION:	.fill G_HOST_START
+G_PLAYER2_LOCATION:	.fill 0x0000
+	
 # what bits will be set by the paddle when the move is taken
 G_BUTTON_START:	.fill 0x0001
 G_BUTTON_DOWN:	.fill 0x0010	
@@ -791,6 +793,11 @@ G_PLAYER1_DOWN:	.fill 0x0003
 G_PLAYER1_UP:	.fill 0x0001
 G_PLAYER1_RIGHT:	.fill 0x0000
 G_PLAYER1_LEFT:	.fill 0x0002
+
+G_PLAYER2_DOWN:	.fill 0x000A
+G_PLAYER2_UP:	.fill 0x000B
+G_PLAYER2_RIGHT:	.fill 0x0009
+G_PLAYER2_LEFT:	.fill 0x0008
 
 # global used by timing method to know when to stop waiting
 G_WAIT_UNTIL:	.fill 0x0000
