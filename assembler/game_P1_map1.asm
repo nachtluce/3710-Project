@@ -8,11 +8,11 @@ SETUP:
 INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	
 	LOADLBL VGA_R0, R5
-	#LOADLBL VGA_R1, R6
-	#SUB R5, R6	# calculate the row width
-	MOVI 20, R6
+	SETBEGINVGA R5	
+	LOADLBL VGA_R1, R6
+	SUB R5, R6	# calculate the row width
 	#set VGA pointers
-	SETBEGINVGA R5
+
 	SETROWVGA R6
 	LOADLBL G_VGA_ROW, R5
 	STORE R5, R6
@@ -29,20 +29,16 @@ INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	LOADLBL G_WINDOW_PTR_MAX, R10
 	STORE R10, R8
 
-	# set player location
-	#LOADLBL VGA_L2_R1, R7
-	#ADDI 1, R7
-	#LOADLBL G_PLAYER1_LOCATION, R8
-	#STORE R8, R7	# set the player 1 location in the global constant data area
-	
+	# player location is being set by assembler
+
 	LOADLBL G_PLAYER1_LOCATION, R8
 	LOAD R8, R7
 	LOADLBL G_PLAYER1_DOWN, R8 # put the player 1 tile at his location on the board
 	LOAD R8, R8
 	STORE R7, R8
 
-	XOR R3, R3
-	MOVI 1, R3
+#	XOR R3, R3
+#	MOVI 1, R3
 	# goto main loop to start the game
 	
 MAIN_LOOP:
@@ -73,14 +69,14 @@ MAIN_LOOP_R3:
 MAIN_LOOP_R4:
 	MOV R13, R1
 	
-	LOADLBL VGA_R0, R10
-	LOAD R10, R2
-	ADD R3, R2
-	STORE R10, R2
+#	LOADLBL VGA_R0, R10
+#	LOAD R10, R2
+#	ADD R3, R2
+#	STORE R10, R2
 
-	XOR R4, R4
-	SUB R3, R4
-	MOV R4, R3
+#	XOR R4, R4
+#	SUB R3, R4
+#	MOV R4, R3
 	
 	JOFFSET MAIN_LOOP
 
@@ -623,7 +619,7 @@ WIN_GAME:
 # this seems redundent because it is only a single player version
 	LOADLBL G_PLAYER1_LOCATION, R10
 	STORE R10, R9
-
+	
 	LOADLBL G_TROPHY_SQUARE, R10
 	LOAD R10, R9
 
@@ -778,11 +774,13 @@ STACK:	.fill 0x0000
 # The G prefix defines that it is a global data field
 DATA_START:
 
-G_VGA_START:	.fill VGA_L2_R0
+G_VGA_START:	.fill VGA_R0
 G_VGA_ROW:	.fill 0x0000	#must be set programatically
 
-G_PLAYER1_LOCATION:	.fill HOST_START		# must be set programatically
 
+G_PLAYER1_LOCATION:	.fill G_HOST_START
+G_PLAYER2_LOCATION:	.fill 0x0000
+	
 # what bits will be set by the paddle when the move is taken
 G_BUTTON_START:	.fill 0x0001
 G_BUTTON_DOWN:	.fill 0x0010	
@@ -795,6 +793,11 @@ G_PLAYER1_DOWN:	.fill 0x0003
 G_PLAYER1_UP:	.fill 0x0001
 G_PLAYER1_RIGHT:	.fill 0x0000
 G_PLAYER1_LEFT:	.fill 0x0002
+
+G_PLAYER2_DOWN:	.fill 0x000A
+G_PLAYER2_UP:	.fill 0x000B
+G_PLAYER2_RIGHT:	.fill 0x0009
+G_PLAYER2_LEFT:	.fill 0x0008
 
 # global used by timing method to know when to stop waiting
 G_WAIT_UNTIL:	.fill 0x0000
@@ -838,6 +841,7 @@ VGA_L2_PRE:
 	.fill 0x0004
 	.fill 0x0004
 
+	
 VGA_R0:
 	.fill 0x0004
  	.fill 0x0004 
@@ -1479,7 +1483,6 @@ G_SLAVE_START:
  	.fill 0x0004
  	.fill 0x0004
  	.fill 0x0004
-
 
 
 	.fill 0x0004
