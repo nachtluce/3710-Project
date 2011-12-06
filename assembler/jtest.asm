@@ -1,0 +1,5 @@
+ADDI 10 r0
+ADDI 10 r1
+CMP r0 r1
+JEQ 45
+ADDI 126 r7
