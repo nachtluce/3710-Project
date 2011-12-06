@@ -689,8 +689,8 @@ WAIT_FINISH_L1E:
 # Some code added to test serial sending:
 	LOADLBL G_PLAYER1_LOCATION R6
 	LOAD R6 R7
-	ADDI 1 R7
-	STORE R6 R7 
+	LOAD R7 R7
+	STORE R13 R7 
 	JUMP R14
 
 ############################## BACKUP_SAVE ##############################
