@@ -683,9 +683,14 @@ WAIT_FINISH_L1S:
 	#JEQ WAIT_FINISH_L1E	# if time to wait equals finish time, exit, otherwise loop again
 	READSERIAL R13
 	JOFFSET WAIT_FINISH_L1S
+	JOFFSET WAIT_FINISH_L1E
 
 WAIT_FINISH_L1E:
 # Some code added to test serial sending:
+	LOADLBL G_PLAYER1_LOCATION R6
+	LOAD R6 R7
+	ADDI 1 R7
+	STORE R6 R7 
 	JUMP R14
 
 ############################## BACKUP_SAVE ##############################
