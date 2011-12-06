@@ -1182,8 +1182,8 @@ module CPU_Controller(
 				16'b1101_0011_xxxx_xxxx:
 				begin
 					// Write Serial
-						OpCode = 4'h0;
-						OpExt = 4'h0;
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
 						// Disable Registers to write
 						RegWrite = 1'b0; 
 						// Set the write to register
