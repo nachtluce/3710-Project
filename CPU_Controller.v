@@ -1141,10 +1141,10 @@ module CPU_Controller(
 				16'b1101_0010_xxxx_xxxx:
 				begin
 					// Read Serial
-						OpCode = 4'h0;
-						OpExt = 4'h0;
+						OpCode = 4'b0000;
+						OpExt = 4'b1101;
 						// Disable Registers to write
-						RegWrite = 1'b1; 
+						RegWrite = SerialValid; 
 						// Set the write to register
 						RegIn = INS[3:0];
 						// Set the operands
@@ -1157,7 +1157,7 @@ module CPU_Controller(
 							PCImmediate = 8'h02; 
 						// Don't care about the immediate
 						Immediate = SerialDataIn; 
-						// Select Registers A as ALU input
+						// Select Immediate ALU input
 						SelALU = 2'b00; 
 						// Don't care about the memory address
 						SelMEM = 1'b0; 
