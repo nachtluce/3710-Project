@@ -42,8 +42,9 @@ INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	# goto main loop to start the game
 	
 MAIN_LOOP:
-	MOVI 0xF4, R11	
-	MOVIU 0x01, R11
+#	MOVI 0xF4, R11	
+#	MOVIU 0x01, R11
+	MOVI 0xC8, R11
 	LOADLBL WAIT_SETUP, R5
 	LOADLBL MAIN_LOOP_R1, R14
 	JUMP R5

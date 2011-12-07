@@ -687,7 +687,7 @@ WAIT_FINISH_L1S:
 WAIT_FINISH_L1E:
 # Some code added to test serial sending:
 	WRITESERIAL R13
-	JUMP R14
+	JUMP R14B
 
 ############################## BACKUP_SAVE ##############################
 # Save all the data section to another portion of memory.  Everything from
