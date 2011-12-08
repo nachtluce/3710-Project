@@ -349,8 +349,8 @@
     <property xil_pn:name="PROP_PostSynthSimTop" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_PostXlateSimTop" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_PreSynthesis" xil_pn:value="PreSynthesis" xil_pn:valueState="default"/>
-    <property xil_pn:name="PROP_intProjectCreationTimestamp" xil_pn:value="2011-12-06T13:39:02" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="PROP_intWbtProjectID" xil_pn:value="284B315F1FC31F893BC6AD31B4890F81" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="PROP_intProjectCreationTimestamp" xil_pn:value="2011-12-07T18:19:08" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="PROP_intWbtProjectID" xil_pn:value="69462ADBC531B5313FC3992F193368BB" xil_pn:valueState="non-default"/>
     <property xil_pn:name="PROP_intWorkingDirLocWRTProjDir" xil_pn:value="Same" xil_pn:valueState="non-default"/>
     <property xil_pn:name="PROP_intWorkingDirUsed" xil_pn:value="No" xil_pn:valueState="non-default"/>
   </properties>
