@@ -28,9 +28,101 @@ INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	SUB R7, R8
 	LOADLBL G_WINDOW_PTR_MAX, R10
 	STORE R10, R8
+	
+# this is inlined because I thought I could develop it faster
+# initialize multiplayer section ########################
+# R10 - Used for label referenced
+# R9  - Stores the key value for 'start'
+# R8  - Used for gamepad input and serial input
+# R7  - temp register used for short calculations
+# R6  - temp register used for short calculations
+	
 
-	# player location is being set by assembler
+	LOADLBL G_BUTTON_START, R10
+	LOAD R10, R9
+	
+HAND_SHAKE_L1:
+	READGAMEPAD R8
+	CMP R8, R9
+	JEQ HAND_SHAKE_L2_MAKE_HOST # if start was pressed, try to become the host.
 
+	READSERIAL R8
+	JOFFSET HAND_SHAKE_L5_MAKE_SLAVE # if it got a signal from serial, try to become slave.
+
+	JOFFSET HAND_SHAKE_L1
+
+# if this was signaled to be the 'host' send the signal 0xAAAA to the other board, to say
+# it is going to start (signal used to filter out ongoing single player game)
+# if it can not make a connection. . . go back to hand shaking?  (could start single player?)
+HAND_SHAKE_L2_MAKE_HOST:	
+	MOVI 0xAA, R7
+	MOVIU 0xAA, R7
+	WRITESERIAL R7
+
+	# set timeout for wait to be 5000 ms, setup wait
+	MOVI 0x13, R6
+	MOVIU 0x88, R6
+	CLOCK R7
+	ADD R7, R6
+HAND_SHAKE_L3_SIGNAL:
+	CLOCK R7
+	CMP R7, R6
+	JEQ HAND_SHAKE_L1 # if timeout happend
+
+	READSERIAL R8
+	JOFFSET HAND_SHAKE_L4	# if it did read something. . .
+
+	JOFFSET HAND_SHAKE_L3_SIGNAL	# if not, loop again!
+HAND_SHAKE_L4:
+	MOVI 0x77, R7
+	MOVIU 0x77, R7
+
+	CMP R7, R8	# check to see if the other board recognized
+	JEQ HAND_SHAKE_L4_FINISH
+	JOFFSET HAND_SHAKE_L1
+HAND_SHAKE_L4_FINISH:	
+	# at this point this FPGA is player 1, initalize and go
+	LOADLBL G_PLAYER1_LOCATION, R10
+	LOADLBL G_HOST_START, R7
+	STORE R10, R7
+
+	LOADLBL G_PLAYER2_LOCATION, R10
+	LOADLBL G_SLAVE_START, R7
+	STORE R10, R7
+
+	LOADLBL MAIN_LOOP, R0	# jump location for where to start the game
+	JOFFSET INIT_PLAYER
+
+# if it is going to be the slave
+HAND_SHAKE_L5_MAKE_SLAVE:
+	# check to see if the right request was sent to this board
+	MOVI 0xAA, R7
+	MOVIU 0xAA, R7
+	CMP R7, R8
+	JEQ HAND_SHAKE_L6_SIGNAL
+
+	JOFFSET HAND_SHAKE_L1 # if wrong request sent, restart waiting
+HAND_SHAKE_L6_SIGNAL:
+	# respond with positive signal
+	MOVI 0x77, R7
+	MOVIU 0x77, R7
+	WRITESERIAL R7
+
+	# setup this player as slave
+	LOADLBL G_PLAYER1_LOCATION, R10
+	LOADLBL G_SLAVE_START, R7
+	STORE R10, R7
+
+	LOADLBL G_PLAYER2_LOCATION, R10
+	LOADLBL G_HOST_START, R7
+	STORE R10, R7
+
+	LOADLBL MAIN_LOOP_R3a, R0
+	JOFFSET INIT_PLAYER
+
+
+INIT_PLAYER:	
+	# player location is being set by program
 	LOADLBL G_PLAYER1_LOCATION, R8
 	LOAD R8, R7
 	LOADLBL G_PLAYER1_DOWN, R8 # put the player 1 tile at his location on the board
