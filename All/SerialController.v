@@ -71,7 +71,7 @@ module SerialController(
 		// If receive is asserted adjust output buffer pointer
 		if (Read)
 			begin
-				if (outputStart != outputEnd)
+				if (Valid && outputStart != outputEnd)
 					begin
 						outputStart <= outputStart + 1;
 					end
