@@ -5,7 +5,27 @@ SETUP:
 	LOADLBL BACKUP_SAVE, R5
 	JUMP R5
 
-INIT:	LOADLBL STACK, R15 	#initalize stack pointer
+INIT:	
+	# initialize registers to zero.  This might fix a funky bug.
+	XOR R0, R0
+	XOR R1, R1
+	XOR R2, R2
+	XOR R3, R3
+	XOR R4, R4
+	XOR R5, R5
+	XOR R6, R6
+	XOR R7, R7
+	XOR R8, R8
+	XOR R9, R9
+	XOR R10, R10
+	XOR R11, R11
+	XOR R12, R12
+	XOR R13, R13
+	XOR R14, R14
+	XOR R15, R15	
+	
+	
+	LOADLBL STACK, R15 	#initalize stack pointer
 	
 	LOADLBL VGA_R0, R5
 	SETBEGINVGA R5	
@@ -16,6 +36,19 @@ INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	SETROWVGA R6
 	LOADLBL G_VGA_ROW, R5
 	STORE R5, R6
+
+# wait for a little while, this might fix another bug, but who know what but it is really
+# fixing?  If I said that the game does not work unless you stand on your head would you
+# also think that is true?	
+	MOVI 0x64, R11
+	LOADLBL WAIT_SETUP, R10
+	LOADLBL INIT_R1, R14
+	JUMP R10
+INIT_R1:
+	LOADLBL INIT_R2, R14
+	LOADLBL WAIT_FINISH, R10
+	JUMP R10
+INIT_R2:	
 
 	# calculate  15 * rowwidth
 	LSH R6, R7
@@ -28,6 +61,10 @@ INIT:	LOADLBL STACK, R15 	#initalize stack pointer
 	SUB R7, R8
 	LOADLBL G_WINDOW_PTR_MAX, R10
 	STORE R10, R8
+
+#    This can be used for testing purposes to jump over network handshake
+#	LOADLBL INIT_PLAYER, R10
+#	JUMP R10
 	
 # this is inlined because I thought I could develop it faster
 # initialize multiplayer section ########################
@@ -47,10 +84,9 @@ HAND_SHAKE_L1:
 	JEQ HAND_SHAKE_L2_MAKE_HOST # if start was pressed, try to become the host.
 
 	READSERIAL R8
+	JOFFSET HAND_SHAKE_L1	# done if read did not work
+	
 	JOFFSET HAND_SHAKE_L5_MAKE_SLAVE # if it got a signal from serial, try to become slave.
-
-	JOFFSET HAND_SHAKE_L1
-
 # if this was signaled to be the 'host' send the signal 0xAAAA to the other board, to say
 # it is going to start (signal used to filter out ongoing single player game)
 # if it can not make a connection. . . go back to hand shaking?  (could start single player?)
@@ -60,23 +96,25 @@ HAND_SHAKE_L2_MAKE_HOST:
 	WRITESERIAL R7
 
 	# set timeout for wait to be 5000 ms, setup wait
-	MOVI 0x13, R6
-	MOVIU 0x88, R6
+#	MOVI 0x13, R6
+#	MOVIU 0x88, R6
+	MOVI 0xFF, R6
 	CLOCK R7
 	ADD R7, R6
+
 HAND_SHAKE_L3_SIGNAL:
 	CLOCK R7
 	CMP R7, R6
 	JEQ HAND_SHAKE_L1 # if timeout happend
 
 	READSERIAL R8
-	JOFFSET HAND_SHAKE_L4	# if it did read something. . .
-
 	JOFFSET HAND_SHAKE_L3_SIGNAL	# if not, loop again!
+	
+	JOFFSET HAND_SHAKE_L4	# if it did read something. . .
+	
 HAND_SHAKE_L4:
 	MOVI 0x77, R7
 	MOVIU 0x77, R7
-
 	CMP R7, R8	# check to see if the other board recognized
 	JEQ HAND_SHAKE_L4_FINISH
 	JOFFSET HAND_SHAKE_L1
@@ -89,6 +127,14 @@ HAND_SHAKE_L4_FINISH:
 	LOADLBL G_PLAYER2_LOCATION, R10
 	LOADLBL G_SLAVE_START, R7
 	STORE R10, R7
+
+	# setup first wait loop.  I was too lazy to not inline it :(
+	CLOCK R9
+	LOADLBL G_WAIT_INTERVAL, R10
+	LOAD R10, R8
+	LOADLBL G_WAIT_UNTIL, R10
+	ADD R9, R8
+	STORE R10, R8	
 
 	LOADLBL MAIN_LOOP, R0	# jump location for where to start the game
 	JOFFSET INIT_PLAYER
@@ -117,7 +163,17 @@ HAND_SHAKE_L6_SIGNAL:
 	LOADLBL G_HOST_START, R7
 	STORE R10, R7
 
-	LOADLBL MAIN_LOOP_R3a, R0
+	# WAIT FOR HALF AN INTERVAL AS THE SLAVE
+	CLOCK R9
+	LOADLBL G_WAIT_INTERVAL, R10
+	LOAD R10, R8
+	RSH R8, R8	# TAKE HALF OF THE WAIT INTERVAL
+	LOADLBL G_WAIT_UNTIL, R10
+	ADD R9, R8
+	STORE R10, R8
+	
+	# 'slave' player will have second turn, so it will start in wait state
+	LOADLBL MAIN_LOOP_R1, R0	
 	JOFFSET INIT_PLAYER
 
 
@@ -135,49 +191,64 @@ INIT_PLAYER:
 	LOAD R8, R8
 	STORE R7, R8
 
+	# go to correct start possition (if 'host' their turn in first)
+	JUMP R0
+
 #	XOR R3, R3
 #	MOVI 1, R3
 	# goto main loop to start the game
 	
 MAIN_LOOP:
-#	MOVI 0xF4, R11	
-#	MOVIU 0x01, R11
-	MOVI 0x64, R11
-	LOADLBL WAIT_SETUP, R5
 	LOADLBL MAIN_LOOP_R1, R14
-	JUMP R5
-
-MAIN_LOOP_R1:	
-	# do local move
-	LOADLBL MAIN_LOOP_R3, R14
 	LOADLBL LOCAL_MOVE, R5
 
 	JUMP R5
-MAIN_LOOP_R3:
-	LOADLBL WAIT_FINISH, R5
-	LOADLBL MAIN_LOOP_R3a, R14
-	JUMP R5
+MAIN_LOOP_R1:
+	LOADLBL MAIN_LOOP_R2, R14
+	LOADLBL WAIT_GAME, R5
 
-MAIN_LOOP_R3a:	
+	JUMP R5
+MAIN_LOOP_R2:
+	JOFFSET MAIN_LOOP
+	
+#	MOVI 0xF4, R11	
+#	MOVIU 0x01, R11
+#	MOVI 0xff, R11
+#	LOADLBL WAIT_SETUP, R5
+#	LOADLBL MAIN_LOOP_R1, R14
+#	JUMP R5
+
+#MAIN_LOOP_R1:	
+#	# do local move
+#	LOADLBL MAIN_LOOP_R3, R14
+#	LOADLBL LOCAL_MOVE, R5
+
+#	JUMP R5
+#MAIN_LOOP_R3:
+#	LOADLBL WAIT_FINISH, R5
+#	LOADLBL MAIN_LOOP_R3a, R14
+#	JUMP R5
+
+#MAIN_LOOP_R3a:	
 	# wait setup for remote move
-	MOVI 0x64, R11
-	LOADLBL WAIT_SETUP, R5
-	LOADLBL MAIN_LOOP_R4, R14
-	JUMP R5
-MAIN_LOOP_R4:
-	# do remote move
-	LOADLBL MAIN_LOOP_R5, R14
-	LOADLBL REMOTE_MOVE, R5
+#	MOVI 0xff, R11
+#	LOADLBL WAIT_SETUP, R5
+#	LOADLBL MAIN_LOOP_R4, R14
+#	JUMP R5
+#MAIN_LOOP_R4:
+#	# do remote move
+#	LOADLBL MAIN_LOOP_R5, R14
+#	LOADLBL REMOTE_MOVE, R5
 
-	JUMP R5
-MAIN_LOOP_R5:
-	LOADLBL WAIT_FINISH, R5
-	LOADLBL MAIN_LOOP_R6, R14
-	JUMP R5
+#	JUMP R5
+#MAIN_LOOP_R5:
+#	LOADLBL WAIT_FINISH, R5
+#	LOADLBL MAIN_LOOP_R6, R14
+#	JUMP R5
 	
-MAIN_LOOP_R6:	
+#MAIN_LOOP_R6:	
 	
-	MOV R13, R1
+#	MOV R13, R1
 	
 #	LOADLBL VGA_R0, R10
 #	LOAD R10, R2
@@ -188,7 +259,7 @@ MAIN_LOOP_R6:
 #	SUB R3, R4
 #	MOV R4, R3
 	
-	JOFFSET MAIN_LOOP
+#	JOFFSET MAIN_LOOP
 
 
 
@@ -214,7 +285,11 @@ LOCAL_MOVE:
 	ADDI 1, R15
 
 	# get the user input and send it to the other machine
+	XOR R0, R0
+	NOP
 	READGAMEPAD R0
+	NOP
+	NOP
 	WRITESERIAL R0
 
 	# move the player
@@ -263,6 +338,8 @@ REMOTE_MOVE:
 	STORE R15, R0
 	ADDI 1, R15
 
+	XOR R0, R0
+	
 	LOADLBL G_WAIT_UNTIL, R10
 	LOAD R10, R9
 	# loop until wait finish or input from serial.  Whatever one comes first
@@ -274,9 +351,15 @@ REMOTE_MOVE_L1:
 
 	# check to see if something has come accross the wire
 	READSERIAL R0
+	JOFFSET REMOTE_MOVE_L1 # this line is used if read Failed
+
+	# if it grabs 0's (null) try to get another read if possible.
+	XOR R8, R8
+	CMP R8, R0
+	JEQ REMOTE_MOVE_L1
+		
 	JOFFSET REMOTE_MOVE_L3_SUCCESS
 
-	JOFFSET REMOTE_MOVE_L1
 	
 REMOTE_MOVE_L3_SUCCESS:	
 
@@ -903,7 +986,7 @@ WAIT_FINISH:
 	XOR R13, R13	# zero R13
 
 WAIT_FINISH_L1S:
-	READGAMEPAD R12
+#	READGAMEPAD R12
 	OR R12, R13	# get game pad data and or with existing
 	CLOCK R12
 	CMP R11, R12	
@@ -912,9 +995,70 @@ WAIT_FINISH_L1S:
 
 WAIT_FINISH_L1E:
 # Some code added to test serial sending:
-	WRITESERIAL R13
-	JUMP R14B	
+#	WRITESERIAL R13
+	READGAMEPAD R13
+	JUMP R14
 
+############################## WAIT_GAME ##############################
+# This method will wait for some amount of time, but if anything comes
+# over the Serial cable, it will move the other player, then return
+# and wait.  This method will set the timer for the next time this
+# will be called.
+
+# R0 - keep time to wait until
+# R1 - keep the interval for timing
+# R2 - protection clock
+
+# R9 - temp for gathering data from clock
+# R10 - temp register for memory addressing
+WAIT_GAME:
+	STORE R15, R14
+	ADDI 1, R15
+	STORE R15, R0
+	ADDI 1, R15
+	STORE R15, R1
+	ADDI 1, R15
+
+	LOADLBL G_WAIT_INTERVAL, R10
+	LOAD R10, R1
+	
+	LOADLBL G_WAIT_UNTIL, R10
+	LOAD R10, R0
+WAIT_GAME_L1:
+	CLOCK R9
+	CMP R9, R0
+	JEQ WAIT_GAME_L4_TIMEOUT
+
+	READSERIAL R9
+	JOFFSET WAIT_GAME_L1	# if nothing came across the wire, loop again
+
+WAIT_GAME_L2_OTHER_MOVE:
+	# if this part is reached, it means the other player has made a move
+	LOADLBL G_PLAYER2_LOCATION, R11
+	LOADLBL G_PLAYER2_DOWN, R13
+	MOV R9, R12
+	LOADLBL WAIT_GAME_R3, R14
+	LOADLBL MOVE_PERSON, R5
+	JUMP R5
+WAIT_GAME_R3:
+	JOFFSET WAIT_GAME_L1
+
+WAIT_GAME_L4_TIMEOUT:
+	# auto set for the next interval
+	ADD R0, R1
+	LOADLBL G_WAIT_UNTIL, R10
+	STORE R10, R1
+
+	SUBI 1, R15
+	LOAD R15, R1
+	SUBI 1, R15
+	LOAD R15, R0
+	SUBI 1, R15
+	LOAD R15, R14
+
+	JUMP R14
+	
+		
 ############################## BACKUP_SAVE ##############################
 # Save all the data section to another portion of memory.  Everything from
 # DATA_START -> DATA_END will be copied to DATA_BACKUP.  No bounds checking
@@ -1029,6 +1173,7 @@ G_PLAYER2_LEFT:	.fill 0x0008
 
 # global used by timing method to know when to stop waiting
 G_WAIT_UNTIL:	.fill 0x0000
+G_WAIT_INTERVAL:	.fill 0x01c8
 
 # square information used by move methods
 G_PASSABLE_SQUARE:	.fill 0x000C
