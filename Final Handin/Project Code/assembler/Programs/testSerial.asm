@@ -1,0 +1,35 @@
+
+	NOP
+	LOADLBL Text, R4
+	LOAD R4 R4
+	WRITESERIAL R4
+
+Loopy:
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	READSERIAL R9
+	JOFFSET Loopy
+	JOFFSET Broken
+
+Broken:
+	MOVI 7 R5
+	MOVI 8 R6
+	JOFFSET Loopy
+
+Text: .fill 0xDEAD

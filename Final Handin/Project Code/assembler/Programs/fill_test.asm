@@ -1,0 +1,5 @@
+.fill 0x0001
+.fill 15
+.fill 0x1234
+.fill 0x8FFF
+.fill -1

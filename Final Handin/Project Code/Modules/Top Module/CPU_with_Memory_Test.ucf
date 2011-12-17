@@ -1,0 +1,30 @@
+
+# PlanAhead Generated physical constraints 
+NET "Clock" LOC = C9;
+# NET "Reset" LOC = D18;
+
+NET "R" LOC = H14;
+NET "G" LOC = H15;
+NET "B" LOC = G15;
+NET "hSync" LOC = F15;
+NET "vSync" LOC = F14;
+
+NET "GPulse" LOC = C5;
+NET "GLatch" LOC = D5;
+NET "GamePadData" LOC = A4;
+
+NET "SerialRxD" LOC = U8;
+NET "SerialTxD" LOC = M13;
+
+NET "debug[0]" LOC = F9;
+NET "debug[1]" LOC = E9;
+NET "debug[2]" LOC = D11;
+NET "debug[3]" LOC = C11;
+NET "debug[4]" LOC = F11;
+NET "debug[5]" LOC = E11;
+NET "debug[6]" LOC = E12;
+NET "debug[7]" LOC = F12;
+
+#Created by Constraints Editor (xc3s500e-fg320-4) - 2011/11/20
+NET "Clock" TNM_NET = Clock;
+TIMESPEC TS_Clock = PERIOD "Clock" 50 MHz HIGH 50%;

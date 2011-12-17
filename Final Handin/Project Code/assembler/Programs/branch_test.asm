@@ -1,0 +1,21 @@
+	MOVI 0, R0
+	LOADLBL NEXT, R1
+	LOADLBL END, R2
+
+L1:	LOAD R0, R3
+	STORE R1, R3
+	ADDI 1, R0
+	ADDI 1, R1
+	CMP R0, R2
+	JEQ L1
+END:	.fill 0x0000
+	JEQ END
+	.fill 0x0000
+	.fill 0x0000
+	.fill 0x0000
+	.fill 0x0000
+	.fill 0x0000
+	.fill 0x0000
+	.fill 0x0000
+NEXT:	.fill 0x0000
+	

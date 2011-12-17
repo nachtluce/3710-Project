@@ -1,0 +1,40 @@
+CODING STANDARD
+
+1. Register Usage
+
+Registers will be used in the following way:
+_________________________________________
+| R0-R4   | Saved Registers             |
+| R5-R10  | Temp Registers              |
+| R11-R13 | Arguments for methods       |
+| R13     | Return value for methods    |
+| R14     | Return Address for methods  |
+| R15     | Stack Pointer               |
+-----------------------------------------
+*R13 can be used as an argument and modifed according to what should be
+returned.  No reason to leave that register unused, even though it might
+add some confusion.
+
+When a method calls another method, the following registers should
+remain consistant:
+
+_________________________________________
+| R0-R4  | Saved Registers              |
+| R14    | Return address for method     |
+| R15*   | Stack Pointer                |
+-----------------------------------------
+(*) Unless used to pass additional arguments to a method
+
+2. Push / Pop from stack
+
+The stack pointer points to the next `free' memory location
+
+Example: to push / pop the data in R1 to the stack:
+push                         |  pop
+STORE R15, R1                |  SUBI 1, R15
+ADDI  1, R15                 |  LOAD R15, R1
+
+The stack should be used sparingly, because there does not exist any
+memory protection if the stack grows too large.  Stack should be used
+to store the current return address if a different method will be called.
+
