@@ -28,10 +28,11 @@ The overall organization of the system can be seen in figure \ref{oo} we have a 
 	\label{oo}
 \end{figure}
 
-
-
+A lot of the work required to render a game level to the screen is taken care of by hardware in the VGA Controller. There is a section in main memory where the map to be drawn is stored as a series of tile numbers, the VGA Controller reads these tile numbers from main memory, and for each tile number looks in its internal memory for the pixel map corresponding to the tile number and draws the pixels in the right section of the screen. The CPU has two registers which are directly wired to the VGA controller that tell the VGA controller where to look in main memory for the tile to be placed at the upper left corner of the screen and also what the row offset is. This makes the code for scrolling the screen to show only a section of the entire map as simple as setting the address for the upper left corner of the screen to a different location, rather than having the CPU rewrite the entire map area with new data to scroll.
 
 \section{CPU Design}
+
+
 
 \section{VGA Controller}
 We used a 640$\times$480 VGA display with a 25 Mhz clock. This was done with the use of sync signals, and memory manipulation. The 640$\times$480 pixel display was broken up into 20$\times$15 blocks on the screen. This allowed us to conserve memory and still have meaningful graphics.  The graphics used 3 bit colors, and we were able to display 8 different colors. Using different patterns with these colors we were able to display 14 32$\times$32 pixel images.
@@ -42,10 +43,23 @@ For the monitor to recognize which pixel it is on, it needs to receive 2 signals
 \subsection{VGA Memory}
 We had organized our memory to have 2 separate memory blocks.  Main memory used a 2 port 14 bit addressable memory block containing 16 bit words. Our VGA memory contained a 14 bit addressable single port containing 9 bit words.  One of the 9 bit words contains 3 separate pixels.   We used each memory value twice, so we display the value of 3 bits for 2 pixels. We have an input to the bit generator where the starting address and row size of the image are.  This way we can fetch the entire cell in main memory that we would like to display.
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width = 1\textwidth]{VGAdiagram.png}
+	\label{vga}
+\end{figure}
+
 In main memory we have an area specially set aside just for our levels.  These memory words contain a number from 0 to 14.  These words are related to the image that we want to display on that portion of the screen.  The VGA controller will read from main memory, find out what should be displayed on the block of the screen based on what number it is, and then go and display all of the values on the screen based on the number from 0 to 14.  From that number it will find the correct address in VGA memory that it should display for that pixel. 
  
 
 \section{NES Controller}
+For our game system we used a classic Nintendo Controller (figure \ref{nes}). This device required 5 lines to the controller: Power, Ground, Latch, Pulse, and Data.  The timing input for our controller was 25 Mhz, the module throttle was around 1Mhz and we achieved around 100 samples per second. This allowed us to read the input, detect whether the values were high or low and store it in a register. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width = .5\textwidth]{nescontroller.png}
+	\label{nes}
+\end{figure}
 
 \section{Serial Controller}
 

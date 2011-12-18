@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  17 DEC 2011 18:10
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  17 DEC 2011 18:42
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -155,35 +155,45 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 <OverallOrganization.png, id=9, 624.3325pt x 162.6075pt>
 File: OverallOrganization.png Graphic file (type png)
 
-<use OverallOrganization.png>
+<use OverallOrganization.png> [2 <./OverallOrganization.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 37.
+(Font)              <7> on input line 38.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 37.
- [2 <./OverallOrganization.png>] [3] [4]
-(./FinalPaper.aux) ) 
+(Font)              <5> on input line 38.
+
+<VGAdiagram.png, id=19, 1553.805pt x 590.205pt>
+File: VGAdiagram.png Graphic file (type png)
+ <use VGAdiagram.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[3] <nescontroller.png, id=24, 503.8825pt x 334.24875pt>
+File: nescontroller.png Graphic file (type png)
+
+<use nescontroller.png> [4 <./VGAdiagram.png (PNG copy)> <./nescontroller.png (
+PNG copy)>] [5] (./FinalPaper.aux) ) 
 Here is how much of TeX's memory you used:
- 1373 strings out of 493747
- 19436 string characters out of 3143546
- 74309 words of memory out of 3000000
- 4673 multiletter control sequences out of 15000+200000
+ 1385 strings out of 493747
+ 19639 string characters out of 3143546
+ 75327 words of memory out of 3000000
+ 4683 multiletter control sequences out of 15000+200000
  8670 words of font info for 31 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 37i,6n,23p,762b,220s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmbx9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
-0.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10
-.pfb>
-Output written on FinalPaper.pdf (4 pages, 126175 bytes).
+ 37i,6n,23p,948b,220s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2010/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmtt10.pfb>
+Output written on FinalPaper.pdf (5 pages, 425565 bytes).
 PDF statistics:
- 56 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
+ 61 PDF objects out of 1000 (max. 8388607)
+ 40 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
