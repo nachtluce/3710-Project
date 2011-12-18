@@ -65,7 +65,45 @@ For our game system we used a classic Nintendo Controller (figure \ref{nes}). Th
 
 \section{Assembler}
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width = 3in]{assembler_diagram.png}
+	\caption{Tool chain for assembling and loading a program}
+	\label{fig:assembler}
+\end{figure}
+
+The assembler architecture was heavily influenced by an assignment given in a hardware design lab at a different university.  The assignment provided suggestions for writing a simple assembler using the C programming language.  These hints where considered in the development of the assembler that was used in this project.
+
+The assembler was written using the C++, as opposed to C, in order to use the standard template library.  A map was used to store the table of labels and their locations in code.  The program was written to be compiled using the g++ compiler.
+
+Figure \ref{fig:assembler} shows how the assembler tool chain works.  The assembly file is scanned twice.  The first pass fills the table of label locations.  In order to do this each instruction must be counted.  Pseudo code instructions are counted as however many assembly instructions it will take in the output.  By linearly counting the number of previous memory locations used each label can be associated with the correct memory location in the output.
+
+The second pass though the input translates each line into the appropriate hex value for the instruction.  The instruction could be a pseudo instruction, which is split into multiple assembly instruction; a fill value, where the assembler will place a specific value at that memory location; or an assembly instruction.  The only pseudo instruction used in the current implementation was used to load label locations into a specific register.  Since a single move instruction only load 8 bits into a register, and only the assembler knows the value of 16 bit label reference, this pseudo instruction was created.  Whenever a label reference is found in any instruction, the value of the label is pulled from the table and substituted appropriately.
+
+When an assembly instruction is found, the assembler does a look-up for what type of instruction is being used.  Seven unique instruction types were used in the CPU implementation.  Doing a look-up would tell the assembler how many registers and immediate value to expect following the instruction, and how to pack the bits for the output.  Anytime the program found something unexpected it printed where the error was encountered and stopped the assembly process.  
+
+Compiler options were created to print extra information to help debug assembly programs for the CPU.  If the assembler was built using the special debug flags additional information was reported to the user.  As bugs were found in assembly programs the assembler was modified to help detect future occurrences of the error.  However, the assembler was desired to be robust and accepting of programmer desired, so warning were issued for common problems rather than errors.
+
 \section{Software}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width = 3in]{game.png}
+	\caption{Progression of states in multiplier maze game}
+	\label{fig:assembler}
+\end{figure}
+
+A coding standard was developed for the CPU.  The following were explicitly defined in the standard: save registers, temporary registers, register use for passing information to methods, stack usage, global variables, and naming of labels.  The standard was designed to increase readability and consistency of assembly code.  This standard was found to increase development speed and speed of bug fixes.
+
+The game that was developed for the CPU was a simple multiplayer maze puzzle game.  The goal of the game is to move the player to a goal location.  The game supports movable blocks, which could be used to cover lava squares to create a bridge, or the blocks could be used to block the path of the opposing player.  The movable blocks created a variety of entertaining gameplay.
+
+The architecture of the multiplayer game was designed to be simple.  No error correction or special timing synchronization was added.  This architecture made the software easy to write to allow for either single or multiplayer gameplay using the same excitable.  The basic flow of the game is shown in fig. \ref{fig:assembler}.
+
+When the game was played as a multiplayer game, one player would move and send the its movement to the other device.  Following its movement it would enter a waiting state for 250ms.  If data was received on the serial line the non-local player would move.  The movement of each player was offset by 125ms.  By offsetting each player movement, no turn priority would need to be programmed, since only one player will be moving at a given time.  This design decision was made with the assumption that a game would not last very long, both boards run at nearly the same clock speed, and all data sent across the serial line would be received by the other board.
+
+Multiplayer functionality was developed using this method.  However, the two games would quickly become unsynchronized.  It was found that a significant number of writes to the serial line were never received by the other board.  The assumption that all data sent across the serial line would be received by the other board was not true, so this architecture would not work for multiplayer.
+
+A redesign of the multiplayer portion of the code was started that would detect and resend lost packets was started.  The design of the patch was developed, but the programming was not finished due to lack of time.
 
 \section{System Integration}
 
