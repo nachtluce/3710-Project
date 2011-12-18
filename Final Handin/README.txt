@@ -19,6 +19,6 @@ Inside the Project Code folder is all of the code for the project, including our
 	Test Benches:	Contains all test benches
 	Test Modules:	Contains the Fibonacci test module that was built to test the ALU's integration
 			with the register file.
-
-	
+	bit files:	Contains bits files of CPU with memory initialized.  A single player and
+	    		multiplayer version exists in the folder.
 	
