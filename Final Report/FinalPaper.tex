@@ -1,4 +1,9 @@
 \documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\floatstyle{boxed} 
+\restylefloat{figure}
+
 \title{Computer Design Laboratory Project}
 \author{Levi Balling \and Robert Christensen \and T. James Lewis}
 \date{December 2011}
@@ -8,14 +13,37 @@
 
 
 \begin{abstract}
-	We implemented a computer with a 16-bit CPU, block memory, VGA Controller, RS-232 type serial controller, and NES controller for input. Running on this computer is a two player maze game where players on two machines race to find the finish.  
+	We implemented a 16-bit computer with VGA graphics for output, a NES gamepad used for input, and an RS-232 type serial controller used for communications. The software developed for this computer is a maze game in which players maneuver through a maze trying to reach the exit first. The players play on two machines, each with its own monitor, and communication between the machines is over a serial connection.
 \end{abstract}
 
 \section{Introduction}
+Our goal was to produce a computer platform capable of running a game with the following features: Levels that were larger than the screen and which scrolled when the player moved near an edge, two players on different machines playing against each other with interaction, and using an NES game pad for user input. To allow large levels we needed a mechanism to store the level information compactly, as the block memory we were using was not large enough to store bitmaps as large as the levels. To allow linked play between two machines we needed to implement some form of communication between them. To use NES game pads for input we needed to research how they transmitted the input to the machine and device and interface to work with them.
+
+The overall organization of the system can be seen in figure \ref{oo} we have a main memory module which is a two port block memory that both the CPU and VGA controller have access to. The Gamepad Controller module is connected to the CPU, and the Serial Controller is also connected to the CPU. The VGA Controller has pin-outs to the VGA port on the board, the gamepad controller has pin-outs to the gamepad, and the serial controller has pin-outs to the serial port.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width = 1\textwidth]{OverallOrganization.png}
+	\caption{Overall Organization}
+	\label{oo}
+\end{figure}
+
+
+
 
 \section{CPU Design}
 
 \section{VGA Controller}
+We used a 640$\times$480 VGA display with a 25 Mhz clock. This was done with the use of sync signals, and memory manipulation. The 640$\times$480 pixel display was broken up into 20$\times$15 blocks on the screen. This allowed us to conserve memory and still have meaningful graphics.  The graphics used 3 bit colors, and we were able to display 8 different colors. Using different patterns with these colors we were able to display 14 32$\times$32 pixel images.
+
+\subsection{Sync Signals}
+For the monitor to recognize which pixel it is on, it needs to receive 2 signals, Vsync and Hsync.  These signals will be sent on specific patterns because it generates different resolutions. We used a 25 Mhz clock input to generate the different signals. While we generated the signals, we kept track of which columns and rows the VGA was on. We used the columns and rows to find out which group of pixels it was on.  As well as the individual sub pixels that it is on in the 32$\times$32 block of pixels.
+
+\subsection{VGA Memory}
+We had organized our memory to have 2 separate memory blocks.  Main memory used a 2 port 14 bit addressable memory block containing 16 bit words. Our VGA memory contained a 14 bit addressable single port containing 9 bit words.  One of the 9 bit words contains 3 separate pixels.   We used each memory value twice, so we display the value of 3 bits for 2 pixels. We have an input to the bit generator where the starting address and row size of the image are.  This way we can fetch the entire cell in main memory that we would like to display.
+
+In main memory we have an area specially set aside just for our levels.  These memory words contain a number from 0 to 14.  These words are related to the image that we want to display on that portion of the screen.  The VGA controller will read from main memory, find out what should be displayed on the block of the screen based on what number it is, and then go and display all of the values on the screen based on the number from 0 to 14.  From that number it will find the correct address in VGA memory that it should display for that pixel. 
+ 
 
 \section{NES Controller}
 
