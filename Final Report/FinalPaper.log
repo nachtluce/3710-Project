@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  17 DEC 2011 22:37
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  18 DEC 2011 01:44
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -68,34 +68,48 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 )
 \@float@every@figure=\toks17
 
-(./FinalPaper.aux)
+(/usr/local/texlive/2010/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen105
+)
+(/usr/local/texlive/2010/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen106
+\extrarowheight=\dimen107
+\NC@list=\toks18
+\extratabsurround=\skip43
+\backup@length=\skip44
+)
+(./FinalPaper.aux
+
+LaTeX Warning: Label `fig:assembler' multiply defined.
+
+)
 \openout1 = `FinalPaper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-
-(/usr/local/texlive/2010/texmf-dist/tex/context/base/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+ (/usr/local/texlive/2010/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count89
-\scratchdimen=\dimen105
+\scratchdimen=\dimen108
 \scratchbox=\box28
 \nofMPsegments=\count90
 \nofMParguments=\count91
-\everyMPshowfont=\toks18
+\everyMPshowfont=\toks19
 \MPscratchCnt=\count92
-\MPscratchDim=\dimen106
+\MPscratchDim=\dimen109
 \MPnumerator=\count93
-\everyMPtoPDFconversion=\toks19
+\everyMPtoPDFconversion=\toks20
 ) (/usr/local/texlive/2010/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2010/04/01 v0.9 Utility functions of pdfTeX for LuaTeX (HO)
 
@@ -143,11 +157,11 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 11.
+(Font)              <12> on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 11.
+(Font)              <8> on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 11.
+(Font)              <6> on input line 13.
 
 [1
 
@@ -160,49 +174,86 @@ File: OverallOrganization.png Graphic file (type png)
 File: CPU_Diagram.png Graphic file (type png)
  <use CPU_Diagram.png> [3 <./CPU_Diagram.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 49.
+(Font)              <7> on input line 52.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 49.
- <VGAdiagram.png, id=24, 1553.805pt x 590.205pt>
+(Font)              <5> on input line 52.
+
+Underfull \hbox (badness 2073) in paragraph at lines 99--100
+[]|\OT1/cmr/m/n/7 Jump by off-set on less
+ []
+
+
+Underfull \hbox (badness 2478) in paragraph at lines 108--109
+[]|\OT1/cmr/m/n/7 Set value in VGA row
+ []
+
+
+Underfull \hbox (badness 1264) in paragraph at lines 111--112
+[]|\OT1/cmr/m/n/7 Store gamepad in-put to
+ []
+
+[4] [5] [6] <VGAdiagram.png, id=36, 1553.805pt x 590.205pt>
 File: VGAdiagram.png Graphic file (type png)
 
-<use VGAdiagram.png> [4 <./VGAdiagram.png (PNG copy)>]
-<nescontroller.png, id=29, 503.8825pt x 334.24875pt>
+<use VGAdiagram.png> [7 <./VGAdiagram.png (PNG copy)>]
+<nescontroller.png, id=41, 503.8825pt x 334.24875pt>
 File: nescontroller.png Graphic file (type png)
  <use nescontroller.png>
 Missing character: There is no Õ in font cmr10!
 Missing character: There is no Ð in font cmr10!
 
-<neswave.png, id=30, 1501.61pt x 361.35pt>
+<neswave.png, id=42, 1501.61pt x 361.35pt>
 File: neswave.png Graphic file (type png)
  <use neswave.png>
+<assembler_diagram.png, id=43, 354.46715pt x 417.7034pt>
+File: assembler_diagram.png Graphic file (type png)
+
+<use assembler_diagram.png>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[5 <./nescontroller.png (PNG copy)>] [6 <./neswave.png (PNG copy)>]
-(./FinalPaper.aux) ) 
+[8 <./nescontroller.png (PNG copy)> <./neswave.png (PNG copy)>] [9 <./assembler
+_diagram.png (PNG copy)>] <game.png, id=50, 336.82982pt x 538.1534pt>
+File: game.png Graphic file (type png)
+
+<use game.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[10] [11 <./game.png (PNG copy)>]
+Overfull \hbox (8.38705pt too wide) in paragraph at lines 244--245
+[]\OT1/cmr/m/n/10 igameplay, \OT1/cmtt/m/n/10 http://web.mit.edu/6.111/www/s200
+4/PROJECTS/2/\OT1/cmr/m/n/10 game.htm 
+ []
+
+[12] (./FinalPaper.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 1397 strings out of 493747
- 19821 string characters out of 3143546
- 74341 words of memory out of 3000000
- 4693 multiletter control sequences out of 15000+200000
- 8670 words of font info for 31 fonts, out of 3000000 for 9000
+ 1467 strings out of 493747
+ 20904 string characters out of 3143546
+ 90280 words of memory out of 3000000
+ 4753 multiletter control sequences out of 15000+200000
+ 8980 words of font info for 32 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 37i,6n,23p,948b,220s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmbx9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
-0.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10
-.pfb>
-Output written on FinalPaper.pdf (6 pages, 496185 bytes).
+ 37i,8n,23p,948b,220s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></
+usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></us
+r/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/lo
+cal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/loca
+l/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/t
+exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texl
+ive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
+ve/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on FinalPaper.pdf (12 pages, 671402 bytes).
 PDF statistics:
- 67 PDF objects out of 1000 (max. 8388607)
- 42 compressed objects within 1 object stream
+ 97 PDF objects out of 1000 (max. 8388607)
+ 62 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

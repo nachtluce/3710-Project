@@ -3,6 +3,8 @@
 \usepackage{float}
 \floatstyle{boxed} 
 \restylefloat{figure}
+\usepackage{multirow}
+\usepackage{array}
 
 \title{Computer Design Laboratory Project}
 \author{Levi Balling \and Robert Christensen \and T. James Lewis}
@@ -42,6 +44,101 @@ Our CPU is composed of a control module, register file, ALU, instruction registe
 
 The CPU control module is a state machine with two states: fetch and execute. In the fetch state the memory address contained in the program counter is accessed and stored in the instruction register. In the execute state the control unit sets the control lines to all modules in order to execute the given instruction. The memory clock is inverted with respect to the CPU clock, and since the memory can be clocked at up to 800Mhz while our CPU is clocked at 25Mhz memory accesses are completed within a single CPU cycle.
 
+The execute state in the CPU control module is entirely composed of combinational logic which for every possible instruction sets all control wires (mux select, register enable, ALU opcode, and select lines for the register file to execute the instruction.
+
+\subsection{Instructions Implemented}
+%\begin{figure}[h!]
+	\begin{center}
+		\begin{tabular*}{\textwidth}{|>{\scriptsize} l |>{\scriptsize} r |>{\scriptsize} c |>{\scriptsize} c |>{\scriptsize} c |>{\scriptsize} c |>{\scriptsize} p{110pt} |}
+			\hline
+			\textbf{Class} & \textbf{Instruction} & \textbf{15:12} & \textbf{11:8} & \textbf{7:4} & \textbf{3:0} & \textbf{function}\\
+			\hline
+			\multirow{12}{*}{ALU} & AND & 0000 & 0000 & Src & Dst & Bitwise AND\\
+			& OR & 0000 & 0010 & Src & Dst & Bitwise OR\\
+			& XOR & 0000 & 0011 & Src & Dst & Bitwise XOR\\
+			& NOT & 0000 & 0100 & Src & Dst & Bitwise NOT\\
+			& ADD & 0000 & 0101 & Src & Dst & Addition\\
+			& ADDU & 0000 & 0110 & Src & Dst & Unsigned addition\\
+			& ALSH & 0000 & 0111 & Src & Dst & Arithmetic left shift\\
+			& ARSH & 0000 & 1000 & Src & Dst & Arithmetic right shift\\
+			& SUB & 0000 & 1001 & Src & Dst & Subtraction\\
+			& LSH & 0000 & 1100 & Src & Dst & Left shift\\
+			& MOV & 0000 & 1101 & Src & Dst & Move value\\
+			& RSH & 0000 & 1110 & Src & Dst & Right shift\\
+			\hline
+			\multirow{2}{*}{Memory} & LOAD & 0100 & 0000 & Addr & Dst & Load data from address in Addr into Src\\
+			& STORE & 0100 & 0001 & Addr & Src & Store Src to address in Addr\\
+			\hline
+			\multirow{6}{*}{Immediate} & ADDI & 0100 & \multicolumn{2}{c|}{\scriptsize{Immediate}} & Dst & Add immediate\\
+			& ADDIU & 0110 & \multicolumn{2}{c|}{\scriptsize{Immediate}} & Dst & Add immediate unsigned\\
+			& MOVIU & 0111 & \multicolumn{2}{c|}{\scriptsize{Immediate}} & Dst & Move immediate upper\\
+			& MOVI & 1000 & \multicolumn{2}{c|}{\scriptsize{Immediate}} & Dst & Move immediate\\
+			& SUBI & 1001 & \multicolumn{2}{c|}{\scriptsize{Immediate}} & Dst & Subtract immediate\\
+			& CMPI & 1011 & \multicolumn{2}{c|}{\scriptsize{Immediate}} & B & Compare immediate with B\\
+			\hline
+			\multirow{5}{*}{Branch} & BGE & 0001 & 0000 & --- & --- & Branch on greater than\\
+			& BHS & 0001 & 0001 & --- & --- & Branch on higher or same\\
+			& BEQ & 0001 & 0010 & --- & --- & Branch on equal\\ 
+			& BLT & 0001 & 0011 & --- & --- & Branch on less than\\
+			& BLS & 0001 & 0100 & --- & --- & Branch on lower or same\\
+			\hline
+		\end{tabular*}
+	\end{center}
+	
+		\begin{center}
+		\begin{tabular*}{\textwidth}{|>{\scriptsize} l |>{\scriptsize} r |>{\scriptsize} c |>{\scriptsize} c |>{\scriptsize} c |>{\scriptsize} c |>{\scriptsize} p{92pt} |}
+			\hline
+			\multicolumn{7}{|c|}{Continued from previous page}\\
+			\hline
+			\textbf{Class} & \textbf{Instruction} & \textbf{15:12} & \textbf{11:8} & \textbf{7:4} & \textbf{3:0} & \textbf{function}\\
+			\hline
+
+			\multirow{6}{*}{Jump Cond} & JGE & 0001 & 0000 & \multicolumn{2}{c|}{\scriptsize{Offset}} & Jump by offset on greater than\\
+			& JHS & 0001 & 0001 & \multicolumn{2}{c|}{\scriptsize{Offset}} & Jump by offset on higher or same\\
+			& JEQ & 0001 & 0010 & \multicolumn{2}{c|}{\scriptsize{Offset}} & Jump by offset on equal\\ 
+			& JLT & 0001 & 0011 & \multicolumn{2}{c|}{\scriptsize{Offset}} & Jump by offset on less than\\
+			& JLS & 0001 & 0100 & \multicolumn{2}{c|}{\scriptsize{Offset}} & Jump by offset on lower or same\\
+			& JOFFSET & 0001 & 0101 & \multicolumn{2}{c|}{\scriptsize{Offset}} & Jump by offset no condition\\
+			\hline
+			\multirow{10}{*}{Special} & NOP & 0010 & --- & --- & --- & No operation\\
+			& CMP & 0010 & --- & A & B & Compare A and B\\
+			& JUMP & 1100 & 0000 & Src & --- & Jump to address in Src\\
+			& STOREPC & 1100 & 0001 & --- & Dst & Store program counter to Dst\\
+			& SETBEGINVGA & 1101 & 0000 & Src & --- & Set value in begin VGA register\\
+			& SETROWVGA & 1101 & 0001 & Src & --- & Set value in VGA row length register\\
+			& READSERIAL & 1101 & 0010 & --- & Dst & Attempt to read data from serial\\
+			& WRITESERIAL & 1101 & 0011 & Src & --- & Send data to serial\\
+			& READGAMEPAD & 1101 & 0100 & --- & Dst & Store gamepad input to Dst\\
+			& CLOCK & 1101 & 0101 & --- & Dst & Store value from system clock\\
+			\hline
+		\end{tabular*}
+	\end{center}
+
+\subsection{Implementations of instructions}
+The ALU instructions are implemented simply by setting the register file to enable writing to Dst and to have Src and Dst be the outputs of the register file. The multiplexor between the register file and ALU is set to pass through the input from the register file and the program counter is incremented by one.
+
+To perform a LOAD instruction the register file is set so the B output is the Addr register and the Src register is the A output. The multiplexor between register file and ALU is set to pass through the memory controller's data output. The multiplexor in front of the address of the memory controller is set to pass through the B output of the register file. The ALU is set to pass through input A unchanged. The register file has write enabled for register Dst. The memory controller is set to read and the program counter is set to increment. For a STORE instruction the register file has write disabled, the multiplexor between the register file and ALU passes through A from register file, and the Memory controller is set to write.
+
+For all Immediate instructions the proper Opcode is sent to the ALU and the multiplexor between the register file and ALU passes through the immediate value, which the CPU control module sets as the immediate value in the instruction (sign extended). All other control signals are set as for ALU instructions.
+
+For Branch instructions the CPU control module examines the flags in the processor status register and if the condition is met increments the program counter by one, if not met the program counter is incremented by two. This means that the instruction following the branch instruction will only execute if the condition is met. We didn't actually use these instructions in our code, as the conditional jumps by an offset were more convenient.
+
+For conditional jumps the CPU control module examines the flags in the processor status register and if the condition is true increments the program counter by the specified offset and otherwise only by one.
+
+A NOP instruction has all registers disabled for writing, so nothing happens except the program counter being incremented.
+
+A CMP instruction compares the values in two registers by performing a subtraction and setting the processor status register flags, but not storing the result.
+
+A JUMP sets the program counter to the value in the specified register.
+
+The SETBEGINVGA instruction sets the value in the VGA Begin register to that in the Src Register. The SETROWVGA does the same for the VGA row length register.
+
+READSERIAL attempts to read from the serial controller's buffer by asserting the read control line to the serial controller. If there is not valid data to be read then the program counter is incremented by one and the registers disabled for writing. If there is valid data the CPU control module puts the data as the immediate value which gets passed through the ALU and written to the Dst register. In this case the program counter is incremented by two. This branching behavior is how a running program can determine whether there is valid data to read in.
+
+WRITESERIAL sends data from the Src register to the serial controller buffer by passing it through the ALU. The CPU control module asserts the send line to the serial controller at the same time.
+
+READGAMEPAD sends 
+
 
 
 
@@ -62,10 +159,9 @@ We had organized our memory to have 2 separate memory blocks.  Main memory used 
 \end{figure}
 
 In main memory we have an area specially set aside just for our levels.  These memory words contain a number from 0 to 14.  These words are related to the image that we want to display on that portion of the screen.  The VGA controller will read from main memory, find out what should be displayed on the block of the screen based on what number it is, and then go and display all of the values on the screen based on the number from 0 to 14.  From that number it will find the correct address in VGA memory that it should display for that pixel. 
- 
 
 \section{NES Controller}
-For our game system we used a classic Nintendo Controller (figure \ref{nes}). This device required 5 lines to the controller: Power, Ground, Latch, Pulse, and Data.  The timing input for our controller was 25 Mhz, the module throttle was around 1Mhz and we achieved around 100 samples per second. This allowed us to read the input, detect whether the values were high or low and store it in a register. 
+For our game system we used a classic Nintendo Controller (figure \ref{nes}) with specifications found from the web site of another student project using NES controllers \cite{nessite}. This device required 5 lines to the controller: Power, Ground, Latch, Pulse, and Data.  The timing input for our controller was 25 Mhz, the module throttle was around 1Mhz and we achieved around 100 samples per second. This allowed us to read the input, detect whether the values were high or low and store it in a register. 
 
 \begin{figure}[h!]
 	\centering
@@ -89,7 +185,45 @@ We were able to test if the controller would work with 3.3V logic versus the 5.0
 
 \section{Assembler}
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width = 3in]{assembler_diagram.png}
+	\caption{Tool chain for assembling and loading a program}
+	\label{fig:assembler}
+\end{figure}
+
+The assembler architecture was heavily influenced by an assignment given in a hardware design lab at a different university.  The assignment provided suggestions for writing a simple assembler using the C programming language.  These hints where considered in the development of the assembler that was used in this project.
+
+The assembler was written using the C++, as opposed to C, in order to use the standard template library.  A map was used to store the table of labels and their locations in code.  The program was written to be compiled using the g++ compiler.
+
+Figure \ref{fig:assembler} shows how the assembler tool chain works.  The assembly file is scanned twice.  The first pass fills the table of label locations.  In order to do this each instruction must be counted.  Pseudo code instructions are counted as however many assembly instructions it will take in the output.  By linearly counting the number of previous memory locations used each label can be associated with the correct memory location in the output.
+
+The second pass though the input translates each line into the appropriate hex value for the instruction.  The instruction could be a pseudo instruction, which is split into multiple assembly instruction; a fill value, where the assembler will place a specific value at that memory location; or an assembly instruction.  The only pseudo instruction used in the current implementation was used to load label locations into a specific register.  Since a single move instruction only load 8 bits into a register, and only the assembler knows the value of 16 bit label reference, this pseudo instruction was created.  Whenever a label reference is found in any instruction, the value of the label is pulled from the table and substituted appropriately.
+
+When an assembly instruction is found, the assembler does a look-up for what type of instruction is being used.  Seven unique instruction types were used in the CPU implementation.  Doing a look-up would tell the assembler how many registers and immediate value to expect following the instruction, and how to pack the bits for the output.  Anytime the program found something unexpected it printed where the error was encountered and stopped the assembly process.  
+
+Compiler options were created to print extra information to help debug assembly programs for the CPU.  If the assembler was built using the special debug flags additional information was reported to the user.  As bugs were found in assembly programs the assembler was modified to help detect future occurrences of the error.  However, the assembler was desired to be robust and accepting of programmer desired, so warning were issued for common problems rather than errors.
+
 \section{Software}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width = 3in]{game.png}
+	\caption{Progression of states in multiplier maze game}
+	\label{fig:assembler}
+\end{figure}
+
+A coding standard was developed for the CPU.  The following were explicitly defined in the standard: save registers, temporary registers, register use for passing information to methods, stack usage, global variables, and naming of labels.  The standard was designed to increase readability and consistency of assembly code.  This standard was found to increase development speed and speed of bug fixes.
+
+The game that was developed for the CPU was a simple multiplayer maze puzzle game.  The goal of the game is to move the player to a goal location.  The game supports movable blocks, which could be used to cover lava squares to create a bridge, or the blocks could be used to block the path of the opposing player.  The movable blocks created a variety of entertaining gameplay.
+
+The architecture of the multiplayer game was designed to be simple.  No error correction or special timing synchronization was added.  This architecture made the software easy to write to allow for either single or multiplayer gameplay using the same excitable.  The basic flow of the game is shown in fig. \ref{fig:assembler}.
+
+When the game was played as a multiplayer game, one player would move and send the its movement to the other device.  Following its movement it would enter a waiting state for 250ms.  If data was received on the serial line the non-local player would move.  The movement of each player was offset by 125ms.  By offsetting each player movement, no turn priority would need to be programmed, since only one player will be moving at a given time.  This design decision was made with the assumption that a game would not last very long, both boards run at nearly the same clock speed, and all data sent across the serial line would be received by the other board.
+
+Multiplayer functionality was developed using this method.  However, the two games would quickly become unsynchronized.  It was found that a significant number of writes to the serial line were never received by the other board.  The assumption that all data sent across the serial line would be received by the other board was not true, so this architecture would not work for multiplayer.
+
+A redesign of the multiplayer portion of the code was started that would detect and resend lost packets was started.  The design of the patch was developed, but the programming was not finished due to lack of time.
 
 \section{System Integration}
 
@@ -105,7 +239,9 @@ We were able to test if the controller would work with 3.3V logic versus the 5.0
 
 \begin{thebibliography}{99}
 
-\bibitem{Serial} Serial Interface (RS-232) \texttt{fpga4fun.com/SerialInterface.html}
+\bibitem{Serial} Serial Interface (RS-232), \texttt{http://fpga4fun.com/SerialInterface.html}
+
+\bibitem{nessite} igameplay, \texttt{http://web.mit.edu/6.111/www/s2004/PROJECTS/2/}game.htm
 
 \end{thebibliography}
 \end{document}
