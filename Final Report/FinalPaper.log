@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2011.5.7)  17 DEC 2011 23:26
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2011.5.7)  17 DEC 2011 23:51
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -156,16 +156,21 @@ File: game.png Graphic file (type png)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[6] [7 <./game.png>] [8] (./FinalPaper.aux)
+[6] [7 <./game.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
+[]\OT1/cmr/m/n/10 ENEE 646: Dig-i-tal Com-puter De-sign, Fall 2011
+ []
+
+[8] (./FinalPaper.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 998 strings out of 94500
- 12104 string characters out of 1176767
- 61136 words of memory out of 1000000
- 4202 multiletter control sequences out of 10000+50000
+ 999 strings out of 94500
+ 12115 string characters out of 1176767
+ 61139 words of memory out of 1000000
+ 4203 multiletter control sequences out of 10000+50000
  8670 words of font info for 31 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
  25i,6n,19p,948b,216s stack positions out of 1500i,500n,5000p,200000b,5000s
@@ -179,4 +184,4 @@ ype1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.pfb>
 e1/bluesky/cm/cmr9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx9.pfb></usr
 /share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/blu
 esky/cm/cmr12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr17.pfb>
-Output written on FinalPaper.pdf (8 pages, 478508 bytes).
+Output written on FinalPaper.pdf (8 pages, 479690 bytes).
