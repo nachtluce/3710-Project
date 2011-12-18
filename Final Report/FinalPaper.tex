@@ -137,10 +137,7 @@ READSERIAL attempts to read from the serial controller's buffer by asserting the
 
 WRITESERIAL sends data from the Src register to the serial controller buffer by passing it through the ALU. The CPU control module asserts the send line to the serial controller at the same time.
 
-READGAMEPAD sends 
-
-
-
+READGAMEPAD writes the current values received from the gamepad into the Dst register by setting the immediate value to be the data from the gamepad controller, passing it through the ALU and writing it the the Dst register.
 
 \section{VGA Controller}
 We used a 640$\times$480 VGA display with a 25 Mhz clock. This was done with the use of sync signals, and memory manipulation. The 640$\times$480 pixel display was broken up into 20$\times$15 blocks on the screen. This allowed us to conserve memory and still have meaningful graphics.  The graphics used 3 bit colors, and we were able to display 8 different colors. Using different patterns with these colors we were able to display 14 32$\times$32 pixel images.
@@ -183,6 +180,12 @@ We were able to test if the controller would work with 3.3V logic versus the 5.0
 
 \section{Serial Controller}
 
+The serial controller contains internal registers and logic which implements buffering of data with two 32 word register files. One for incoming data received and one for outgoing. This buffering allows the serial controller to be implemented without using interrupts in the CPU which simplifies the design. 
+
+There are four 5-bit registers in the serial controller storing the addresses into the buffer for the input start, input end, output start, and output end. When the send line is asserted the controller stores the data on the input bus to the input buffer at the input end address and increments the pointer. If there is unsent data in the buffer (input start pointer is not equal to input end pointer) and the transmitter submodule is not busy the controller will send the next data to the transmitter submodule (by asserting its send line and setting the data bus to the input start location) and then increments the input start. In a similar fashion when the receiver submodule asserts its valid line, the controller stores the data into the output buffer and asserts the valid line. If the read line is asserted then the output buffer start is incremented. 
+
+The receiver and transmitter submodules are implementing the RS-232 standard similar to an example project at fpga4fun.com \cite{Serial} although our implementation is modified to send and receive data in 16-bit chunks instead of 8-bit ones. Our baudrate is 115Kbps and the receive line is sampled at 920Khz to ensure that the middle of every bit in the signal is sampled.
+
 \section{Assembler}
 
 \begin{figure}[h!]
@@ -192,7 +195,7 @@ We were able to test if the controller would work with 3.3V logic versus the 5.0
 	\label{fig:assembler}
 \end{figure}
 
-The assembler architecture was heavily influenced by an assignment given in a hardware design lab at a different university.  The assignment provided suggestions for writing a simple assembler using the C programming language.  These hints where considered in the development of the assembler that was used in this project.
+The assembler architecture was heavily influenced by an assignment given in a hardware design lab at a different university.\cite{Assemblersite}  The assignment provided suggestions for writing a simple assembler using the C programming language.  These hints where considered in the development of the assembler that was used in this project.
 
 The assembler was written using the C++, as opposed to C, in order to use the standard template library.  A map was used to store the table of labels and their locations in code.  The program was written to be compiled using the g++ compiler.
 
@@ -210,14 +213,14 @@ Compiler options were created to print extra information to help debug assembly 
 	\centering
 	\includegraphics[width = 3in]{game.png}
 	\caption{Progression of states in multiplier maze game}
-	\label{fig:assembler}
+	\label{fig:assembler2}
 \end{figure}
 
 A coding standard was developed for the CPU.  The following were explicitly defined in the standard: save registers, temporary registers, register use for passing information to methods, stack usage, global variables, and naming of labels.  The standard was designed to increase readability and consistency of assembly code.  This standard was found to increase development speed and speed of bug fixes.
 
 The game that was developed for the CPU was a simple multiplayer maze puzzle game.  The goal of the game is to move the player to a goal location.  The game supports movable blocks, which could be used to cover lava squares to create a bridge, or the blocks could be used to block the path of the opposing player.  The movable blocks created a variety of entertaining gameplay.
 
-The architecture of the multiplayer game was designed to be simple.  No error correction or special timing synchronization was added.  This architecture made the software easy to write to allow for either single or multiplayer gameplay using the same excitable.  The basic flow of the game is shown in fig. \ref{fig:assembler}.
+The architecture of the multiplayer game was designed to be simple.  No error correction or special timing synchronization was added.  This architecture made the software easy to write to allow for either single or multiplayer gameplay using the same executable.  The basic flow of the game is shown in fig. \ref{fig:assembler2}.
 
 When the game was played as a multiplayer game, one player would move and send the its movement to the other device.  Following its movement it would enter a waiting state for 250ms.  If data was received on the serial line the non-local player would move.  The movement of each player was offset by 125ms.  By offsetting each player movement, no turn priority would need to be programmed, since only one player will be moving at a given time.  This design decision was made with the assumption that a game would not last very long, both boards run at nearly the same clock speed, and all data sent across the serial line would be received by the other board.
 
@@ -225,23 +228,64 @@ Multiplayer functionality was developed using this method.  However, the two gam
 
 A redesign of the multiplayer portion of the code was started that would detect and resend lost packets was started.  The design of the patch was developed, but the programming was not finished due to lack of time.
 
-\section{System Integration}
-
 \section{Conclusions and Further Work}
+
+All CPU features that were planned to be implemented were implemented and demoed.  NES game pad input and VGA output worked extremely well.  Serial communication was also developed.  It was not completely understood if the problem was in the software or hardware, however, the software should have had some ability to do error correction for lost packets.
+
+The VGA system of the computer was designed to work very well with large two-dimensional maps.  Adjusting what portion of a map is being displayed on the VGA is a single CPU instruction.  This simplified the development of the maze game significantly.
+
+Interfaces with peripheral was done by polling the peripheral for information.  A CPU instruction was executed to grab information from the game pad and serial device.  Future programs for this device would need to accommodate for this.
+
+A software error correction could be developed to request information expected but not received.  This would improve the usability of serial communication.  More investigation is needed to know if the problems seen in the serial communication could have been improved in hardware.
+
+The tools for loading an assembled program onto the device was very slow.  Since CORE Generator was used to create the memory for the CPU it was non-trivial to modify the memory without regenerating the memory and resynthesizing the entire CPU.  This would take several minutes.  This caused frustration when only minor changes were made to a program because it could not be tested until the memory and CPU was regenerated.  The memory would need to be modified to make it capable of changing memory initialization without regenerating everything.
+
+\section{Work Done as a Group}
+The following items in the project were done together as a group:
+\begin{itemize}
+	\item Instruction set finalization
+	\item Design of VGA controller architecture (tiles, superpixels, memory interface, etc.)
+\end{itemize}
 
 \section{Individual Contributions}
 
 \subsection{Levi Balling}
+\begin{itemize}
+	\item Wrote the test benches for the ALU
+	\item Implemented the gamepad controller module
+	\item Implemented the VGA controller modules (Assisted by Robert)
+\end{itemize}
 
 \subsection{Robert Christensen}
+\begin{itemize}
+	\item Implemented the ALU component of the CPU (Along with James)
+	\item Implemented main memory and VGA memory modules using CORE Gen, and verified memories were correctly initialized.
+	\item Implemented program counter module
+	\item Assisted in implementing VGA controller modules
+	\item Developed the assembly tool chain.  
+	\item Verified the correctness of CPU components by using programs written in assembly.
+	\item Architect and lead programmer of the maze game.
+\end{itemize}
 
 \subsection{T. James Lewis}
+\begin{itemize}
+	\item Implemented the ALU module (Along with Robert)
+	\item Implemented Fibonacci test module (ALU with register file test)
+	\item Designed CPU architecture
+	\item Implemented CPU modules (except for program counter)
+	\item Wrote test benches for CPU modules
+	\item Implemented Serial Controller modules
+	\item Wrote test benches for serial controller modules.
+	\item Helped to code and debug two player version of game.
+\end{itemize}
 
 \begin{thebibliography}{99}
 
 \bibitem{Serial} Serial Interface (RS-232), \texttt{http://fpga4fun.com/SerialInterface.html}
 
 \bibitem{nessite} igameplay, \texttt{http://web.mit.edu/6.111/www/s2004/PROJECTS/2/}game.htm
+
+\bibitem{Assemblersite}ENEE 646: Digital Computer Design, Fall 2011 \texttt{http://www.ece.umd.edu/class/enee646/p1.pdf}
 
 \end{thebibliography}
 \end{document}
