@@ -31,6 +31,17 @@ The overall organization of the system can be seen in figure \ref{oo} we have a 
 A lot of the work required to render a game level to the screen is taken care of by hardware in the VGA Controller. There is a section in main memory where the map to be drawn is stored as a series of tile numbers, the VGA Controller reads these tile numbers from main memory, and for each tile number looks in its internal memory for the pixel map corresponding to the tile number and draws the pixels in the right section of the screen. The CPU has two registers which are directly wired to the VGA controller that tell the VGA controller where to look in main memory for the tile to be placed at the upper left corner of the screen and also what the row offset is. This makes the code for scrolling the screen to show only a section of the entire map as simple as setting the address for the upper left corner of the screen to a different location, rather than having the CPU rewrite the entire map area with new data to scroll.
 
 \section{CPU Design}
+Our CPU is composed of a control module, register file, ALU, instruction register, progam counter, processor status register, VGA start address register, VGA row length register, system clock module, a two input 16 bit multiplexor and a four input 16 bit multiplexor. (See figure \ref{cpu})
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width = 1\textwidth]{CPU_Diagram.png}
+	\caption{CPU Design}
+	\label{cpu}
+\end{figure}
+
+The CPU control module is a state machine with two states: fetch and execute. In the fetch state the memory address contained in the program counter is accessed and stored in the instruction register. In the execute state the control unit sets the control lines to all modules in order to execute the given instruction. The memory clock is inverted with respect to the CPU clock, and since the memory can be clocked at up to 800Mhz while our CPU is clocked at 25Mhz memory accesses are completed within a single CPU cycle.
+
 
 
 
@@ -46,6 +57,7 @@ We had organized our memory to have 2 separate memory blocks.  Main memory used 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width = 1\textwidth]{VGAdiagram.png}
+	\caption{}
 	\label{vga}
 \end{figure}
 
@@ -58,8 +70,20 @@ For our game system we used a classic Nintendo Controller (figure \ref{nes}). Th
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width = .5\textwidth]{nescontroller.png}
+	\caption{Classic Nintendo Gaming Controller}
 	\label{nes}
 \end{figure}
+
+For us to read the data from the controller we had to generate two signals (Figure \ref{neswave}).  The Latch signal will be generated every time one wishes to read the Data signal. The Latch pulse width is 2 times the length of the Pulse signal’s pulse width. The Latch initiates the data read and the pulse intitiates each new chunk of data. While the Latch is high the Data line will provide the signal for the A button – 5V for pressed, and 0V for not pressed.  After the Latch signal is sent, the Pulse signal will need to send 7 pulses for the rest of the buttons. After that signal is sent, the data can pause until the controller sends the next Latch signal.  In our case
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width = 1\textwidth]{neswave.png}
+	\caption{}
+	\label{neswave}
+\end{figure}
+
+We were able to test if the controller would work with 3.3V logic versus the 5.0V logic that it states it needs.  We established that it is compatible with both logic levels, and that the Vt levels were probably around 2.5V.
 
 \section{Serial Controller}
 

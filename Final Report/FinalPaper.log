@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  17 DEC 2011 18:42
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  17 DEC 2011 22:37
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -156,44 +156,53 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 File: OverallOrganization.png Graphic file (type png)
 
 <use OverallOrganization.png> [2 <./OverallOrganization.png>]
+<CPU_Diagram.png, id=19, 650.43pt x 488.82625pt>
+File: CPU_Diagram.png Graphic file (type png)
+ <use CPU_Diagram.png> [3 <./CPU_Diagram.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 38.
+(Font)              <7> on input line 49.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 38.
-
-<VGAdiagram.png, id=19, 1553.805pt x 590.205pt>
+(Font)              <5> on input line 49.
+ <VGAdiagram.png, id=24, 1553.805pt x 590.205pt>
 File: VGAdiagram.png Graphic file (type png)
- <use VGAdiagram.png>
+
+<use VGAdiagram.png> [4 <./VGAdiagram.png (PNG copy)>]
+<nescontroller.png, id=29, 503.8825pt x 334.24875pt>
+File: nescontroller.png Graphic file (type png)
+ <use nescontroller.png>
+Missing character: There is no Õ in font cmr10!
+Missing character: There is no Ð in font cmr10!
+
+<neswave.png, id=30, 1501.61pt x 361.35pt>
+File: neswave.png Graphic file (type png)
+ <use neswave.png>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[3] <nescontroller.png, id=24, 503.8825pt x 334.24875pt>
-File: nescontroller.png Graphic file (type png)
-
-<use nescontroller.png> [4 <./VGAdiagram.png (PNG copy)> <./nescontroller.png (
-PNG copy)>] [5] (./FinalPaper.aux) ) 
+[5 <./nescontroller.png (PNG copy)>] [6 <./neswave.png (PNG copy)>]
+(./FinalPaper.aux) ) 
 Here is how much of TeX's memory you used:
- 1385 strings out of 493747
- 19639 string characters out of 3143546
- 75327 words of memory out of 3000000
- 4683 multiletter control sequences out of 15000+200000
+ 1397 strings out of 493747
+ 19821 string characters out of 3143546
+ 74341 words of memory out of 3000000
+ 4693 multiletter control sequences out of 15000+200000
  8670 words of font info for 31 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  37i,6n,23p,948b,220s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2010/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmtt10.pfb>
-Output written on FinalPaper.pdf (5 pages, 425565 bytes).
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmbx9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10
+.pfb>
+Output written on FinalPaper.pdf (6 pages, 496185 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
+ 67 PDF objects out of 1000 (max. 8388607)
+ 42 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
