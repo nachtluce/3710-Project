@@ -109,11 +109,25 @@ A redesign of the multiplayer portion of the code was started that would detect 
 
 \section{Conclusions and Further Work}
 
+All CPU features that were planned to be implemented were implemented and demoed.  NES game pad input and VGA output worked extremely well.  Serial communication was also developed.  It was not completely understood if the problem was in the software or hardware, however, the software should have had some ability to do error correction for lost packets.
+
+The VGA system of the computer was designed to work very well with large two-dimensional maps.  Adjusting what portion of a map is being displayed on the VGA is a single CPU instruction.  This simplified the development of the maze game significantly.
+
+Interfaces with peripheral was done by polling the peripheral for information.  A CPU instruction was executed to grab information from the game pad and serial device.  Future programs for this device would need to accommodate for this.
+
+A software error correction could be developed to request information expected but not received.  This would improve the usability of serial communication.  More investigation is needed to know if the problems seen in the serial communication could have been improved in hardware.
+
+The tools for loading an assembled program onto the device was very slow.  Since CORE Generator was used to create the memory for the CPU it was non-trivial to modify the memory without regenerating the memory and resynthesizing the entire CPU.  This would take several minutes.  This caused frustration when only minor changes were made to a program because it could not be tested until the memory and CPU was regenerated.  The memory would need to be modified to make it capable of changing memory initialization without regenerating everything.
+
 \section{Individual Contributions}
 
 \subsection{Levi Balling}
 
 \subsection{Robert Christensen}
+
+Assisted in developing the ALU component of the CPU.  Developed main memory and VGA memory modules using CORE Gen, and verified memories were correctly initialized.
+
+Developed the assembly tool chain.  Verified the correctness of CPU components by using programs written in assembly.  Architect and lead programmer of the maze game.
 
 \subsection{T. James Lewis}
 
